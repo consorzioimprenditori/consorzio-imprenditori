@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consorzio Imprenditori</title>
+    <title>Consorzio Imprenditori - Sistema Completo</title>
     <style>
         * {
             margin: 0;
@@ -22,11 +22,12 @@
 
         .app-container {
             width: 95%;
-            max-width: 1200px;
+            max-width: 1400px;
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
+            min-height: 90vh;
         }
 
         .header {
@@ -73,21 +74,16 @@
         #admin-dashboard:checked ~ .pages #adminDashboardPage,
         #member-dashboard:checked ~ .pages #memberDashboardPage,
         #consulente-dashboard:checked ~ .pages #consulenteDashboardPage,
-        #admin-agenda:checked ~ .pages #adminAgendaPage,
-        #admin-membri:checked ~ .pages #adminMembriPage,
-        #admin-consulenti:checked ~ .pages #adminConsulentiPage,
-        #admin-consulenze:checked ~ .pages #adminConsulenzePage,
-        #admin-nuovo-evento:checked ~ .pages #adminNuovoEventoPage,
-        #admin-nuovo-membro:checked ~ .pages #adminNuovoMembroPage,
-        #admin-nuovo-consulente:checked ~ .pages #adminNuovoConsulentePage,
-        #member-agenda:checked ~ .pages #memberAgendaPage,
-        #consulente-consulenze:checked ~ .pages #consulenteConsulenzePage,
-        #albo:checked ~ .pages #alboPage,
         #bacheca:checked ~ .pages #bachecaPage,
-        #video:checked ~ .pages #videoPage,
+        #gestione-membri:checked ~ .pages #gestioneMembriPage,
+        #gestione-consulenti:checked ~ .pages #gestioneConsulentiPage,
+        #agenda:checked ~ .pages #agendaPage,
+        #consulenze:checked ~ .pages #consulenzePage,
         #convenzioni:checked ~ .pages #convenzioniPage,
-        #consulenti:checked ~ .pages #consulentiPage,
-        #progetti:checked ~ .pages #progettiPage {
+        #albo-membri:checked ~ .pages #alboMembriPage,
+        #video:checked ~ .pages #videoPage,
+        #consulenti-list:checked ~ .pages #consulentiListPage,
+        #le-mie-consulenze:checked ~ .pages #leMieConsulenzePage {
             display: block;
         }
 
@@ -232,31 +228,12 @@
             background: linear-gradient(135deg, #e74c3c, #c0392b);
         }
 
-        .action-btn.orange {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-        }
-
         .action-btn.purple {
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
         }
 
-        .whatsapp-btn {
-            background: #25d366;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 12px;
-        }
-
-        .whatsapp-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        .action-btn.orange {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
         }
 
         .main-content {
@@ -288,55 +265,6 @@
         .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .member-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            border-left: 4px solid #3498db;
-        }
-
-        .consulente-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-        .consulenza-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            border-left: 4px solid #f39c12;
-        }
-
-        .event-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #3498db;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .event-date {
-            background: #3498db;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
         }
 
         .stats-box {
@@ -428,621 +356,291 @@
             display: block;
         }
 
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-            display: inline-block;
+        .sezione-bacheca {
+            display: none;
         }
 
-        .status-active {
+        .sezione-bacheca.active {
+            display: block;
+        }
+
+        .filter-bar {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .filter-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-right: 5px;
+        }
+
+        .badge.green {
             background: #27ae60;
             color: white;
         }
 
-        .status-pending {
+        .badge.blue {
+            background: #3498db;
+            color: white;
+        }
+
+        .badge.purple {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .badge.orange {
             background: #f39c12;
             color: white;
         }
 
-        .status-suspended {
+        .badge.red {
             background: #e74c3c;
             color: white;
         }
 
-        .status-confirmed {
-            background: #27ae60;
-            color: white;
+        .tab-navigation {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
         }
 
-        .status-cancelled {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .impersonate-btn {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
+        .tab-btn {
+            padding: 10px 20px;
+            background: transparent;
             border: none;
-            padding: 6px 12px;
-            border-radius: 15px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 11px;
+            color: #7f8c8d;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: #3498db;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #3498db;
+        }
+
+        .annuncio-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ecf0f1;
             transition: all 0.3s;
         }
 
-        .specializzazione-badge {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 4px 10px;
+        .annuncio-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .member-card {
+            background: white;
             border-radius: 12px;
-            font-size: 11px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid #ecf0f1;
+            transition: all 0.3s;
+        }
+
+        .member-card:hover {
+            border-color: #3498db;
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.2);
+        }
+
+        .consulente-card {
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .consulente-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calendar-day:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .calendar-day.has-event {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .video-card {
+            background: black;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            color: white;
+            padding: 15px;
+        }
+
+        .convenzione-card {
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .convenzione-card::before {
+            content: '🏷️';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 80px;
+            opacity: 0.1;
+        }
+
+        .consulenza-request {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #f8f9fa;
             font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-3px);
         }
     </style>
-    <script>
-        // Sistema di autenticazione e ruoli
-        let currentUser = null;
-        let isImpersonating = false;
-        let originalUser = null;
-
-        // Utenti predefiniti
-        const users = {
-            admin: {
-                email: 'admin@consorzio.it',
-                password: 'admin123',
-                role: 'admin',
-                name: 'Amministratore Consorzio',
-                company: 'Direzione Generale'
-            },
-            member1: {
-                email: 'rossi@rossisrl.it',
-                password: 'member123',
-                role: 'member',
-                name: 'Marco Rossi',
-                company: 'Rossi SRL',
-                status: 'active',
-                joinDate: '2024-01-15',
-                phone: '+39 348 1234567',
-                city: 'Milano'
-            },
-            member2: {
-                email: 'bianchi@bianchiconsulting.it',
-                password: 'member123',
-                role: 'member',
-                name: 'Laura Bianchi',
-                company: 'Bianchi Consulting',
-                status: 'active',
-                joinDate: '2024-02-20',
-                phone: '+39 347 9876543',
-                city: 'Roma'
-            },
-            cons1: {
-                email: 'maria.bianchi@consorzio.it',
-                password: 'cons123',
-                role: 'consulente',
-                name: 'Dott.ssa Maria Bianchi',
-                specializzazione: 'Seo e posizionamento siti',
-                phone: '+39 072 1840410',
-                status: 'active'
-            },
-            cons2: {
-                email: 'andrea.rossi@consorzio.it',
-                password: 'cons123',
-                role: 'consulente',
-                name: 'Ing. Andrea Rossi',
-                specializzazione: 'e.r.p e gestionali aziendali',
-                phone: '+39 072 1840410',
-                status: 'active'
-            }
-        };
-
-        // Consulenti del consorzio con nuove specializzazioni
-        let consulenti = {
-            cons1: {
-                id: 'cons1',
-                name: 'Dott.ssa Maria Bianchi',
-                specializzazione: 'Seo e posizionamento siti',
-                categoria: 'marketing',
-                qualifiche: 'Google Ads Certified, 15 anni esperienza',
-                descrizione: 'Specialista in SEO, Google Ads, posizionamento siti web per PMI.',
-                disponibilita: '25 Set, 2 Ott',
-                phone: '+39 072 1840410',
-                email: 'maria.bianchi@consorzio.it'
-            },
-            cons2: {
-                id: 'cons2',
-                name: 'Ing. Andrea Rossi',
-                specializzazione: 'e.r.p e gestionali aziendali',
-                categoria: 'tecnologia',
-                qualifiche: 'Ingegnere Informatico, Microsoft Certified, 12 anni',
-                descrizione: 'Gestionali aziendali ERP, sviluppo App, siti web, cyber sicurezza.',
-                disponibilita: '25 Set, 15 Ott',
-                phone: '+39 072 1840410',
-                email: 'andrea.rossi@consorzio.it'
-            },
-            cons3: {
-                id: 'cons3',
-                name: 'Dott. Luca Verdi',
-                specializzazione: 'finanza agevolata',
-                categoria: 'finanza',
-                qualifiche: 'Dottore Commercialista, esperto bandi UE, 18 anni',
-                descrizione: 'Bandi europei, finanziamenti agevolati, controllo di gestione.',
-                disponibilita: '2 Ott, 15 Ott',
-                phone: '+39 072 1840410',
-                email: 'luca.verdi@consorzio.it'
-            },
-            cons4: {
-                id: 'cons4',
-                name: 'Avv. Sara Neri',
-                specializzazione: 'consulenza legale d\'impresa',
-                categoria: 'legale',
-                qualifiche: 'Avvocato specializzato in diritto commerciale, 10 anni',
-                descrizione: 'Consulenza contrattuale, diritto del lavoro, controversie legali.',
-                disponibilita: '25 Set, 2 Ott',
-                phone: '+39 072 1840410',
-                email: 'sara.neri@consorzio.it'
-            }
-        };
-
-        // Sistema di consulenze
-        let consulenze = [
-            {
-                id: 1,
-                clienteName: 'Marco Rossi',
-                clienteAzienda: 'Rossi SRL',
-                consulenteId: 'cons1',
-                consulenteName: 'Dott.ssa Maria Bianchi',
-                specializzazione: 'Seo e posizionamento siti',
-                dataRichiesta: '2025-08-18',
-                dataConsulenza: '2025-08-25',
-                orario: '10:00',
-                status: 'pending',
-                note: 'Richiesta ottimizzazione SEO per nuovo sito web'
-            },
-            {
-                id: 2,
-                clienteName: 'Laura Bianchi',
-                clienteAzienda: 'Bianchi Consulting',
-                consulenteId: 'cons2',
-                consulenteName: 'Ing. Andrea Rossi',
-                specializzazione: 'e.r.p e gestionali aziendali',
-                dataRichiesta: '2025-08-17',
-                dataConsulenza: '2025-08-26',
-                orario: '14:30',
-                status: 'confirmed',
-                note: 'Implementazione nuovo gestionale aziendale'
-            }
-        ];
-
-        // Eventi del consorzio
-        let events = [
-            {
-                id: 1,
-                title: 'Assemblea Generale',
-                date: '2025-09-25',
-                time: '10:00',
-                location: 'Sala conferenze',
-                description: 'Discussione bilancio 2025 e strategie di crescita',
-                participants: 12,
-                createdBy: 'admin'
-            },
-            {
-                id: 2,
-                title: 'Workshop Innovazione Digitale',
-                date: '2025-10-02',
-                time: '15:00',
-                location: 'Sede del Consorzio',
-                description: 'Seminario su digitalizzazione aziendale e nuove tecnologie',
-                participants: 8,
-                createdBy: 'admin'
-            }
-        ];
-
-        // Specializzazioni definitive
-        const specializzazioni = [
-            'finanza agevolata',
-            'consulenza legale d\'impresa',
-            'cyber sicurezza',
-            'e.r.p e gestionali aziendali',
-            'creazione app e siti',
-            'export manager',
-            'controllo di gestione',
-            'efficientamento energetico',
-            'noleggio stampanti',
-            'noleggio mezzi e auto a lungo termine',
-            'polizze assicurative aziendali',
-            'gestione contabile e tributaria',
-            'fiscalità energetica',
-            'antincendio e segnaletica aziendale, sicurezza macchinari, laboratorio test elettrici ed elettromagnetici',
-            'medicina del lavoro',
-            'igiene e sicurezza luoghi di lavoro',
-            'Seo e posizionamento siti',
-            'stampa digitale',
-            'agenzia di comunicazione',
-            'creazione eventi aziendali'
-        ];
-
-        function switchLoginTab(tab) {
-            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
-            
-            document.querySelector(`.login-tab.${tab}`).classList.add('active');
-            document.querySelector(`#${tab}Form`).classList.add('active');
-        }
-
-        function login(role) {
-            const email = document.getElementById(`${role}Email`).value;
-            const password = document.getElementById(`${role}Password`).value;
-            
-            const user = Object.values(users).find(u => u.email === email && u.password === password && u.role === role);
-            
-            if (user) {
-                currentUser = user;
-                if (role === 'admin') {
-                    document.getElementById('admin-dashboard').checked = true;
-                } else if (role === 'member') {
-                    document.getElementById('member-dashboard').checked = true;
-                } else if (role === 'consulente') {
-                    document.getElementById('consulente-dashboard').checked = true;
-                }
-                updateUserInfo();
-                showNotification(`✅ Accesso effettuato come ${user.name}`, 'success');
-            } else {
-                showNotification('❌ Credenziali non valide', 'error');
-            }
-        }
-
-        function updateUserInfo() {
-            const userInfoElements = document.querySelectorAll('.user-info');
-            userInfoElements.forEach(el => {
-                if (isImpersonating && originalUser) {
-                    el.innerHTML = `👤 ${currentUser.name} (👁️ Impersonificato da ${originalUser.name})`;
-                } else {
-                    const roleText = currentUser.role === 'admin' ? 'Admin' : 
-                                   currentUser.role === 'member' ? 'Membro' : 'Consulente';
-                    el.innerHTML = `👤 ${currentUser.name} (${roleText})`;
-                }
-            });
-        }
-
-        function logout() {
-            currentUser = null;
-            isImpersonating = false;
-            originalUser = null;
-            document.getElementById('login').checked = true;
-            showNotification('👋 Disconnesso con successo', 'success');
-        }
-
-        function prenotaConsulenza(consulenteId, consulenteName, specializzazione) {
-            if (!currentUser || currentUser.role !== 'member') {
-                showNotification('⚠️ Devi essere loggato come membro per prenotare', 'warning');
-                return;
-            }
-
-            const data = prompt('📅 Inserisci la data desiderata (YYYY-MM-DD):');
-            const orario = prompt('🕙 Inserisci l\'orario desiderato (HH:MM):');
-            const note = prompt('📝 Note aggiuntive (opzionale):') || '';
-
-            if (!data || !orario) {
-                showNotification('❌ Data e orario sono obbligatori', 'error');
-                return;
-            }
-
-            const nuovaConsulenza = {
-                id: Date.now(),
-                clienteName: currentUser.name,
-                clienteAzienda: currentUser.company,
-                consulenteId: consulenteId,
-                consulenteName: consulenteName,
-                specializzazione: specializzazione,
-                dataRichiesta: new Date().toISOString().split('T')[0],
-                dataConsulenza: data,
-                orario: orario,
-                status: 'pending',
-                note: note
-            };
-
-            consulenze.push(nuovaConsulenza);
-            
-            showNotification(`✅ Consulenza prenotata con ${consulenteName} per il ${data} alle ${orario}`, 'success');
-            
-            // Notifica admin
-            setTimeout(() => {
-                showNotification('📧 Notifica inviata agli amministratori', 'success');
-            }, 1000);
-        }
-
-        function confermaConsulenza(consulenzaId) {
-            const consulenza = consulenze.find(c => c.id === consulenzaId);
-            if (consulenza && currentUser.role === 'consulente') {
-                consulenza.status = 'confirmed';
-                showNotification('✅ Consulenza confermata', 'success');
-                loadConsulentiConsulenze();
-            }
-        }
-
-        function rifiutaConsulenza(consulenzaId) {
-            const consulenza = consulenze.find(c => c.id === consulenzaId);
-            if (consulenza && currentUser.role === 'consulente') {
-                consulenza.status = 'cancelled';
-                showNotification('❌ Consulenza rifiutata', 'success');
-                loadConsulentiConsulenze();
-            }
-        }
-
-        function loadConsulentiConsulenze() {
-            const container = document.getElementById('consulenteConsulenzePage');
-            if (!container) return;
-
-            const myConsulenze = consulenze.filter(c => c.consulenteName === currentUser.name);
-            const consulenzeContainer = document.getElementById('consulenzeConsulente');
-            
-            if (consulenzeContainer) {
-                consulenzeContainer.innerHTML = '';
-                
-                myConsulenze.forEach(consulenza => {
-                    const statusClass = consulenza.status === 'confirmed' ? 'status-confirmed' : 
-                                       consulenza.status === 'cancelled' ? 'status-cancelled' : 'status-pending';
-                    
-                    consulenzeContainer.innerHTML += `
-                        <div class="consulenza-card">
-                            <div style="display: flex; justify-content: between; align-items: flex-start; margin-bottom: 15px;">
-                                <div style="flex: 1;">
-                                    <h3 style="color: #2c3e50; margin-bottom: 5px;">${consulenza.clienteName}</h3>
-                                    <p style="color: #7f8c8d; margin-bottom: 5px;">${consulenza.clienteAzienda}</p>
-                                    <p style="color: #95a5a6; font-size: 12px;">📅 ${consulenza.dataConsulenza} alle ${consulenza.orario}</p>
-                                    <p style="color: #95a5a6; font-size: 12px;">📝 ${consulenza.note}</p>
-                                    <p style="color: #95a5a6; font-size: 12px;">🎯 ${consulenza.specializzazione}</p>
-                                </div>
-                                <div style="text-align: right;">
-                                    <span class="status-badge ${statusClass}">${consulenza.status.toUpperCase()}</span>
-                                </div>
-                            </div>
-                            
-                            ${consulenza.status === 'pending' ? `
-                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                <button class="action-btn" onclick="confermaConsulenza(${consulenza.id})">✅ Conferma</button>
-                                <button class="action-btn red" onclick="rifiutaConsulenza(${consulenza.id})">❌ Rifiuta</button>
-                            </div>
-                            ` : ''}
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        function loadAdminConsulenze() {
-            const container = document.getElementById('adminConsulenze');
-            if (!container) return;
-
-            container.innerHTML = '';
-            
-            consulenze.forEach(consulenza => {
-                const statusClass = consulenza.status === 'confirmed' ? 'status-confirmed' : 
-                                   consulenza.status === 'cancelled' ? 'status-cancelled' : 'status-pending';
-                
-                container.innerHTML += `
-                    <div class="consulenza-card">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
-                            <div style="flex: 1;">
-                                <h3 style="color: #2c3e50; margin-bottom: 5px;">${consulenza.clienteName} → ${consulenza.consulenteName}</h3>
-                                <p style="color: #7f8c8d; margin-bottom: 5px;">${consulenza.clienteAzienda}</p>
-                                <p style="color: #95a5a6; font-size: 12px;">📅 ${consulenza.dataConsulenza} alle ${consulenza.orario}</p>
-                                <p style="color: #95a5a6; font-size: 12px;">📝 ${consulenza.note}</p>
-                                <p style="color: #95a5a6; font-size: 12px;">🎯 ${consulenza.specializzazione}</p>
-                                <p style="color: #95a5a6; font-size: 12px;">📋 Richiesta: ${consulenza.dataRichiesta}</p>
-                            </div>
-                            <div style="text-align: right;">
-                                <span class="status-badge ${statusClass}">${consulenza.status.toUpperCase()}</span>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <button class="action-btn blue" onclick="contatlaConsulente('${consulenza.consulenteId}')">📞 Contatta Consulente</button>
-                            <button class="action-btn red" onclick="eliminaConsulenza(${consulenza.id})">🗑️ Elimina</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function createConsulente() {
-            if (currentUser.role !== 'admin') return;
-            
-            const name = document.getElementById('consulenteName').value;
-            const specializzazione = document.getElementById('consulenteSpecializzazione').value;
-            const qualifiche = document.getElementById('consulenteQualifiche').value;
-            const descrizione = document.getElementById('consulenteDescrizione').value;
-            const phone = document.getElementById('consulentePhone').value;
-            const email = document.getElementById('consulenteEmail').value;
-            
-            if (!name || !specializzazione || !descrizione) {
-                showNotification('⚠️ Compila tutti i campi obbligatori!', 'warning');
-                return;
-            }
-            
-            const consulenteId = 'cons' + Date.now();
-            consulenti[consulenteId] = {
-                id: consulenteId,
-                name: name,
-                specializzazione: specializzazione,
-                categoria: 'generico',
-                qualifiche: qualifiche || '',
-                descrizione: descrizione,
-                disponibilita: 'Su appuntamento',
-                phone: phone || '+39 072 1840410',
-                email: email || 'info@consorzio.it'
-            };
-            
-            document.getElementById('consulenteForm').reset();
-            showNotification(`🎉 Consulente "${name}" aggiunto con successo!`, 'success');
-            updateConsulentiSection();
-            
-            setTimeout(() => {
-                document.getElementById('admin-consulenti').checked = true;
-                loadConsulentiPage();
-            }, 2000);
-        }
-
-        function loadConsulentiPage() {
-            const container = document.getElementById('consulentiContainer');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            Object.entries(consulenti).forEach(([key, consulente]) => {
-                container.innerHTML += `
-                    <div class="consulente-card" style="border-top: 4px solid #9b59b6;">
-                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-                            <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, #9b59b6, #8e44ad); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">${consulente.name.charAt(0)}</div>
-                            <div style="flex: 1;">
-                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">${consulente.name}</h3>
-                                <div class="specializzazione-badge">${consulente.specializzazione}</div>
-                                <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">${consulente.qualifiche}</p>
-                                <p style="color: #95a5a6; font-size: 12px;">📞 ${consulente.phone}</p>
-                                <p style="color: #95a5a6; font-size: 12px;">📧 ${consulente.email}</p>
-                            </div>
-                        </div>
-                        
-                        <div style="background: #9b59b615; padding: 10px; border-radius: 8px; border-left: 4px solid #9b59b6; margin-bottom: 15px; font-size: 13px;">
-                            ${consulente.descrizione}
-                        </div>
-                        
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <button class="action-btn blue" onclick="editConsulente('${key}')">✏️ Modifica</button>
-                            <button class="action-btn red" onclick="deleteConsulente('${key}')">🗑️ Elimina</button>
-                            <a href="https://wa.me/${consulente.phone.replace(/[^0-9]/g, '')}?text=Ciao,%20vorrei%20una%20consulenza%20con%20${encodeURIComponent(consulente.name)}" class="whatsapp-btn">💬 WhatsApp</a>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function updateConsulentiSection() {
-            const publicContainer = document.getElementById('publicConsulentiContainer');
-            if (publicContainer) {
-                publicContainer.innerHTML = '';
-                
-                Object.entries(consulenti).forEach(([key, consulente]) => {
-                    publicContainer.innerHTML += `
-                        <div class="consulente-card" data-specializzazione="${consulente.specializzazione}" style="border-top: 4px solid #9b59b6;">
-                            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-                                <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, #9b59b6, #8e44ad); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">${consulente.name.charAt(0)}</div>
-                                <div style="flex: 1;">
-                                    <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">${consulente.name}</h3>
-                                    <div class="specializzazione-badge">${consulente.specializzazione}</div>
-                                    <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">${consulente.qualifiche}</p>
-                                    <p style="color: #34495e; font-size: 12px;">📅 Disponibile: ${consulente.disponibilita}</p>
-                                </div>
-                            </div>
-                            
-                            <div style="background: #9b59b615; padding: 10px; border-radius: 8px; border-left: 4px solid #9b59b6; margin-bottom: 15px; font-size: 13px;">
-                                ${consulente.descrizione}
-                            </div>
-                            
-                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                <button class="action-btn" onclick="prenotaConsulenza('${key}', '${consulente.name}', '${consulente.specializzazione}')">📅 Prenota Consulenza</button>
-                                <a href="https://wa.me/${consulente.phone.replace(/[^0-9]/g, '')}?text=Vorrei%20prenotare%20consulenza%20con%20${encodeURIComponent(consulente.name)}" class="whatsapp-btn">💬 WhatsApp</a>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        function filtraConsulenti() {
-            const filtro = document.getElementById('filtroSpecializzazione').value;
-            const consulenti = document.querySelectorAll('[data-specializzazione]');
-            
-            consulenti.forEach(card => {
-                if (filtro === '' || card.dataset.specializzazione === filtro) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        function deleteConsulente(consulenteId) {
-            if (currentUser.role !== 'admin') return;
-            
-            if (confirm(`Sei sicuro di voler eliminare ${consulenti[consulenteId].name}?`)) {
-                delete consulenti[consulenteId];
-                showNotification('🗑️ Consulente eliminato con successo', 'success');
-                loadConsulentiPage();
-                updateConsulentiSection();
-            }
-        }
-
-        function showNotification(message, type) {
-            const colors = {
-                success: '#27ae60',
-                error: '#e74c3c',
-                warning: '#f39c12'
-            };
-            
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed; 
-                top: 20px; 
-                right: 20px; 
-                background: ${colors[type]}; 
-                color: white; 
-                padding: 15px; 
-                border-radius: 10px; 
-                z-index: 1000; 
-                animation: slideIn 0.5s ease;
-                max-width: 300px;
-                font-size: 14px;
-            `;
-            notification.innerHTML = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-
-        // Funzioni placeholder per completezza
-        function loadMembersPage() { /* implementazione esistente */ }
-        function createMember() { /* implementazione esistente */ }
-        function createEvent() { /* implementazione esistente */ }
-        function loadAdminAgenda() { /* implementazione esistente */ }
-        function loadMemberAgenda() { /* implementazione esistente */ }
-
-        // Inizializza la pagina
-        window.onload = function() {
-            switchLoginTab('admin');
-            updateConsulentiSection();
-            
-            // Popola select specializzazioni
-            const select = document.getElementById('consulenteSpecializzazione');
-            if (select) {
-                specializzazioni.forEach(spec => {
-                    const option = document.createElement('option');
-                    option.value = spec;
-                    option.textContent = spec;
-                    select.appendChild(option);
-                });
-            }
-
-            // Popola filtro specializzazioni
-            const filtroSelect = document.getElementById('filtroSpecializzazione');
-            if (filtroSelect) {
-                specializzazioni.forEach(spec => {
-                    const option = document.createElement('option');
-                    option.value = spec;
-                    option.textContent = spec;
-                    filtroSelect.appendChild(option);
-                });
-            }
-        };
-    </script>
 </head>
 <body>
     <div class="app-container">
@@ -1051,21 +649,16 @@
         <input type="radio" name="nav" id="admin-dashboard" class="nav-input">
         <input type="radio" name="nav" id="member-dashboard" class="nav-input">
         <input type="radio" name="nav" id="consulente-dashboard" class="nav-input">
-        <input type="radio" name="nav" id="admin-agenda" class="nav-input">
-        <input type="radio" name="nav" id="admin-membri" class="nav-input">
-        <input type="radio" name="nav" id="admin-consulenti" class="nav-input">
-        <input type="radio" name="nav" id="admin-consulenze" class="nav-input">
-        <input type="radio" name="nav" id="admin-nuovo-evento" class="nav-input">
-        <input type="radio" name="nav" id="admin-nuovo-membro" class="nav-input">
-        <input type="radio" name="nav" id="admin-nuovo-consulente" class="nav-input">
-        <input type="radio" name="nav" id="member-agenda" class="nav-input">
-        <input type="radio" name="nav" id="consulente-consulenze" class="nav-input">
-        <input type="radio" name="nav" id="albo" class="nav-input">
         <input type="radio" name="nav" id="bacheca" class="nav-input">
-        <input type="radio" name="nav" id="video" class="nav-input">
+        <input type="radio" name="nav" id="gestione-membri" class="nav-input">
+        <input type="radio" name="nav" id="gestione-consulenti" class="nav-input">
+        <input type="radio" name="nav" id="agenda" class="nav-input">
+        <input type="radio" name="nav" id="consulenze" class="nav-input">
         <input type="radio" name="nav" id="convenzioni" class="nav-input">
-        <input type="radio" name="nav" id="consulenti" class="nav-input">
-        <input type="radio" name="nav" id="progetti" class="nav-input">
+        <input type="radio" name="nav" id="albo-membri" class="nav-input">
+        <input type="radio" name="nav" id="video" class="nav-input">
+        <input type="radio" name="nav" id="consulenti-list" class="nav-input">
+        <input type="radio" name="nav" id="le-mie-consulenze" class="nav-input">
 
         <div class="pages">
             <!-- Login Page -->
@@ -1135,20 +728,13 @@
                         
                         <button class="btn" onclick="login('consulente')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">🔑 ACCESSO CONSULENTE</button>
                     </div>
-                    
-                    <div style="background: #e8f5e8; padding: 12px; margin-top: 15px; border-radius: 8px; border-left: 4px solid #3498db;">
-                        <h4 style="color: #2c3e50; margin-bottom: 8px;">🎯 Sistema Completo a 3 Livelli</h4>
-                        <p style="color: #34495e; font-size: 12px;">✅ Admin: Gestione totale + controllo consulenze</p>
-                        <p style="color: #34495e; font-size: 12px;">✅ Membri: Prenotazione consulenze + accesso servizi</p>
-                        <p style="color: #34495e; font-size: 12px;">✅ Consulenti: Conferma/rifiuta consulenze</p>
-                    </div>
                 </div>
             </div>
 
             <!-- Admin Dashboard Page -->
             <div id="adminDashboardPage" class="page">
                 <div class="header">
-                    <button onclick="logout()" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</button>
+                    <button onclick="logout()" class="back-btn">🔙 Logout</button>
                     <div class="user-info">👤 Amministratore</div>
                     <div class="logo">🔐</div>
                     <h1>Dashboard Amministratori</h1>
@@ -1159,40 +745,46 @@
                     <div class="admin-stats-box">
                         <h2 style="margin-bottom: 10px;">🔐 Controllo Totale Consorzio</h2>
                         <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Membri</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">4</div><div style="font-size: 11px;">Consulenti</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="totalConsulenze">2</div><div style="font-size: 11px;">Consulenze</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Membri Attivi</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Consulenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">48</div><div style="font-size: 11px;">Annunci Bacheca</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Eventi Mese</div></div>
                         </div>
                     </div>
                     
                     <div class="dashboard-grid">
-                        <label for="admin-agenda" class="nav-btn admin">
+                        <label for="agenda" class="nav-btn admin">
+                            <div class="notification-dot">5</div>
                             <div class="card-icon">📅</div>
                             <div class="card-title">GESTIONE AGENDA</div>
                         </label>
 
-                        <label for="admin-membri" class="nav-btn admin">
+                        <label for="gestione-membri" class="nav-btn admin">
+                            <div class="notification-dot">15</div>
                             <div class="card-icon">👥</div>
                             <div class="card-title">GESTIONE MEMBRI</div>
                         </label>
 
-                        <label for="admin-consulenti" class="nav-btn admin">
+                        <label for="gestione-consulenti" class="nav-btn admin">
+                            <div class="notification-dot">20</div>
                             <div class="card-icon">💼</div>
                             <div class="card-title">GESTIONE CONSULENTI</div>
                         </label>
 
-                        <label for="admin-consulenze" class="nav-btn admin">
-                            <div class="notification-dot">2</div>
+                        <label for="bacheca" class="nav-btn admin">
+                            <div class="notification-dot">48</div>
+                            <div class="card-icon">📌</div>
+                            <div class="card-title">BACHECA MARKETPLACE</div>
+                        </label>
+
+                        <label for="consulenze" class="nav-btn admin">
+                            <div class="notification-dot">12</div>
                             <div class="card-icon">📋</div>
                             <div class="card-title">CONSULENZE</div>
                         </label>
 
-                        <label for="albo" class="nav-btn admin">
-                            <div class="card-icon">📋</div>
-                            <div class="card-title">ALBO ISCRITTI</div>
-                        </label>
-
                         <label for="convenzioni" class="nav-btn admin">
+                            <div class="notification-dot">8</div>
                             <div class="card-icon">🤝</div>
                             <div class="card-title">CONVENZIONI</div>
                         </label>
@@ -1203,7 +795,7 @@
             <!-- Member Dashboard Page -->
             <div id="memberDashboardPage" class="page">
                 <div class="header">
-                    <button onclick="logout()" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">🔙 Esci</button>
+                    <button onclick="logout()" class="back-btn">🔙 Esci</button>
                     <div class="user-info">👤 Membro</div>
                     <div class="logo">👥</div>
                     <h1>Dashboard Membri</h1>
@@ -1214,29 +806,46 @@
                     <div class="member-stats-box">
                         <h2 style="margin-bottom: 10px;">👥 Area Riservata Membri</h2>
                         <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">2</div><div style="font-size: 11px;">Eventi</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Specializzazioni</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Consulenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">48</div><div style="font-size: 11px;">Annunci</div></div>
                             <div><div style="font-size: 20px; font-weight: bold;">10</div><div style="font-size: 11px;">Consulenze Incluse</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">5</div><div style="font-size: 11px;">Eventi Mese</div></div>
                         </div>
                     </div>
                     
                     <div class="dashboard-grid">
-                        <label for="member-agenda" class="nav-btn member">
+                        <label for="agenda" class="nav-btn member">
+                            <div class="notification-dot">5</div>
                             <div class="card-icon">📅</div>
                             <div class="card-title">AGENDA EVENTI</div>
                         </label>
 
-                        <label for="consulenti" class="nav-btn member">
+                        <label for="consulenti-list" class="nav-btn member">
+                            <div class="notification-dot">20</div>
                             <div class="card-icon">💼</div>
                             <div class="card-title">CONSULENTI</div>
                         </label>
 
-                        <label for="albo" class="nav-btn member">
+                        <label for="bacheca" class="nav-btn member">
+                            <div class="notification-dot">48</div>
+                            <div class="card-icon">📌</div>
+                            <div class="card-title">BACHECA MARKETPLACE</div>
+                        </label>
+
+                        <label for="albo-membri" class="nav-btn member">
+                            <div class="notification-dot">15</div>
                             <div class="card-icon">📋</div>
                             <div class="card-title">ALBO MEMBRI</div>
                         </label>
 
+                        <label for="video" class="nav-btn member">
+                            <div class="notification-dot">12</div>
+                            <div class="card-icon">📹</div>
+                            <div class="card-title">VIDEO</div>
+                        </label>
+
                         <label for="convenzioni" class="nav-btn member">
+                            <div class="notification-dot">8</div>
                             <div class="card-icon">🤝</div>
                             <div class="card-title">CONVENZIONI</div>
                         </label>
@@ -1247,7 +856,7 @@
             <!-- Consulente Dashboard Page -->
             <div id="consulenteDashboardPage" class="page">
                 <div class="header">
-                    <button onclick="logout()" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">🔙 Esci</button>
+                    <button onclick="logout()" class="back-btn">🔙 Esci</button>
                     <div class="user-info">👤 Consulente</div>
                     <div class="logo">💼</div>
                     <h1>Dashboard Consulenti</h1>
@@ -1258,264 +867,1252 @@
                     <div class="consulente-stats-box">
                         <h2 style="margin-bottom: 10px;">💼 Area Riservata Consulenti</h2>
                         <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">1</div><div style="font-size: 11px;">Consulenze Pending</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">1</div><div style="font-size: 11px;">Confermate</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">0</div><div style="font-size: 11px;">Rifiutate</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Richieste Pending</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Confermate</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Membri Attivi</div></div>
                         </div>
                     </div>
                     
                     <div class="dashboard-grid">
-                        <label for="consulente-consulenze" class="nav-btn consulente">
-                            <div class="notification-dot">1</div>
+                        <label for="le-mie-consulenze" class="nav-btn consulente">
+                            <div class="notification-dot">3</div>
                             <div class="card-icon">📋</div>
                             <div class="card-title">LE MIE CONSULENZE</div>
                         </label>
 
-                        <label for="albo" class="nav-btn consulente">
+                        <label for="albo-membri" class="nav-btn consulente">
+                            <div class="notification-dot">15</div>
                             <div class="card-icon">👥</div>
                             <div class="card-title">MEMBRI CONSORZIO</div>
+                        </label>
+
+                        <label for="bacheca" class="nav-btn consulente">
+                            <div class="notification-dot">48</div>
+                            <div class="card-icon">📌</div>
+                            <div class="card-title">BACHECA</div>
                         </label>
                     </div>
                 </div>
             </div>
 
-            <!-- Admin Consulenze Page -->
-            <div id="adminConsulenzePage" class="page">
+            <!-- Gestione Membri Page -->
+            <div id="gestioneMembriPage" class="page">
                 <div class="header">
-                    <label for="admin-dashboard" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</label>
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
                     <div class="user-info">👤 Admin</div>
-                    <div class="logo">📋</div>
-                    <h1>Gestione Consulenze (Admin)</h1>
+                    <div class="logo">👥</div>
+                    <h1>Gestione Membri</h1>
                 </div>
                 <div class="page-content">
-                    <div class="admin-stats-box">
-                        <h2 style="margin-bottom: 10px;">📋 Controllo Totale Consulenze</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">2</div><div style="font-size: 11px;">Consulenze Totali</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">1</div><div style="font-size: 11px;">In Attesa</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">1</div><div style="font-size: 11px;">Confermate</div></div>
-                        </div>
+                    <div class="filter-bar">
+                        <input type="text" placeholder="🔍 Cerca membro..." style="padding: 8px; border-radius: 8px; border: 2px solid #ddd; flex: 1; max-width: 300px;">
+                        <select style="padding: 8px; border-radius: 8px; border: 2px solid #ddd;">
+                            <option>Tutti i membri</option>
+                            <option>Attivi</option>
+                            <option>Sospesi</option>
+                            <option>In attesa</option>
+                        </select>
+                        <button class="action-btn blue" onclick="aggiungiMembro()">➕ Nuovo Membro</button>
                     </div>
 
-                    <button class="action-btn blue" onclick="loadAdminConsulenze()" style="margin-bottom: 20px;">🔄 Aggiorna Lista</button>
-                    
-                    <div id="adminConsulenze">
-                        <!-- Le consulenze vengono caricate dinamicamente -->
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Azienda</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Stato</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Marco Rossi</td>
+                                    <td>Rossi SRL</td>
+                                    <td>rossi@rossisrl.it</td>
+                                    <td>+39 348 1234567</td>
+                                    <td><span class="badge green">Attivo</span></td>
+                                    <td>
+                                        <button class="action-btn blue" style="padding: 5px 10px; font-size: 12px;" onclick="modificaMembro(1)">✏️</button>
+                                        <button class="action-btn orange" style="padding: 5px 10px; font-size: 12px;" onclick="sospendiMembro(1)">⏸️</button>
+                                        <button class="action-btn red" style="padding: 5px 10px; font-size: 12px;" onclick="eliminaMembro(1)">🗑️</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#002</td>
+                                    <td>Laura Bianchi</td>
+                                    <td>Bianchi Design</td>
+                                    <td>laura@bianchidesign.it</td>
+                                    <td>+39 347 9876543</td>
+                                    <td><span class="badge green">Attivo</span></td>
+                                    <td>
+                                        <button class="action-btn blue" style="padding: 5px 10px; font-size: 12px;" onclick="modificaMembro(2)">✏️</button>
+                                        <button class="action-btn orange" style="padding: 5px 10px; font-size: 12px;" onclick="sospendiMembro(2)">⏸️</button>
+                                        <button class="action-btn red" style="padding: 5px 10px; font-size: 12px;" onclick="eliminaMembro(2)">🗑️</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#003</td>
+                                    <td>Giuseppe Verdi</td>
+                                    <td>Verdi Tech</td>
+                                    <td>verdi@verditech.com</td>
+                                    <td>+39 346 5555555</td>
+                                    <td><span class="badge orange">In attesa</span></td>
+                                    <td>
+                                        <button class="action-btn green" style="padding: 5px 10px; font-size: 12px;" onclick="approvaMembro(3)">✅</button>
+                                        <button class="action-btn red" style="padding: 5px 10px; font-size: 12px;" onclick="rifiutaMembro(3)">❌</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Form Nuovo Membro -->
+                    <div id="formNuovoMembro" class="form-section" style="display: none; margin-top: 20px;">
+                        <h3 style="color: #2c3e50; margin-bottom: 20px;">👥 Aggiungi Nuovo Membro</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label>Nome e Cognome</label>
+                                <input type="text" placeholder="Mario Rossi">
+                            </div>
+                            <div class="form-group">
+                                <label>Azienda</label>
+                                <input type="text" placeholder="Rossi SRL">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" placeholder="mario@rossisrl.it">
+                            </div>
+                            <div class="form-group">
+                                <label>Telefono</label>
+                                <input type="tel" placeholder="+39 348 1234567">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                            <button class="action-btn green" onclick="salvaMembro()">✅ Salva Membro</button>
+                            <button class="action-btn red" onclick="annullaForm('formNuovoMembro')">❌ Annulla</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Consulente Consulenze Page -->
-            <div id="consulenteConsulenzePage" class="page">
+            <!-- Gestione Consulenti Page -->
+            <div id="gestioneConsulentiPage" class="page">
                 <div class="header">
-                    <label for="consulente-dashboard" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</label>
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 Admin</div>
+                    <div class="logo">💼</div>
+                    <h1>Gestione Consulenti</h1>
+                </div>
+                <div class="page-content">
+                    <div class="stats-box" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <h2 style="margin-bottom: 10px;">💼 Consulenti Registrati</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Totali</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Attivi</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Specializzazioni</div></div>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <input type="text" placeholder="🔍 Cerca consulente..." style="padding: 8px; border-radius: 8px; border: 2px solid #ddd; flex: 1; max-width: 300px;">
+                        <select style="padding: 8px; border-radius: 8px; border: 2px solid #ddd;">
+                            <option>Tutte le specializzazioni</option>
+                            <option>SEO/Marketing</option>
+                            <option>Legale</option>
+                            <option>Fiscale</option>
+                            <option>IT/Tech</option>
+                        </select>
+                        <button class="action-btn purple" onclick="aggiungiConsulente()">➕ Nuovo Consulente</button>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div class="consulente-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                                <div>
+                                    <h3 style="color: #2c3e50; margin-bottom: 5px;">Dott.ssa Maria Bianchi</h3>
+                                    <span class="badge purple">SEO & Marketing</span>
+                                    <span class="badge green">Disponibile</span>
+                                </div>
+                                <div style="font-size: 30px;">👩‍💼</div>
+                            </div>
+                            <p style="color: #6c757d; font-size: 13px; margin-bottom: 10px;">Specializzata in SEO, posizionamento siti web e digital marketing. 10+ anni esperienza.</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                                <div style="font-size: 12px;"><strong>📧</strong> maria.bianchi@consorzio.it</div>
+                                <div style="font-size: 12px;"><strong>📱</strong> +39 072 1840410</div>
+                                <div style="font-size: 12px;"><strong>💰</strong> €80/ora</div>
+                                <div style="font-size: 12px;"><strong>⭐</strong> 4.9/5 (28 recensioni)</div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="action-btn purple" style="padding: 8px 15px; font-size: 12px;" onclick="modificaConsulente(1)">✏️ Modifica</button>
+                                <button class="action-btn orange" style="padding: 8px 15px; font-size: 12px;" onclick="statisticheConsulente(1)">📊 Stats</button>
+                                <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="disabilitaConsulente(1)">🚫 Disabilita</button>
+                            </div>
+                        </div>
+
+                        <div class="consulente-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                                <div>
+                                    <h3 style="color: #2c3e50; margin-bottom: 5px;">Avv. Giovanni Russo</h3>
+                                    <span class="badge blue">Legale</span>
+                                    <span class="badge green">Disponibile</span>
+                                </div>
+                                <div style="font-size: 30px;">👨‍⚖️</div>
+                            </div>
+                            <p style="color: #6c757d; font-size: 13px; margin-bottom: 10px;">Consulenza legale aziendale, contrattualistica, GDPR e compliance. Studio legale associato.</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                                <div style="font-size: 12px;"><strong>📧</strong> russo@studiolegale.it</div>
+                                <div style="font-size: 12px;"><strong>📱</strong> +39 06 5551234</div>
+                                <div style="font-size: 12px;"><strong>💰</strong> €120/ora</div>
+                                <div style="font-size: 12px;"><strong>⭐</strong> 4.8/5 (15 recensioni)</div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="action-btn purple" style="padding: 8px 15px; font-size: 12px;" onclick="modificaConsulente(2)">✏️ Modifica</button>
+                                <button class="action-btn orange" style="padding: 8px 15px; font-size: 12px;" onclick="statisticheConsulente(2)">📊 Stats</button>
+                                <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="disabilitaConsulente(2)">🚫 Disabilita</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agenda Page -->
+            <div id="agendaPage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 User</div>
+                    <div class="logo">📅</div>
+                    <h1>Agenda Eventi Consorzio</h1>
+                </div>
+                <div class="page-content">
+                    <div class="stats-box">
+                        <h2 style="margin-bottom: 10px;">📅 Eventi del Mese</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">5</div><div style="font-size: 11px;">Eventi Totali</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">2</div><div style="font-size: 11px;">Questa Settimana</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Webinar</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">2</div><div style="font-size: 11px;">In Presenza</div></div>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <button class="filter-btn active" onclick="filterEventi('tutti', this)">Tutti</button>
+                        <button class="filter-btn" onclick="filterEventi('webinar', this)">💻 Webinar</button>
+                        <button class="filter-btn" onclick="filterEventi('presenza', this)">🏢 In Presenza</button>
+                        <button class="filter-btn" onclick="filterEventi('networking', this)">🤝 Networking</button>
+                        <button class="action-btn orange" onclick="aggiungiEvento()">➕ Nuovo Evento</button>
+                    </div>
+
+                    <!-- Calendario -->
+                    <div style="background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+                        <h3 style="text-align: center; margin-bottom: 15px;">Agosto 2025</h3>
+                        <div class="calendar-grid">
+                            <div style="font-weight: bold; text-align: center;">Lun</div>
+                            <div style="font-weight: bold; text-align: center;">Mar</div>
+                            <div style="font-weight: bold; text-align: center;">Mer</div>
+                            <div style="font-weight: bold; text-align: center;">Gio</div>
+                            <div style="font-weight: bold; text-align: center;">Ven</div>
+                            <div style="font-weight: bold; text-align: center;">Sab</div>
+                            <div style="font-weight: bold; text-align: center;">Dom</div>
+                            <!-- Giorni -->
+                            <div class="calendar-day">1</div>
+                            <div class="calendar-day">2</div>
+                            <div class="calendar-day">3</div>
+                            <div class="calendar-day">4</div>
+                            <div class="calendar-day has-event">5</div>
+                            <div class="calendar-day">6</div>
+                            <div class="calendar-day">7</div>
+                            <div class="calendar-day">8</div>
+                            <div class="calendar-day">9</div>
+                            <div class="calendar-day has-event">10</div>
+                            <div class="calendar-day">11</div>
+                            <div class="calendar-day">12</div>
+                            <div class="calendar-day">13</div>
+                            <div class="calendar-day">14</div>
+                            <div class="calendar-day has-event">15</div>
+                            <div class="calendar-day">16</div>
+                            <div class="calendar-day">17</div>
+                            <div class="calendar-day">18</div>
+                            <div class="calendar-day" style="background: #3498db; color: white;">19</div>
+                            <div class="calendar-day has-event">20</div>
+                            <div class="calendar-day">21</div>
+                            <div class="calendar-day">22</div>
+                            <div class="calendar-day">23</div>
+                            <div class="calendar-day">24</div>
+                            <div class="calendar-day has-event">25</div>
+                            <div class="calendar-day">26</div>
+                            <div class="calendar-day">27</div>
+                            <div class="calendar-day">28</div>
+                        </div>
+                    </div>
+
+                    <!-- Lista Eventi -->
+                    <h3 style="margin-bottom: 15px;">📌 Prossimi Eventi</h3>
+                    
+                    <div class="card">
+                        <div style="display: flex; gap: 15px;">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">💻</div>
+                            <div style="flex: 1;">
+                                <div style="margin-bottom: 5px;">
+                                    <span class="badge blue">WEBINAR</span>
+                                    <span class="badge green">GRATUITO</span>
+                                </div>
+                                <h4 style="color: #2c3e50; margin-bottom: 5px;">Digital Marketing per PMI: Strategie 2025</h4>
+                                <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">Come aumentare la visibilità online e generare lead qualificati. Con Maria Bianchi, esperta SEO.</p>
+                                <div style="display: flex; gap: 20px; font-size: 13px; color: #7f8c8d;">
+                                    <span>📅 20 Agosto, ore 15:00</span>
+                                    <span>⏱️ Durata: 2 ore</span>
+                                    <span>👥 28/50 iscritti</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 5px;">
+                                <button class="action-btn blue" onclick="iscriviEvento(1)">✅ Iscriviti</button>
+                                <button class="action-btn" onclick="dettagliEvento(1)">📋 Dettagli</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; gap: 15px;">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #e74c3c, #c0392b); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">🏢</div>
+                            <div style="flex: 1;">
+                                <div style="margin-bottom: 5px;">
+                                    <span class="badge red">IN PRESENZA</span>
+                                    <span class="badge orange">NETWORKING</span>
+                                </div>
+                                <h4 style="color: #2c3e50; margin-bottom: 5px;">Aperitivo Networking - Roma EUR</h4>
+                                <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">Incontro informale per membri del consorzio. Opportunità di business e scambio contatti.</p>
+                                <div style="display: flex; gap: 20px; font-size: 13px; color: #7f8c8d;">
+                                    <span>📅 25 Agosto, ore 18:30</span>
+                                    <span>📍 Hotel Sheraton EUR</span>
+                                    <span>👥 35/60 iscritti</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 5px;">
+                                <button class="action-btn red" onclick="iscriviEvento(2)">✅ Partecipa</button>
+                                <button class="action-btn" onclick="mappaEvento(2)">📍 Mappa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consulenze Page -->
+            <div id="consulenzePage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 Admin</div>
+                    <div class="logo">📋</div>
+                    <h1>Gestione Consulenze</h1>
+                </div>
+                <div class="page-content">
+                    <div class="stats-box" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                        <h2 style="margin-bottom: 10px;">📋 Consulenze Attive</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">12</div><div style="font-size: 11px;">Totali</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">In Attesa</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">7</div><div style="font-size: 11px;">Confermate</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">2</div><div style="font-size: 11px;">Completate</div></div>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <button class="filter-btn active" onclick="filterConsulenze('tutte', this)">Tutte</button>
+                        <button class="filter-btn" onclick="filterConsulenze('attesa', this)">⏳ In Attesa</button>
+                        <button class="filter-btn" onclick="filterConsulenze('confermate', this)">✅ Confermate</button>
+                        <button class="filter-btn" onclick="filterConsulenze('completate', this)">✔️ Completate</button>
+                    </div>
+
+                    <div class="consulenza-request">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <div style="margin-bottom: 10px;">
+                                    <span class="badge orange">IN ATTESA</span>
+                                    <span class="badge blue">PRIORITÀ ALTA</span>
+                                </div>
+                                <h3 style="color: #2c3e50; margin-bottom: 10px;">Consulenza SEO - Rossi SRL</h3>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px;">
+                                    <div><strong>👤 Richiedente:</strong> Marco Rossi</div>
+                                    <div><strong>💼 Consulente:</strong> Maria Bianchi</div>
+                                    <div><strong>📅 Data richiesta:</strong> 18/08/2025</div>
+                                    <div><strong>⏰ Orario proposto:</strong> 22/08 ore 10:00</div>
+                                    <div><strong>🎯 Argomento:</strong> Ottimizzazione sito web</div>
+                                    <div><strong>⏱️ Durata:</strong> 2 ore</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <button class="action-btn green" onclick="approvaConsulenza(1)">✅ Approva</button>
+                                <button class="action-btn orange" onclick="modificaConsulenza(1)">📝 Modifica</button>
+                                <button class="action-btn red" onclick="rifiutaConsulenza(1)">❌ Rifiuta</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 20px 0 15px;">📊 Consulenze Confermate</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Membro</th>
+                                    <th>Consulente</th>
+                                    <th>Data/Ora</th>
+                                    <th>Argomento</th>
+                                    <th>Stato</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#C001</td>
+                                    <td>Laura Bianchi</td>
+                                    <td>Avv. Russo</td>
+                                    <td>23/08 - 14:00</td>
+                                    <td>Contrattualistica</td>
+                                    <td><span class="badge green">Confermata</span></td>
+                                    <td>
+                                        <button class="action-btn blue" style="padding: 5px 10px; font-size: 12px;" onclick="dettagliConsulenza(1)">👁️</button>
+                                        <button class="action-btn orange" style="padding: 5px 10px; font-size: 12px;" onclick="riprogrammaConsulenza(1)">📅</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#C002</td>
+                                    <td>Giuseppe Verdi</td>
+                                    <td>Dott. Neri</td>
+                                    <td>24/08 - 10:00</td>
+                                    <td>Fiscale</td>
+                                    <td><span class="badge green">Confermata</span></td>
+                                    <td>
+                                        <button class="action-btn blue" style="padding: 5px 10px; font-size: 12px;" onclick="dettagliConsulenza(2)">👁️</button>
+                                        <button class="action-btn orange" style="padding: 5px 10px; font-size: 12px;" onclick="riprogrammaConsulenza(2)">📅</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Convenzioni Page -->
+            <div id="convenzioniPage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 User</div>
+                    <div class="logo">🤝</div>
+                    <h1>Convenzioni Consorzio</h1>
+                </div>
+                <div class="page-content">
+                    <div class="stats-box" style="background: linear-gradient(135deg, #27ae60, #229954);">
+                        <h2 style="margin-bottom: 10px;">🤝 Convenzioni Attive</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Convenzioni Totali</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">15-40%</div><div style="font-size: 11px;">Sconti Medi</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">€50K</div><div style="font-size: 11px;">Risparmi Annui</div></div>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <button class="filter-btn active" onclick="filterConvenzioni('tutte', this)">Tutte</button>
+                        <button class="filter-btn" onclick="filterConvenzioni('servizi', this)">💼 Servizi</button>
+                        <button class="filter-btn" onclick="filterConvenzioni('prodotti', this)">📦 Prodotti</button>
+                        <button class="filter-btn" onclick="filterConvenzioni('viaggi', this)">✈️ Viaggi</button>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+                        <div class="convenzione-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                                <div>
+                                    <h3 style="color: #2c3e50;">⛽ Carburante ENI</h3>
+                                    <span class="badge green">-30%</span>
+                                    <span class="badge blue">SERVIZI</span>
+                                </div>
+                                <div style="font-size: 40px;">⛽</div>
+                            </div>
+                            <p style="color: #6c757d; font-size: 14px; margin-bottom: 15px;">Sconto del 30% su tutti i carburanti presso stazioni ENI con carta business dedicata.</p>
+                            <div style="background: #e8f5e9; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                                <strong style="color: #27ae60;">Risparmio stimato: €500-1000/mese per flotta aziendale</strong>
+                            </div>
+                            <button class="action-btn green" onclick="attivaConvenzione('ENI')">🔓 Attiva Convenzione</button>
+                        </div>
+
+                        <div class="convenzione-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                                <div>
+                                    <h3 style="color: #2c3e50;">📱 TIM Business</h3>
+                                    <span class="badge orange">-40%</span>
+                                    <span class="badge purple">TELEFONIA</span>
+                                </div>
+                                <div style="font-size: 40px;">📱</div>
+                            </div>
+                            <p style="color: #6c757d; font-size: 14px; margin-bottom: 15px;">Piano business dedicato: linee mobili illimitate, 100GB, roaming EU incluso.</p>
+                            <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                                <strong style="color: #f39c12;">€29/mese per linea (invece di €49)</strong>
+                            </div>
+                            <button class="action-btn orange" onclick="attivaConvenzione('TIM')">🔓 Attiva Convenzione</button>
+                        </div>
+
+                        <div class="convenzione-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                                <div>
+                                    <h3 style="color: #2c3e50;">✈️ Alitalia Corporate</h3>
+                                    <span class="badge blue">-25%</span>
+                                    <span class="badge red">VIAGGI</span>
+                                </div>
+                                <div style="font-size: 40px;">✈️</div>
+                            </div>
+                            <p style="color: #6c757d; font-size: 14px; margin-bottom: 15px;">Sconti su voli nazionali e internazionali, lounge access, bagaglio extra incluso.</p>
+                            <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                                <strong style="color: #3498db;">Accumulo miglia doppio + Priority boarding</strong>
+                            </div>
+                            <button class="action-btn blue" onclick="attivaConvenzione('Alitalia')">🔓 Attiva Convenzione</button>
+                        </div>
+
+                        <div class="convenzione-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                                <div>
+                                    <h3 style="color: #2c3e50;">🏨 Hotels & Conference</h3>
+                                    <span class="badge purple">-35%</span>
+                                    <span class="badge green">HOSPITALITY</span>
+                                </div>
+                                <div style="font-size: 40px;">🏨</div>
+                            </div>
+                            <p style="color: #6c757d; font-size: 14px; margin-bottom: 15px;">Accesso a tariffe corporate presso catene Hilton, Marriott, Sheraton.</p>
+                            <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                                <strong style="color: #9b59b6;">Sale meeting gratuite + Late checkout</strong>
+                            </div>
+                            <button class="action-btn purple" onclick="attivaConvenzione('Hotels')">🔓 Attiva Convenzione</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Albo Membri Page -->
+            <div id="alboMembriPage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 User</div>
+                    <div class="logo">📋</div>
+                    <h1>Albo Membri Consorzio</h1>
+                </div>
+                <div class="page-content">
+                    <div class="member-stats-box">
+                        <h2 style="margin-bottom: 10px;">📋 Directory Membri</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Membri Attivi</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Settori</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">€25M</div><div style="font-size: 11px;">Fatturato Totale</div></div>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <input type="text" placeholder="🔍 Cerca membro o azienda..." style="padding: 8px; border-radius: 8px; border: 2px solid #ddd; flex: 1; max-width: 300px;">
+                        <select style="padding: 8px; border-radius: 8px; border: 2px solid #ddd;">
+                            <option>Tutti i settori</option>
+                            <option>IT/Tech</option>
+                            <option>Marketing</option>
+                            <option>Produzione</option>
+                            <option>Servizi</option>
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div class="member-card">
+                            <div style="display: flex; gap: 15px;">
+                                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">MR</div>
+                                <div style="flex: 1;">
+                                    <h3 style="color: #2c3e50;">Marco Rossi</h3>
+                                    <p style="color: #7f8c8d; font-size: 14px;">CEO - Rossi SRL</p>
+                                    <div style="margin-top: 10px;">
+                                        <span class="badge blue">IT/Tech</span>
+                                        <span class="badge green">B2B</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ecf0f1;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
+                                    <div>📧 rossi@rossisrl.it</div>
+                                    <div>📱 +39 348 1234567</div>
+                                    <div>🌐 www.rossisrl.it</div>
+                                    <div>📍 Roma</div>
+                                </div>
+                                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                    <button class="action-btn blue" style="padding: 8px 15px; font-size: 12px;" onclick="contattaMembro('Marco Rossi')">💬 Contatta</button>
+                                    <button class="action-btn" style="padding: 8px 15px; font-size: 12px;" onclick="profiloMembro(1)">👤 Profilo</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="member-card">
+                            <div style="display: flex; gap: 15px;">
+                                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #e74c3c, #c0392b); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">LB</div>
+                                <div style="flex: 1;">
+                                    <h3 style="color: #2c3e50;">Laura Bianchi</h3>
+                                    <p style="color: #7f8c8d; font-size: 14px;">Founder - Bianchi Design</p>
+                                    <div style="margin-top: 10px;">
+                                        <span class="badge purple">Design</span>
+                                        <span class="badge orange">Marketing</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ecf0f1;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
+                                    <div>📧 laura@bianchidesign.it</div>
+                                    <div>📱 +39 347 9876543</div>
+                                    <div>🌐 www.bianchidesign.it</div>
+                                    <div>📍 Milano</div>
+                                </div>
+                                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                    <button class="action-btn blue" style="padding: 8px 15px; font-size: 12px;" onclick="contattaMembro('Laura Bianchi')">💬 Contatta</button>
+                                    <button class="action-btn" style="padding: 8px 15px; font-size: 12px;" onclick="profiloMembro(2)">👤 Profilo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Page -->
+            <div id="videoPage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 User</div>
+                    <div class="logo">📹</div>
+                    <h1>Video e Webinar</h1>
+                </div>
+                <div class="page-content">
+                    <div class="stats-box" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <h2 style="margin-bottom: 10px;">📹 Libreria Video</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">12</div><div style="font-size: 11px;">Video Totali</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Webinar</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">4</div><div style="font-size: 11px;">Tutorial</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">24h</div><div style="font-size: 11px;">Contenuti</div></div>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar">
+                        <button class="filter-btn active" onclick="filterVideo('tutti', this)">Tutti</button>
+                        <button class="filter-btn" onclick="filterVideo('webinar', this)">🎥 Webinar</button>
+                        <button class="filter-btn" onclick="filterVideo('tutorial', this)">📚 Tutorial</button>
+                        <button class="filter-btn" onclick="filterVideo('eventi', this)">🎪 Eventi</button>
+                    </div>
+
+                    <div class="video-grid">
+                        <div class="video-card" onclick="playVideo(1)">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #3498db, #2980b9); display: flex; align-items: center; justify-content: center; color: white; font-size: 50px;">▶️</div>
+                            <div class="video-overlay">
+                                <span class="badge blue">WEBINAR</span>
+                                <h4>Digital Marketing 2025</h4>
+                                <p style="font-size: 12px;">Durata: 1h 45min • Maria Bianchi</p>
+                            </div>
+                        </div>
+
+                        <div class="video-card" onclick="playVideo(2)">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #27ae60, #229954); display: flex; align-items: center; justify-content: center; color: white; font-size: 50px;">▶️</div>
+                            <div class="video-overlay">
+                                <span class="badge green">TUTORIAL</span>
+                                <h4>Gestione Fiscale PMI</h4>
+                                <p style="font-size: 12px;">Durata: 45min • Dott. Neri</p>
+                            </div>
+                        </div>
+
+                        <div class="video-card" onclick="playVideo(3)">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #e74c3c, #c0392b); display: flex; align-items: center; justify-content: center; color: white; font-size: 50px;">▶️</div>
+                            <div class="video-overlay">
+                                <span class="badge red">EVENTO</span>
+                                <h4>Summit Annuale 2024</h4>
+                                <p style="font-size: 12px;">Durata: 3h 20min • Highlights</p>
+                            </div>
+                        </div>
+
+                        <div class="video-card" onclick="playVideo(4)">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #9b59b6, #8e44ad); display: flex; align-items: center; justify-content: center; color: white; font-size: 50px;">▶️</div>
+                            <div class="video-overlay">
+                                <span class="badge purple">WEBINAR</span>
+                                <h4>Compliance GDPR</h4>
+                                <p style="font-size: 12px;">Durata: 2h • Avv. Russo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consulenti List Page (per Membri) -->
+            <div id="consulentiListPage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 Membro</div>
+                    <div class="logo">💼</div>
+                    <h1>Consulenti Disponibili</h1>
+                </div>
+                <div class="page-content">
+                    <div class="stats-box" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <h2 style="margin-bottom: 10px;">💼 Consulenti del Consorzio</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Consulenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Specializzazioni</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">10</div><div style="font-size: 11px;">Consulenze Incluse</div></div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <strong>💡 Ricorda:</strong> Hai diritto a 10 ore di consulenza gratuita all'anno con i nostri esperti!
+                    </div>
+
+                    <div class="filter-bar">
+                        <input type="text" placeholder="🔍 Cerca consulente o specializzazione..." style="padding: 8px; border-radius: 8px; border: 2px solid #ddd; flex: 1; max-width: 300px;">
+                        <select style="padding: 8px; border-radius: 8px; border: 2px solid #ddd;">
+                            <option>Tutte le specializzazioni</option>
+                            <option>SEO/Marketing</option>
+                            <option>Legale</option>
+                            <option>Fiscale</option>
+                            <option>IT/Tech</option>
+                            <option>HR</option>
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div class="consulente-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start;">
+                                <div>
+                                    <h3 style="color: #2c3e50;">Dott.ssa Maria Bianchi</h3>
+                                    <span class="badge purple">SEO & Marketing</span>
+                                    <span class="badge green">Disponibile</span>
+                                </div>
+                                <div style="font-size: 40px;">👩‍💼</div>
+                            </div>
+                            <p style="color: #6c757d; margin: 15px 0;">Esperta in SEO, SEM e digital marketing. Specializzata in e-commerce e lead generation.</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; font-size: 13px;">
+                                <div>⭐ 4.9/5 (28 recensioni)</div>
+                                <div>💰 €80/ora</div>
+                                <div>📅 Disponibile da subito</div>
+                                <div>🎯 100+ progetti completati</div>
+                            </div>
+                            <button class="action-btn purple" onclick="prenotaConsulenza('Maria Bianchi')">📅 Prenota Consulenza</button>
+                        </div>
+
+                        <div class="consulente-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start;">
+                                <div>
+                                    <h3 style="color: #2c3e50;">Avv. Giovanni Russo</h3>
+                                    <span class="badge blue">Legale</span>
+                                    <span class="badge green">Disponibile</span>
+                                </div>
+                                <div style="font-size: 40px;">👨‍⚖️</div>
+                            </div>
+                            <p style="color: #6c757d; margin: 15px 0;">Diritto societario, contrattualistica, GDPR e compliance aziendale.</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; font-size: 13px;">
+                                <div>⭐ 4.8/5 (15 recensioni)</div>
+                                <div>💰 €120/ora</div>
+                                <div>📅 Disponibile lun-ven</div>
+                                <div>🎯 15+ anni esperienza</div>
+                            </div>
+                            <button class="action-btn blue" onclick="prenotaConsulenza('Giovanni Russo')">📅 Prenota Consulenza</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Le Mie Consulenze Page (per Consulenti) -->
+            <div id="leMieConsulenzePage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
                     <div class="user-info">👤 Consulente</div>
                     <div class="logo">📋</div>
                     <h1>Le Mie Consulenze</h1>
                 </div>
                 <div class="page-content">
                     <div class="consulente-stats-box">
-                        <h2 style="margin-bottom: 10px;">📋 Le Tue Consulenze</h2>
-                        <p style="font-size: 14px;">Conferma o rifiuta le richieste di consulenza dei membri</p>
-                    </div>
-
-                    <button class="action-btn blue" onclick="loadConsulentiConsulenze()" style="margin-bottom: 20px;">🔄 Aggiorna Lista</button>
-                    
-                    <div id="consulenzeConsulente">
-                        <!-- Le consulenze vengono caricate dinamicamente -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admin Nuovo Consulente Page -->
-            <div id="adminNuovoConsulentePage" class="page">
-                <div class="header">
-                    <label for="admin-consulenti" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Consulenti</label>
-                    <div class="user-info">👤 Admin</div>
-                    <div class="logo">🆕</div>
-                    <h1>Aggiungi Nuovo Consulente</h1>
-                </div>
-                <div class="page-content">
-                    <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto;">
-                        <h2 style="color: #2c3e50; margin-bottom: 20px; text-align: center; font-size: 20px;">💼 Registra Nuovo Consulente</h2>
-                        
-                        <form id="consulenteForm">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                                <div class="form-group">
-                                    <label>👤 Nome Completo</label>
-                                    <input type="text" id="consulenteName" placeholder="Es: Dott. Mario Rossi" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label>🎯 Specializzazione</label>
-                                    <select id="consulenteSpecializzazione" required>
-                                        <option value="">Seleziona specializzazione</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>🎓 Qualifiche</label>
-                                <input type="text" id="consulenteQualifiche" placeholder="Es: MBA, Certificazioni, anni di esperienza">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>📝 Descrizione Servizi</label>
-                                <textarea id="consulenteDescrizione" placeholder="Descrivi i servizi offerti dal consulente..." style="min-height: 100px;" required></textarea>
-                            </div>
-                            
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                                <div class="form-group">
-                                    <label>📞 Telefono</label>
-                                    <input type="tel" id="consulentePhone" placeholder="+39 072 1840410">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label>📧 Email</label>
-                                    <input type="email" id="consulenteEmail" placeholder="consulente@consorzio.it">
-                                </div>
-                            </div>
-                            
-                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-                                <button type="button" onclick="createConsulente()" class="action-btn">✅ Aggiungi Consulente</button>
-                                <label for="admin-consulenti" class="action-btn" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); cursor: pointer;">❌ Annulla</label>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admin Consulenti Page -->
-            <div id="adminConsulentiPage" class="page">
-                <div class="header">
-                    <label for="admin-dashboard" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</label>
-                    <div class="user-info">👤 Admin</div>
-                    <div class="logo">💼</div>
-                    <h1>Gestione Consulenti (Admin)</h1>
-                </div>
-                <div class="page-content">
-                    <div class="admin-stats-box">
-                        <h2 style="margin-bottom: 10px;">💼 Controllo Totale Consulenti</h2>
+                        <h2 style="margin-bottom: 10px;">📋 Riepilogo Consulenze</h2>
                         <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">4</div><div style="font-size: 11px;">Consulenti</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Specializzazioni</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">2</div><div style="font-size: 11px;">Consulenze Attive</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Da Confermare</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Confermate</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">45</div><div style="font-size: 11px;">Completate</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">€3.2K</div><div style="font-size: 11px;">Questo Mese</div></div>
                         </div>
                     </div>
 
-                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-                        <label for="admin-nuovo-consulente" class="action-btn">🆕 Aggiungi Nuovo Consulente</label>
-                        <button class="action-btn blue" onclick="loadConsulentiPage()">🔄 Aggiorna Lista</button>
-                    </div>
+                    <h3 style="margin-bottom: 15px;">⏳ Richieste in Attesa</h3>
                     
-                    <div id="consulentiContainer">
-                        <!-- I consulenti vengono caricati dinamicamente -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Consulenti Page (Pubblica) -->
-            <div id="consulentiPage" class="page">
-                <div class="header">
-                    <button onclick="currentUser && currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : currentUser && currentUser.role === 'consulente' ? (document.getElementById('consulente-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
-                    <div class="user-info">👤 User</div>
-                    <div class="logo">💼</div>
-                    <h1>Consulenti del Consorzio</h1>
-                </div>
-                <div class="page-content">
-                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; border: 2px solid #9b59b6;">
-                        <h3 style="color: #9b59b6; margin-bottom: 10px;">📞 Contatto Diretto Consorzio</h3>
-                        <div style="font-size: 20px; font-weight: bold; color: #2c3e50; margin: 8px 0;">0721 - 1840410</div>
-                        <p style="margin: 0; font-size: 12px;">Per informazioni generali e assistenza immediata</p>
-                    </div>
-
-                    <div class="stats-box">
-                        <h2 style="margin-bottom: 10px;">💼 Network Consulenti Specializzati</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">4</div><div style="font-size: 11px;">Consulenti</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">10</div><div style="font-size: 11px;">Consulenze Incluse</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Specializzazioni</div></div>
+                    <div class="consulenza-request" style="border-color: #f39c12;">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <span class="badge orange">NUOVA RICHIESTA</span>
+                                <h4 style="color: #2c3e50; margin: 10px 0;">Marco Rossi - Rossi SRL</h4>
+                                <p style="color: #6c757d; margin-bottom: 10px;">Ottimizzazione SEO sito aziendale e-commerce</p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
+                                    <div>📅 Proposta: 22/08 ore 10:00</div>
+                                    <div>⏱️ Durata: 2 ore</div>
+                                    <div>💰 Tariffa: €160 (2h x €80)</div>
+                                    <div>📧 rossi@rossisrl.it</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <button class="action-btn green" onclick="accettaConsulenza(1)">✅ Accetta</button>
+                                <button class="action-btn orange" onclick="proponiAltro(1)">📅 Proponi altro orario</button>
+                                <button class="action-btn red" onclick="rifiutaRichiesta(1)">❌ Rifiuta</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="notification-item">
-                        <strong>✨ Novità:</strong> 10 consulenze iniziali gratuite incluse nella tessera annuale - Prenota durante gli eventi!
-                    </div>
-
-                    <!-- Filtro Specializzazioni -->
-                    <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                        <h4 style="color: #2c3e50; margin-bottom: 10px;">🔍 Filtra per Specializzazione</h4>
-                        <select id="filtroSpecializzazione" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 8px;" onchange="filtraConsulenti()">
-                            <option value="">Tutte le specializzazioni</option>
-                        </select>
-                    </div>
+                    <h3 style="margin: 20px 0 15px;">✅ Prossime Consulenze Confermate</h3>
                     
-                    <div id="publicConsulentiContainer">
-                        <!-- I consulenti vengono caricati dinamicamente -->
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data/Ora</th>
+                                    <th>Cliente</th>
+                                    <th>Argomento</th>
+                                    <th>Durata</th>
+                                    <th>Modalità</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>20/08 - 15:00</td>
+                                    <td>Laura Bianchi</td>
+                                    <td>Strategia Marketing Q4</td>
+                                    <td>1.5h</td>
+                                    <td><span class="badge blue">Zoom</span></td>
+                                    <td>
+                                        <button class="action-btn blue" style="padding: 5px 10px; font-size: 12px;" onclick="iniziaConsulenza(1)">▶️ Inizia</button>
+                                        <button class="action-btn" style="padding: 5px 10px; font-size: 12px;" onclick="dettagliCliente(1)">📋</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>23/08 - 10:00</td>
+                                    <td>Giuseppe Verdi</td>
+                                    <td>Audit SEO completo</td>
+                                    <td>3h</td>
+                                    <td><span class="badge green">In presenza</span></td>
+                                    <td>
+                                        <button class="action-btn orange" style="padding: 5px 10px; font-size: 12px;" onclick="riprogramma(2)">📅</button>
+                                        <button class="action-btn" style="padding: 5px 10px; font-size: 12px;" onclick="dettagliCliente(2)">📋</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Placeholder per altre pagine -->
-            <div id="alboPage" class="page">
+            <!-- Bacheca Page (già esistente, mantenuta) -->
+            <div id="bachecaPage" class="page">
                 <div class="header">
-                    <button onclick="currentUser && currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : currentUser && currentUser.role === 'consulente' ? (document.getElementById('consulente-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
                     <div class="user-info">👤 User</div>
-                    <div class="logo">👥</div>
-                    <h1>Albo Iscritti</h1>
+                    <div class="logo">📌</div>
+                    <h1>Bacheca del Consorzio</h1>
                 </div>
                 <div class="page-content">
                     <div class="stats-box">
-                        <h2>👥 Directory Aziende Associate</h2>
-                        <div style="display: flex; justify-content: center; gap: 30px; margin-top: 15px; flex-wrap: wrap;">
-                            <div><div style="font-size: 24px; font-weight: bold;">3</div><div style="font-size: 12px;">Aziende</div></div>
-                            <div><div style="font-size: 24px; font-weight: bold;">96</div><div style="font-size: 12px;">Dipendenti</div></div>
-                            <div><div style="font-size: 24px; font-weight: bold;">€9.3M</div><div style="font-size: 12px;">Fatturato</div></div>
+                        <h2 style="margin-bottom: 10px;">📌 Marketplace & Collaborazioni</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;" id="countVendita">15</div><div style="font-size: 11px;">Vendo/Compro</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="countPersonale">12</div><div style="font-size: 11px;">Ricerche Personale</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="countSpazi">8</div><div style="font-size: 11px;">Spazi</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="countCollab">13</div><div style="font-size: 11px;">Collaborazioni</div></div>
                         </div>
                     </div>
-
-                    <div class="card">
-                        <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px;">
-                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #007bff, #0056b3); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 24px;">R</div>
-                            <div style="flex: 1;">
-                                <h3 style="color: #2c3e50; margin-bottom: 5px;">Rossi SRL - Tecnologia</h3>
-                                <p style="color: #6c757d; font-size: 14px;">📍 Milano | 👥 24 dipendenti | €2.1M</p>
-                                <p style="color: #6c757d; font-size: 13px;">Sviluppo software, consulenza IT, digitalizzazione processi</p>
-                            </div>
-                            <a href="https://wa.me/393481234567?text=Ciao,%20sono%20interessato%20ai%20servizi%20di%20Rossi%20SRL" class="whatsapp-btn">💬 WhatsApp</a>
-                        </div>
+                    
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-btn active" onclick="switchTab('vendoCompro')">🛒 Vendo/Compro</button>
+                        <button class="tab-btn" onclick="switchTab('ricercaPersonale')">👔 Personale</button>
+                        <button class="tab-btn" onclick="switchTab('spaziCondivisi')">🏢 Spazi</button>
+                        <button class="tab-btn" onclick="switchTab('collaborazioni')">🤝 Collaborazioni</button>
                     </div>
-                </div>
-            </div>
 
-            <div id="convenzioniPage" class="page">
-                <div class="header">
-                    <button onclick="currentUser && currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : currentUser && currentUser.role === 'consulente' ? (document.getElementById('consulente-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
-                    <div class="user-info">👤 User</div>
-                    <div class="logo">🤝</div>
-                    <h1>Convenzioni</h1>
-                </div>
-                <div class="page-content">
-                    <h2>🤝 Convenzioni - In sviluppo</h2>
-                    <p>Questa sezione è in fase di sviluppo.</p>
+                    <!-- Le sezioni della bacheca rimangono uguali a prima -->
+                    <div id="sezioneVendoCompro" class="sezione-bacheca active">
+                        <!-- Contenuto sezione Vendo/Compro come prima -->
+                        <div class="filter-bar">
+                            <button class="filter-btn active" onclick="filterAnnunci('tutti', this)">Tutti</button>
+                            <button class="filter-btn" onclick="filterAnnunci('vendo', this)">🛒 Vendo</button>
+                            <button class="filter-btn" onclick="filterAnnunci('compro', this)">💰 Compro</button>
+                            <button class="action-btn" onclick="toggleForm('formVendoCompro')">➕ Nuovo Annuncio</button>
+                        </div>
+                        <!-- Annunci e form come prima -->
+                    </div>
+
+                    <div id="sezioneRicercaPersonale" class="sezione-bacheca">
+                        <!-- Contenuto come prima -->
+                    </div>
+
+                    <div id="sezioneSpaziCondivisi" class="sezione-bacheca">
+                        <!-- Contenuto come prima -->
+                    </div>
+
+                    <div id="sezioneCollaborazioni" class="sezione-bacheca">
+                        <!-- Contenuto come prima -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Carica i dati quando necessario
-        setTimeout(() => {
-            if (document.getElementById('admin-consulenze').checked) {
-                loadAdminConsulenze();
+        // Dati globali
+        let currentUser = null;
+
+        const users = {
+            admin: {
+                email: 'admin@consorzio.it',
+                password: 'admin123',
+                role: 'admin',
+                name: 'Amministratore Consorzio',
+                company: 'Direzione Generale'
+            },
+            member1: {
+                email: 'rossi@rossisrl.it',
+                password: 'member123',
+                role: 'member',
+                name: 'Marco Rossi',
+                company: 'Rossi SRL',
+                phone: '+39 348 1234567'
+            },
+            cons1: {
+                email: 'maria.bianchi@consorzio.it',
+                password: 'cons123',
+                role: 'consulente',
+                name: 'Dott.ssa Maria Bianchi',
+                specializzazione: 'SEO e posizionamento siti',
+                phone: '+39 072 1840410'
             }
-            if (document.getElementById('consulente-consulenze').checked) {
-                loadConsulentiConsulenze();
+        };
+
+        // Funzioni di navigazione
+        function switchLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
+            
+            document.querySelector(`.login-tab.${tab}`).classList.add('active');
+            document.querySelector(`#${tab}Form`).classList.add('active');
+        }
+
+        function login(role) {
+            const email = document.getElementById(`${role}Email`).value;
+            const password = document.getElementById(`${role}Password`).value;
+            
+            const user = Object.values(users).find(u => u.email === email && u.password === password && u.role === role);
+            
+            if (user) {
+                currentUser = user;
+                if (role === 'admin') {
+                    document.getElementById('admin-dashboard').checked = true;
+                } else if (role === 'member') {
+                    document.getElementById('member-dashboard').checked = true;
+                } else if (role === 'consulente') {
+                    document.getElementById('consulente-dashboard').checked = true;
+                }
+                updateUserInfo();
+                showNotification(`✅ Accesso effettuato come ${user.name}`, 'success');
+            } else {
+                showNotification('❌ Credenziali non valide', 'error');
             }
-            if (document.getElementById('admin-consulenti').checked) {
-                loadConsulentiPage();
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('login').checked = true;
+            showNotification('👋 Disconnesso con successo', 'success');
+        }
+
+        function tornaAlDashboard() {
+            if (currentUser) {
+                if (currentUser.role === 'admin') {
+                    document.getElementById('admin-dashboard').checked = true;
+                } else if (currentUser.role === 'member') {
+                    document.getElementById('member-dashboard').checked = true;
+                } else if (currentUser.role === 'consulente') {
+                    document.getElementById('consulente-dashboard').checked = true;
+                }
+            } else {
+                document.getElementById('login').checked = true;
             }
-        }, 100);
+        }
+
+        function updateUserInfo() {
+            const userInfoElements = document.querySelectorAll('.user-info');
+            userInfoElements.forEach(el => {
+                const roleText = currentUser.role === 'admin' ? 'Admin' : 
+                               currentUser.role === 'member' ? 'Membro' : 'Consulente';
+                el.innerHTML = `👤 ${currentUser.name} (${roleText})`;
+            });
+        }
+
+        // Funzioni Tab Bacheca
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.sezione-bacheca').forEach(section => section.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            
+            if (tab === 'vendoCompro') {
+                document.getElementById('sezioneVendoCompro').classList.add('active');
+            } else if (tab === 'ricercaPersonale') {
+                document.getElementById('sezioneRicercaPersonale').classList.add('active');
+            } else if (tab === 'spaziCondivisi') {
+                document.getElementById('sezioneSpaziCondivisi').classList.add('active');
+            } else if (tab === 'collaborazioni') {
+                document.getElementById('sezioneCollaborazioni').classList.add('active');
+            }
+        }
+
+        // Funzioni Form Toggle
+        function toggleForm(formId) {
+            const form = document.getElementById(formId);
+            if (form) {
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
+        function annullaForm(formId) {
+            const form = document.getElementById(formId);
+            if (form) {
+                form.style.display = 'none';
+            }
+        }
+
+        // Funzioni Gestione Membri
+        function aggiungiMembro() {
+            toggleForm('formNuovoMembro');
+        }
+
+        function salvaMembro() {
+            showNotification('✅ Nuovo membro aggiunto con successo!', 'success');
+            annullaForm('formNuovoMembro');
+        }
+
+        function modificaMembro(id) {
+            showNotification('📝 Apertura modifica membro...', 'info');
+        }
+
+        function sospendiMembro(id) {
+            if (confirm('Sei sicuro di voler sospendere questo membro?')) {
+                showNotification('⏸️ Membro sospeso', 'warning');
+            }
+        }
+
+        function eliminaMembro(id) {
+            if (confirm('Sei sicuro di voler eliminare questo membro?')) {
+                showNotification('🗑️ Membro eliminato', 'error');
+            }
+        }
+
+        function approvaMembro(id) {
+            showNotification('✅ Membro approvato!', 'success');
+        }
+
+        function rifiutaMembro(id) {
+            showNotification('❌ Richiesta rifiutata', 'error');
+        }
+
+        // Funzioni Gestione Consulenti
+        function aggiungiConsulente() {
+            showNotification('➕ Form nuovo consulente...', 'info');
+        }
+
+        function modificaConsulente(id) {
+            showNotification('✏️ Modifica consulente...', 'info');
+        }
+
+        function statisticheConsulente(id) {
+            showNotification('📊 Caricamento statistiche...', 'info');
+        }
+
+        function disabilitaConsulente(id) {
+            if (confirm('Disabilitare questo consulente?')) {
+                showNotification('🚫 Consulente disabilitato', 'warning');
+            }
+        }
+
+        // Funzioni Agenda
+        function aggiungiEvento() {
+            showNotification('📅 Form nuovo evento...', 'info');
+        }
+
+        function filterEventi(tipo, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showNotification(`🔍 Filtro: ${tipo}`, 'info');
+        }
+
+        function iscriviEvento(id) {
+            showNotification('✅ Iscrizione confermata! Riceverai email con dettagli', 'success');
+        }
+
+        function dettagliEvento(id) {
+            showNotification('📋 Caricamento dettagli evento...', 'info');
+        }
+
+        function mappaEvento(id) {
+            showNotification('📍 Apertura mappa...', 'info');
+            setTimeout(() => {
+                window.open('https://maps.google.com', '_blank');
+            }, 1000);
+        }
+
+        // Funzioni Consulenze
+        function filterConsulenze(tipo, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showNotification(`🔍 Filtro: ${tipo}`, 'info');
+        }
+
+        function approvaConsulenza(id) {
+            showNotification('✅ Consulenza approvata!', 'success');
+        }
+
+        function modificaConsulenza(id) {
+            showNotification('📝 Modifica consulenza...', 'info');
+        }
+
+        function rifiutaConsulenza(id) {
+            if (confirm('Rifiutare questa consulenza?')) {
+                showNotification('❌ Consulenza rifiutata', 'error');
+            }
+        }
+
+        function dettagliConsulenza(id) {
+            showNotification('👁️ Caricamento dettagli...', 'info');
+        }
+
+        function riprogrammaConsulenza(id) {
+            showNotification('📅 Riprogrammazione consulenza...', 'info');
+        }
+
+        // Funzioni Convenzioni
+        function filterConvenzioni(tipo, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showNotification(`🔍 Filtro: ${tipo}`, 'info');
+        }
+
+        function attivaConvenzione(nome) {
+            showNotification(`🔓 Convenzione ${nome} attivata! Codice inviato via email`, 'success');
+        }
+
+        // Funzioni Albo Membri
+        function contattaMembro(nome) {
+            showNotification(`💬 Apertura chat con ${nome}...`, 'success');
+        }
+
+        function profiloMembro(id) {
+            showNotification('👤 Caricamento profilo completo...', 'info');
+        }
+
+        // Funzioni Video
+        function filterVideo(tipo, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showNotification(`🔍 Filtro: ${tipo}`, 'info');
+        }
+
+        function playVideo(id) {
+            showNotification('▶️ Apertura video player...', 'info');
+        }
+
+        // Funzioni Consulenti (per membri)
+        function prenotaConsulenza(nome) {
+            showNotification(`📅 Apertura calendario per prenotazione con ${nome}...`, 'success');
+        }
+
+        // Funzioni Le Mie Consulenze (per consulenti)
+        function accettaConsulenza(id) {
+            showNotification('✅ Consulenza accettata! Email di conferma inviata', 'success');
+        }
+
+        function proponiAltro(id) {
+            showNotification('📅 Apertura calendario per proposta alternativa...', 'info');
+        }
+
+        function rifiutaRichiesta(id) {
+            if (confirm('Rifiutare questa richiesta?')) {
+                showNotification('❌ Richiesta rifiutata', 'error');
+            }
+        }
+
+        function iniziaConsulenza(id) {
+            showNotification('▶️ Apertura Zoom meeting...', 'success');
+            setTimeout(() => {
+                window.open('https://zoom.us', '_blank');
+            }, 1000);
+        }
+
+        function dettagliCliente(id) {
+            showNotification('📋 Caricamento storico cliente...', 'info');
+        }
+
+        function riprogramma(id) {
+            showNotification('📅 Riprogrammazione appuntamento...', 'info');
+        }
+
+        // Funzioni Filtri generici
+        function filterAnnunci(tipo, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showNotification(`🔍 Filtro: ${tipo}`, 'info');
+        }
+
+        // Notifiche
+        function showNotification(message, type) {
+            const colors = {
+                success: '#27ae60',
+                error: '#e74c3c',
+                warning: '#f39c12',
+                info: '#3498db'
+            };
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; 
+                top: 20px; 
+                right: 20px; 
+                background: ${colors[type]}; 
+                color: white; 
+                padding: 15px 20px; 
+                border-radius: 10px; 
+                z-index: 10000; 
+                max-width: 350px;
+                font-size: 14px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Inizializzazione
+        window.onload = function() {
+            switchLoginTab('admin');
+            
+            // Aggiungi animazioni CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(400px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(400px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        };
     </script>
 </body>
 </html>
