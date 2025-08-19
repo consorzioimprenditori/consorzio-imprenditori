@@ -74,7 +74,10 @@
         #member-dashboard:checked ~ .pages #memberDashboardPage,
         #admin-agenda:checked ~ .pages #adminAgendaPage,
         #admin-membri:checked ~ .pages #adminMembriPage,
+        #admin-consulenti:checked ~ .pages #adminConsulentiPage,
         #admin-nuovo-evento:checked ~ .pages #adminNuovoEventoPage,
+        #admin-nuovo-membro:checked ~ .pages #adminNuovoMembroPage,
+        #admin-nuovo-consulente:checked ~ .pages #adminNuovoConsulentePage,
         #member-agenda:checked ~ .pages #memberAgendaPage,
         #albo:checked ~ .pages #alboPage,
         #bacheca:checked ~ .pages #bachecaPage,
@@ -227,6 +230,10 @@
             background: linear-gradient(135deg, #f39c12, #e67e22);
         }
 
+        .action-btn.purple {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
         .whatsapp-btn {
             background: #25d366;
             color: white;
@@ -299,6 +306,20 @@
         }
 
         .member-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .consulente-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .consulente-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
@@ -437,6 +458,17 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
         }
+
+        .specializzazione-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
     </style>
     <script>
         // Sistema di autenticazione e ruoli
@@ -460,7 +492,9 @@
                 name: 'Marco Rossi',
                 company: 'Rossi SRL',
                 status: 'active',
-                joinDate: '2024-01-15'
+                joinDate: '2024-01-15',
+                phone: '+39 348 1234567',
+                city: 'Milano'
             },
             member2: {
                 email: 'bianchi@bianchiconsulting.it',
@@ -469,7 +503,9 @@
                 name: 'Laura Bianchi',
                 company: 'Bianchi Consulting',
                 status: 'active',
-                joinDate: '2024-02-20'
+                joinDate: '2024-02-20',
+                phone: '+39 347 9876543',
+                city: 'Roma'
             },
             member3: {
                 email: 'verdi@verdemanifatture.it',
@@ -478,7 +514,57 @@
                 name: 'Giuseppe Verdi',
                 company: 'Verde Manifatture',
                 status: 'pending',
-                joinDate: '2024-08-10'
+                joinDate: '2024-08-10',
+                phone: '+39 346 5555555',
+                city: 'Torino'
+            }
+        };
+
+        // Consulenti del consorzio
+        let consulenti = {
+            cons1: {
+                id: 'cons1',
+                name: 'Dott.ssa Maria Bianchi',
+                specializzazione: 'SEO & Digital Marketing',
+                categoria: 'marketing',
+                qualifiche: 'MBA, Google Ads Certified, 15 anni esperienza',
+                descrizione: 'Specialista in SEO, Google Ads, Social Media Marketing e posizionamento siti web per PMI.',
+                disponibilita: '25 Set, 2 Ott',
+                phone: '+39 072 1840410',
+                email: 'maria.bianchi@consorzio.it'
+            },
+            cons2: {
+                id: 'cons2',
+                name: 'Ing. Andrea Rossi',
+                specializzazione: 'Sviluppo Tecnico & ERP',
+                categoria: 'tecnologia',
+                qualifiche: 'Ingegnere Informatico, Microsoft Certified, 12 anni',
+                descrizione: 'Gestionali aziendali ERP, sviluppo App, siti web, cyber sicurezza e digitalizzazione processi.',
+                disponibilita: '25 Set, 15 Ott',
+                phone: '+39 072 1840410',
+                email: 'andrea.rossi@consorzio.it'
+            },
+            cons3: {
+                id: 'cons3',
+                name: 'Dott. Luca Verdi',
+                specializzazione: 'Finanza Agevolata & Controllo',
+                categoria: 'finanza',
+                qualifiche: 'Dottore Commercialista, esperto bandi UE, 18 anni',
+                descrizione: 'Bandi europei, finanziamenti agevolati, controllo di gestione, controllo contabile e tributario.',
+                disponibilita: '2 Ott, 15 Ott',
+                phone: '+39 072 1840410',
+                email: 'luca.verdi@consorzio.it'
+            },
+            cons4: {
+                id: 'cons4',
+                name: 'Avv. Sara Neri',
+                specializzazione: 'Diritto di Impresa',
+                categoria: 'legale',
+                qualifiche: 'Avvocato specializzato in diritto commerciale, 10 anni',
+                descrizione: 'Consulenza contrattuale, diritto del lavoro, controversie legali e operazioni societarie.',
+                disponibilita: '25 Set, 2 Ott',
+                phone: '+39 072 1840410',
+                email: 'sara.neri@consorzio.it'
             }
         };
 
@@ -598,6 +684,100 @@
             }
         }
 
+        function deleteConsulente(consulenteId) {
+            if (currentUser.role !== 'admin') return;
+            
+            if (confirm(`Sei sicuro di voler eliminare ${consulenti[consulenteId].name}?`)) {
+                delete consulenti[consulenteId];
+                showNotification('🗑️ Consulente eliminato con successo', 'success');
+                loadConsulentiPage();
+                updateConsulentiSection();
+            }
+        }
+
+        function createMember() {
+            if (currentUser.role !== 'admin') return;
+            
+            const name = document.getElementById('memberName').value;
+            const email = document.getElementById('memberEmail').value;
+            const password = document.getElementById('memberPassword').value;
+            const company = document.getElementById('memberCompany').value;
+            const phone = document.getElementById('memberPhone').value;
+            const city = document.getElementById('memberCity').value;
+            
+            if (!name || !email || !password || !company) {
+                showNotification('⚠️ Compila tutti i campi obbligatori!', 'warning');
+                return;
+            }
+            
+            // Controlla se email già esiste
+            const emailExists = Object.values(users).some(u => u.email === email);
+            if (emailExists) {
+                showNotification('❌ Email già esistente!', 'error');
+                return;
+            }
+            
+            const memberKey = 'member' + Date.now();
+            users[memberKey] = {
+                email: email,
+                password: password,
+                role: 'member',
+                name: name,
+                company: company,
+                status: 'active',
+                joinDate: new Date().toISOString().split('T')[0],
+                phone: phone || '',
+                city: city || ''
+            };
+            
+            document.getElementById('memberForm').reset();
+            showNotification(`🎉 Membro "${name}" aggiunto con successo!`, 'success');
+            
+            setTimeout(() => {
+                document.getElementById('admin-membri').checked = true;
+                loadMembersPage();
+            }, 2000);
+        }
+
+        function createConsulente() {
+            if (currentUser.role !== 'admin') return;
+            
+            const name = document.getElementById('consulenteName').value;
+            const specializzazione = document.getElementById('consulenteSpecializzazione').value;
+            const categoria = document.getElementById('consulenteCategoria').value;
+            const qualifiche = document.getElementById('consulenteQualifiche').value;
+            const descrizione = document.getElementById('consulenteDescrizione').value;
+            const phone = document.getElementById('consulentePhone').value;
+            const email = document.getElementById('consulenteEmail').value;
+            
+            if (!name || !specializzazione || !categoria || !descrizione) {
+                showNotification('⚠️ Compila tutti i campi obbligatori!', 'warning');
+                return;
+            }
+            
+            const consulenteId = 'cons' + Date.now();
+            consulenti[consulenteId] = {
+                id: consulenteId,
+                name: name,
+                specializzazione: specializzazione,
+                categoria: categoria,
+                qualifiche: qualifiche || '',
+                descrizione: descrizione,
+                disponibilita: 'Su appuntamento',
+                phone: phone || '+39 072 1840410',
+                email: email || 'info@consorzio.it'
+            };
+            
+            document.getElementById('consulenteForm').reset();
+            showNotification(`🎉 Consulente "${name}" aggiunto con successo!`, 'success');
+            updateConsulentiSection();
+            
+            setTimeout(() => {
+                document.getElementById('admin-consulenti').checked = true;
+                loadConsulentiPage();
+            }, 2000);
+        }
+
         function createEvent() {
             const title = document.getElementById('eventTitle').value;
             const date = document.getElementById('eventDate').value;
@@ -657,6 +837,8 @@
                                     <h3 style="color: #2c3e50; margin-bottom: 5px;">${user.name}</h3>
                                     <p style="color: #7f8c8d; margin-bottom: 5px;">${user.company}</p>
                                     <p style="color: #95a5a6; font-size: 12px;">📧 ${user.email}</p>
+                                    <p style="color: #95a5a6; font-size: 12px;">📞 ${user.phone || 'Non specificato'}</p>
+                                    <p style="color: #95a5a6; font-size: 12px;">📍 ${user.city || 'Non specificata'}</p>
                                     <p style="color: #95a5a6; font-size: 12px;">📅 Iscritto: ${user.joinDate}</p>
                                 </div>
                                 <div style="text-align: right;">
@@ -673,6 +855,95 @@
                     `;
                 }
             });
+        }
+
+        function loadConsulentiPage() {
+            const container = document.getElementById('consulentiContainer');
+            container.innerHTML = '';
+            
+            Object.entries(consulenti).forEach(([key, consulente]) => {
+                const categoriaColors = {
+                    marketing: '#e74c3c',
+                    tecnologia: '#3498db',
+                    finanza: '#27ae60',
+                    legale: '#8e44ad',
+                    energia: '#f39c12',
+                    sicurezza: '#e67e22',
+                    servizi: '#95a5a6'
+                };
+                
+                const borderColor = categoriaColors[consulente.categoria] || '#3498db';
+                
+                container.innerHTML += `
+                    <div class="consulente-card" style="border-top: 4px solid ${borderColor};">
+                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, ${borderColor}, ${borderColor}dd); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">${consulente.name.charAt(0)}</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">${consulente.name}</h3>
+                                <div class="specializzazione-badge" style="background: linear-gradient(135deg, ${borderColor}, ${borderColor}dd);">${consulente.specializzazione}</div>
+                                <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">${consulente.qualifiche}</p>
+                                <p style="color: #95a5a6; font-size: 12px;">📞 ${consulente.phone}</p>
+                                <p style="color: #95a5a6; font-size: 12px;">📧 ${consulente.email}</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: ${borderColor}15; padding: 10px; border-radius: 8px; border-left: 4px solid ${borderColor}; margin-bottom: 15px; font-size: 13px;">
+                            ${consulente.descrizione}
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn blue" onclick="editConsulente('${key}')">✏️ Modifica</button>
+                            <button class="action-btn red" onclick="deleteConsulente('${key}')">🗑️ Elimina</button>
+                            <a href="https://wa.me/${consulente.phone.replace(/[^0-9]/g, '')}?text=Ciao,%20vorrei%20una%20consulenza%20con%20${encodeURIComponent(consulente.name)}" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateConsulentiSection() {
+            // Aggiorna la sezione consulenti pubblica
+            const publicContainer = document.getElementById('publicConsulentiContainer');
+            if (publicContainer) {
+                publicContainer.innerHTML = '';
+                
+                Object.entries(consulenti).forEach(([key, consulente]) => {
+                    const categoriaColors = {
+                        marketing: '#e74c3c',
+                        tecnologia: '#3498db',
+                        finanza: '#27ae60',
+                        legale: '#8e44ad',
+                        energia: '#f39c12',
+                        sicurezza: '#e67e22',
+                        servizi: '#95a5a6'
+                    };
+                    
+                    const borderColor = categoriaColors[consulente.categoria] || '#3498db';
+                    
+                    publicContainer.innerHTML += `
+                        <div class="consulente-card" data-categoria="${consulente.categoria}" style="border-top: 4px solid ${borderColor};">
+                            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                                <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, ${borderColor}, ${borderColor}dd); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">${consulente.name.charAt(0)}</div>
+                                <div style="flex: 1;">
+                                    <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">${consulente.name}</h3>
+                                    <div class="specializzazione-badge" style="background: linear-gradient(135deg, ${borderColor}, ${borderColor}dd);">${consulente.specializzazione}</div>
+                                    <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">${consulente.qualifiche}</p>
+                                    <p style="color: #34495e; font-size: 12px;">📅 Disponibile: ${consulente.disponibilita}</p>
+                                </div>
+                            </div>
+                            
+                            <div style="background: ${borderColor}15; padding: 10px; border-radius: 8px; border-left: 4px solid ${borderColor}; margin-bottom: 15px; font-size: 13px;">
+                                ${consulente.descrizione}
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="action-btn" onclick="prenotaConsulenza('${consulente.name}', '${consulente.specializzazione}')">📅 Prenota Consulenza</button>
+                                <a href="https://wa.me/${consulente.phone.replace(/[^0-9]/g, '')}?text=Vorrei%20prenotare%20consulenza%20con%20${encodeURIComponent(consulente.name)}" class="whatsapp-btn">💬 WhatsApp</a>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
         }
 
         function loadAdminAgenda() {
@@ -726,6 +997,41 @@
             });
         }
 
+        function prenotaConsulenza(nomeConsulente, specializzazione) {
+            const eventi = [
+                'Assemblea Generale - 25 Settembre 2025, ore 10:00',
+                'Workshop Innovazione Digitale - 2 Ottobre 2025, ore 15:00',
+                'Networking Settore Tech - 15 Ottobre 2025, ore 18:00'
+            ];
+            
+            const eventoScelto = prompt(`🗓️ Scegli l'evento per la consulenza con ${nomeConsulente}:\n\n1️⃣ ${eventi[0]}\n2️⃣ ${eventi[1]}\n3️⃣ ${eventi[2]}\n\nScrivi 1, 2 o 3:`);
+            
+            if (eventoScelto && (eventoScelto === '1' || eventoScelto === '2' || eventoScelto === '3')) {
+                const eventoSelezionato = eventi[parseInt(eventoScelto) - 1];
+                
+                showNotification(`✅ Consulenza prenotata con ${nomeConsulente} durante: ${eventoSelezionato}`, 'success');
+                
+                // Invia WhatsApp di conferma
+                const messaggio = `Ciao! Ho prenotato una consulenza con ${nomeConsulente} (${specializzazione}) durante l'evento: ${eventoSelezionato}. Confermi la disponibilità?`;
+                window.open(`https://wa.me/390721840410?text=${encodeURIComponent(messaggio)}`, '_blank');
+            } else if (eventoScelto !== null) {
+                showNotification('⚠️ Selezione non valida. Scegli 1, 2 o 3.', 'warning');
+            }
+        }
+
+        function filtraConsulenti() {
+            const filtro = document.getElementById('filtroSpecializzazione').value;
+            const consulenti = document.querySelectorAll('[data-categoria]');
+            
+            consulenti.forEach(card => {
+                if (filtro === '' || card.dataset.categoria === filtro) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
         function showNotification(message, type) {
             const colors = {
                 success: '#27ae60',
@@ -758,6 +1064,7 @@
         // Inizializza la pagina
         window.onload = function() {
             switchLoginTab('admin');
+            updateConsulentiSection();
         };
     </script>
 </head>
@@ -769,7 +1076,10 @@
         <input type="radio" name="nav" id="member-dashboard" class="nav-input">
         <input type="radio" name="nav" id="admin-agenda" class="nav-input">
         <input type="radio" name="nav" id="admin-membri" class="nav-input">
+        <input type="radio" name="nav" id="admin-consulenti" class="nav-input">
         <input type="radio" name="nav" id="admin-nuovo-evento" class="nav-input">
+        <input type="radio" name="nav" id="admin-nuovo-membro" class="nav-input">
+        <input type="radio" name="nav" id="admin-nuovo-consulente" class="nav-input">
         <input type="radio" name="nav" id="member-agenda" class="nav-input">
         <input type="radio" name="nav" id="albo" class="nav-input">
         <input type="radio" name="nav" id="bacheca" class="nav-input">
@@ -836,8 +1146,8 @@
                     </div>
                     
                     <div style="background: #e8f5e8; padding: 12px; margin-top: 15px; border-radius: 8px; border-left: 4px solid #3498db;">
-                        <h4 style="color: #2c3e50; margin-bottom: 8px;">🎯 Sistema Dual-Panel</h4>
-                        <p style="color: #34495e; font-size: 12px;">✅ Pannello Admin: Gestione completa + Impersonificazione</p>
+                        <h4 style="color: #2c3e50; margin-bottom: 8px;">🎯 Sistema Completo</h4>
+                        <p style="color: #34495e; font-size: 12px;">✅ Pannello Admin: Gestione totale membri + consulenti</p>
                         <p style="color: #34495e; font-size: 12px;">✅ Pannello Membri: Vista limitata alle proprie funzioni</p>
                     </div>
                 </div>
@@ -860,9 +1170,9 @@
                     <div class="admin-stats-box">
                         <h2 style="margin-bottom: 10px;">🔐 Controllo Totale Consorzio</h2>
                         <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Membri Attivi</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Eventi Pianificati</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Sezioni Gestite</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="totalMembers">3</div><div style="font-size: 11px;">Membri Attivi</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="totalConsulenti">4</div><div style="font-size: 11px;">Consulenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="totalEvents2">3</div><div style="font-size: 11px;">Eventi Pianificati</div></div>
                         </div>
                     </div>
                     
@@ -877,6 +1187,12 @@
                             <div class="notification-dot">3</div>
                             <div class="card-icon">👥</div>
                             <div class="card-title">GESTIONE MEMBRI</div>
+                        </label>
+
+                        <label for="admin-consulenti" class="nav-btn admin">
+                            <div class="notification-dot">4</div>
+                            <div class="card-icon">💼</div>
+                            <div class="card-title">GESTIONE CONSULENTI</div>
                         </label>
 
                         <label for="albo" class="nav-btn admin">
@@ -897,11 +1213,6 @@
                         <label for="convenzioni" class="nav-btn admin">
                             <div class="card-icon">🤝</div>
                             <div class="card-title">CONVENZIONI</div>
-                        </label>
-
-                        <label for="consulenti" class="nav-btn admin">
-                            <div class="card-icon">💼</div>
-                            <div class="card-title">CONSULENTI</div>
                         </label>
 
                         <label for="progetti" class="nav-btn admin">
@@ -927,7 +1238,7 @@
                         <h2 style="margin-bottom: 10px;">👥 Area Riservata Membri</h2>
                         <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
                             <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Eventi Disponibili</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Consulenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">4</div><div style="font-size: 11px;">Consulenti</div></div>
                             <div><div style="font-size: 20px; font-weight: bold;">2</div><div style="font-size: 11px;">Convenzioni Attive</div></div>
                         </div>
                     </div>
@@ -1069,10 +1380,173 @@
                         <strong>🔐 Funzioni Admin:</strong> Puoi visualizzare come qualsiasi membro e gestire i loro account
                     </div>
 
-                    <button class="action-btn blue" onclick="loadMembersPage()" style="margin-bottom: 20px;">🔄 Aggiorna Lista Membri</button>
+                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                        <label for="admin-nuovo-membro" class="action-btn">🆕 Aggiungi Nuovo Membro</label>
+                        <button class="action-btn blue" onclick="loadMembersPage()">🔄 Aggiorna Lista Membri</button>
+                    </div>
                     
                     <div id="membersContainer">
                         <!-- I membri vengono caricati dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Nuovo Membro Page -->
+            <div id="adminNuovoMembroPage" class="page">
+                <div class="header">
+                    <label for="admin-membri" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Membri</label>
+                    <div class="user-info">👤 Admin</div>
+                    <div class="logo">🆕</div>
+                    <h1>Aggiungi Nuovo Membro</h1>
+                </div>
+                <div class="page-content">
+                    <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #2c3e50; margin-bottom: 20px; text-align: center; font-size: 20px;">👥 Registra Nuovo Membro</h2>
+                        
+                        <form id="memberForm">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                                <div class="form-group">
+                                    <label>👤 Nome Completo</label>
+                                    <input type="text" id="memberName" placeholder="Es: Marco Rossi" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>🏢 Azienda</label>
+                                    <input type="text" id="memberCompany" placeholder="Es: Rossi SRL" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>📧 Email</label>
+                                <input type="email" id="memberEmail" placeholder="esempio@azienda.it" required>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                                <div class="form-group">
+                                    <label>🔐 Password</label>
+                                    <input type="password" id="memberPassword" placeholder="Password di accesso" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>📞 Telefono</label>
+                                    <input type="tel" id="memberPhone" placeholder="+39 348 1234567">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>📍 Città</label>
+                                <input type="text" id="memberCity" placeholder="Es: Milano">
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                                <button type="button" onclick="createMember()" class="action-btn">✅ Aggiungi Membro</button>
+                                <label for="admin-membri" class="action-btn" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); cursor: pointer;">❌ Annulla</label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Consulenti Page -->
+            <div id="adminConsulentiPage" class="page">
+                <div class="header">
+                    <label for="admin-dashboard" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</label>
+                    <div class="user-info">👤 Admin</div>
+                    <div class="logo">💼</div>
+                    <h1>Gestione Consulenti (Admin)</h1>
+                </div>
+                <div class="page-content">
+                    
+                    <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+                        <h2 style="margin-bottom: 10px;">💼 Controllo Totale Consulenti</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">4</div><div style="font-size: 11px;">Consulenti Totali</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">7</div><div style="font-size: 11px;">Specializzazioni</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">10</div><div style="font-size: 11px;">Consulenze Mensili</div></div>
+                        </div>
+                    </div>
+
+                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px;">
+                        <strong>🔐 Funzioni Admin:</strong> Gestisci i consulenti del consorzio e le loro specializzazioni
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                        <label for="admin-nuovo-consulente" class="action-btn">🆕 Aggiungi Nuovo Consulente</label>
+                        <button class="action-btn blue" onclick="loadConsulentiPage()">🔄 Aggiorna Lista</button>
+                    </div>
+                    
+                    <div id="consulentiContainer">
+                        <!-- I consulenti vengono caricati dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Nuovo Consulente Page -->
+            <div id="adminNuovoConsulentePage" class="page">
+                <div class="header">
+                    <label for="admin-consulenti" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Consulenti</label>
+                    <div class="user-info">👤 Admin</div>
+                    <div class="logo">🆕</div>
+                    <h1>Aggiungi Nuovo Consulente</h1>
+                </div>
+                <div class="page-content">
+                    <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #2c3e50; margin-bottom: 20px; text-align: center; font-size: 20px;">💼 Registra Nuovo Consulente</h2>
+                        
+                        <form id="consulenteForm">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                                <div class="form-group">
+                                    <label>👤 Nome Completo</label>
+                                    <input type="text" id="consulenteName" placeholder="Es: Dott. Mario Rossi" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>🎯 Specializzazione</label>
+                                    <input type="text" id="consulenteSpecializzazione" placeholder="Es: Marketing Digitale" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>📂 Categoria</label>
+                                <select id="consulenteCategoria" required>
+                                    <option value="">Seleziona categoria</option>
+                                    <option value="marketing">🎯 Marketing & Comunicazione</option>
+                                    <option value="tecnologia">💻 Tecnologia & Sviluppo</option>
+                                    <option value="finanza">💰 Finanza & Controllo</option>
+                                    <option value="legale">⚖️ Consulenza Legale</option>
+                                    <option value="energia">⚡ Energia & Ambiente</option>
+                                    <option value="sicurezza">🛡️ Sicurezza & Medicina del Lavoro</option>
+                                    <option value="servizi">🔧 Servizi Tecnici</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>🎓 Qualifiche</label>
+                                <input type="text" id="consulenteQualifiche" placeholder="Es: MBA, Certificazioni, anni di esperienza">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>📝 Descrizione Servizi</label>
+                                <textarea id="consulenteDescrizione" placeholder="Descrivi i servizi offerti dal consulente..." style="min-height: 100px;" required></textarea>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                                <div class="form-group">
+                                    <label>📞 Telefono</label>
+                                    <input type="tel" id="consulentePhone" placeholder="+39 072 1840410">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>📧 Email</label>
+                                    <input type="email" id="consulenteEmail" placeholder="consulente@consorzio.it">
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                                <button type="button" onclick="createConsulente()" class="action-btn">✅ Aggiungi Consulente</button>
+                                <label for="admin-consulenti" class="action-btn" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); cursor: pointer;">❌ Annulla</label>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -1104,10 +1578,60 @@
                 </div>
             </div>
 
-            <!-- Altre pagine rimangono invariate -->
+            <!-- Consulenti Page (Pubblica) -->
+            <div id="consulentiPage" class="page">
+                <div class="header">
+                    <button onclick="currentUser && currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
+                    <div class="user-info">👤 User</div>
+                    <div class="logo">💼</div>
+                    <h1>Consulenti del Consorzio</h1>
+                </div>
+                <div class="page-content">
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; border: 2px solid #9b59b6;">
+                        <h3 style="color: #9b59b6; margin-bottom: 10px;">📞 Contatto Diretto Consorzio</h3>
+                        <div style="font-size: 20px; font-weight: bold; color: #2c3e50; margin: 8px 0;">0721 - 1840410</div>
+                        <p style="margin: 0; font-size: 12px;">Per informazioni generali e assistenza immediata</p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+                        <h2 style="margin-bottom: 10px;">💼 Network Consulenti Specializzati</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;" id="totalConsulentiPublic">4</div><div style="font-size: 11px;">Consulenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">10</div><div style="font-size: 11px;">Consulenze Incluse</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">7</div><div style="font-size: 11px;">Specializzazioni</div></div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <strong>✨ Novità:</strong> 10 consulenze iniziali gratuite incluse nella tessera annuale - Prenota agli incontri mensili!
+                    </div>
+
+                    <!-- Filtro Specializzazioni -->
+                    <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">🔍 Filtra per Specializzazione</h4>
+                        <select id="filtroSpecializzazione" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 8px;" onchange="filtraConsulenti()">
+                            <option value="">Tutte le specializzazioni</option>
+                            <option value="marketing">Marketing & Comunicazione</option>
+                            <option value="tecnologia">Tecnologia & Sviluppo</option>
+                            <option value="finanza">Finanza & Controllo</option>
+                            <option value="legale">Consulenza Legale</option>
+                            <option value="energia">Energia & Ambiente</option>
+                            <option value="sicurezza">Sicurezza & Medicina del Lavoro</option>
+                            <option value="servizi">Servizi Tecnici</option>
+                        </select>
+                    </div>
+                    
+                    <div id="publicConsulentiContainer">
+                        <!-- I consulenti vengono caricati dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Altre pagine semplificate -->
             <div id="alboPage" class="page">
                 <div class="header">
-                    <button onclick="currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
+                    <button onclick="currentUser && currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
                     <div class="user-info">👤 User</div>
                     <div class="logo">👥</div>
                     <h1>Albo Iscritti</h1>
@@ -1117,7 +1641,7 @@
                     <div class="stats-box">
                         <h2>👥 Directory Aziende Associate</h2>
                         <div style="display: flex; justify-content: center; gap: 30px; margin-top: 15px; flex-wrap: wrap;">
-                            <div><div style="font-size: 24px; font-weight: bold;">4</div><div style="font-size: 12px;">Aziende</div></div>
+                            <div><div style="font-size: 24px; font-weight: bold;">3</div><div style="font-size: 12px;">Aziende</div></div>
                             <div><div style="font-size: 24px; font-weight: bold;">96</div><div style="font-size: 12px;">Dipendenti</div></div>
                             <div><div style="font-size: 24px; font-weight: bold;">€9.3M</div><div style="font-size: 12px;">Fatturato</div></div>
                         </div>
@@ -1140,7 +1664,7 @@
             <!-- Placeholder per altre pagine -->
             <div id="bachecaPage" class="page">
                 <div class="header">
-                    <button onclick="currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
+                    <button onclick="currentUser && currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
                     <div class="user-info">👤 User</div>
                     <div class="logo">📋</div>
                     <h1>Bacheca</h1>
@@ -1153,7 +1677,7 @@
 
             <div id="videoPage" class="page">
                 <div class="header">
-                    <button onclick="currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
+                    <button onclick="currentUser && currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
                     <div class="user-info">👤 User</div>
                     <div class="logo">📹</div>
                     <h1>Video Interviste</h1>
@@ -1166,7 +1690,7 @@
 
             <div id="convenzioniPage" class="page">
                 <div class="header">
-                    <button onclick="currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
+                    <button onclick="currentUser && currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
                     <div class="user-info">👤 User</div>
                     <div class="logo">🤝</div>
                     <h1>Convenzioni</h1>
@@ -1177,22 +1701,9 @@
                 </div>
             </div>
 
-            <div id="consulentiPage" class="page">
-                <div class="header">
-                    <button onclick="currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
-                    <div class="user-info">👤 User</div>
-                    <div class="logo">💼</div>
-                    <h1>Consulenti</h1>
-                </div>
-                <div class="page-content">
-                    <h2>💼 Consulenti - In sviluppo</h2>
-                    <p>Questa sezione è in fase di sviluppo.</p>
-                </div>
-            </div>
-
             <div id="progettiPage" class="page">
                 <div class="header">
-                    <button onclick="currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
+                    <button onclick="currentUser && currentUser.role === 'admin' ? (document.getElementById('admin-dashboard').checked = true) : (document.getElementById('member-dashboard').checked = true)" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">← Dashboard</button>
                     <div class="user-info">👤 User</div>
                     <div class="logo">🚀</div>
                     <h1>Progetti</h1>
@@ -1210,6 +1721,9 @@
         setTimeout(() => {
             if (document.getElementById('admin-membri').checked) {
                 loadMembersPage();
+            }
+            if (document.getElementById('admin-consulenti').checked) {
+                loadConsulentiPage();
             }
             if (document.getElementById('admin-agenda').checked) {
                 loadAdminAgenda();
