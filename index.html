@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consorzio Imprenditori</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 95%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c3e50;
+            font-size: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-input {
+            display: none;
+        }
+
+        .page {
+            display: none;
+        }
+
+        #login:checked ~ .pages #loginPage,
+        #dashboard:checked ~ .pages #dashboardPage,
+        #albo:checked ~ .pages #alboPage,
+        #bacheca:checked ~ .pages #bachecaPage,
+        #video:checked ~ .pages #videoPage,
+        #convenzioni:checked ~ .pages #convenzioniPage,
+        #consulenti:checked ~ .pages #consulentiPage,
+        #progetti:checked ~ .pages #progettiPage,
+        #agenda:checked ~ .pages #agendaPage,
+        #nuova-convenzione:checked ~ .pages #nuovaConvenzioneForm {
+            display: block;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #555, #666);
+            color: white;
+            padding: 25px 15px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            min-width: 18px;
+            height: 18px;
+            background: #e74c3c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .card-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .action-btn.blue {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .action-btn.red {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .main-content {
+            padding: 25px;
+        }
+
+        .page-content {
+            padding: 25px;
+        }
+
+        .back-btn {
+            background: #95a5a6;
+            color: white;
+            margin-bottom: 15px;
+            padding: 6px 12px;
+            border-radius: 15px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+        }
+
+        .notification-item {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .event-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .event-date {
+            background: #3498db;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .stats-box {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .btn-confirmed {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d) !important;
+            cursor: not-allowed !important;
+        }
+
+        .consulente-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .consulente-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+    </style>
+    <script>
+        // Variabile per memorizzare le prenotazioni in memoria
+        let prenotazioniConsulenze = [];
+
+        function confermaPartecipazione(eventId) {
+            const selectElement = document.getElementById('persone-' + eventId);
+            const buttonElement = document.getElementById('btn-' + eventId);
+            const counterElement = document.getElementById('counter-' + eventId);
+            const eventCounterElement = document.getElementById('event-counter-' + eventId);
+            const totalCounterElement = document.getElementById('total-participants');
+            
+            const numPersone = parseInt(selectElement.value);
+            const currentCount = parseInt(counterElement.textContent.match(/\d+/)[0]);
+            const newCount = currentCount + numPersone;
+            
+            counterElement.innerHTML = `🔥 ${newCount} partecipanti`;
+            eventCounterElement.textContent = newCount;
+            
+            const currentTotal = parseInt(totalCounterElement.textContent);
+            const newTotal = currentTotal + numPersone;
+            totalCounterElement.textContent = newTotal;
+            
+            buttonElement.innerHTML = '✅ Confermato';
+            buttonElement.classList.add('btn-confirmed');
+            buttonElement.disabled = true;
+            selectElement.disabled = true;
+            
+            showNotification(`✅ Partecipazione confermata per ${numPersone} ${numPersone > 1 ? 'persone' : 'persona'}!`, 'success');
+        }
+
+        function rifiutaPartecipazione(eventId) {
+            const selectElement = document.getElementById('persone-' + eventId);
+            const counterElement = document.getElementById('counter-' + eventId);
+            const eventCounterElement = document.getElementById('event-counter-' + eventId);
+            const totalCounterElement = document.getElementById('total-participants');
+            
+            const numPersone = parseInt(selectElement.value);
+            const currentCount = parseInt(counterElement.textContent.match(/\d+/)[0]);
+            const currentTotal = parseInt(totalCounterElement.textContent);
+            
+            if (currentCount >= numPersone && currentTotal >= numPersone) {
+                const newCount = currentCount - numPersone;
+                const newTotal = currentTotal - numPersone;
+                
+                counterElement.innerHTML = `🔥 ${newCount} partecipanti`;
+                eventCounterElement.textContent = newCount;
+                totalCounterElement.textContent = newTotal;
+                
+                selectElement.disabled = true;
+                showNotification(`❌ ${numPersone} ${numPersone > 1 ? 'persone rimosse' : 'persona rimossa'} dall'evento`, 'error');
+            } else {
+                showNotification('⚠️ Non è possibile rimuovere più partecipanti di quelli già iscritti', 'warning');
+            }
+        }
+
+        function creaConvenzione() {
+            const nomeAzienda = document.getElementById('nomeAzienda').value;
+            const titolo = document.getElementById('titoloConvenzione').value;
+            const sconto = document.getElementById('percentualeSconto').value;
+            
+            if (!nomeAzienda || !titolo || !sconto) {
+                showNotification('⚠️ Compila tutti i campi obbligatori!', 'warning');
+                return;
+            }
+            
+            showNotification(`🎉 Convenzione "${titolo}" pubblicata con successo!`, 'success');
+            document.getElementById('formConvenzione').reset();
+            
+            setTimeout(() => {
+                document.getElementById('convenzioni').checked = true;
+            }, 2000);
+        }
+
+        function filtraConsulenti() {
+            const filtro = document.getElementById('filtroSpecializzazione').value;
+            const consulenti = document.querySelectorAll('.consulente-card');
+            
+            consulenti.forEach(card => {
+                if (filtro === '' || card.dataset.categoria === filtro) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function prenotaConsulenza(nomeConsulente, specializzazione) {
+            const eventi = [
+                'Assemblea Generale - 25 Settembre 2025, ore 10:00',
+                'Workshop Innovazione Digitale - 2 Ottobre 2025, ore 15:00',
+                'Networking Settore Tech - 15 Ottobre 2025, ore 18:00'
+            ];
+            
+            const eventoScelto = prompt(`🗓️ Scegli l'evento per la consulenza con ${nomeConsulente}:\n\n1️⃣ ${eventi[0]}\n2️⃣ ${eventi[1]}\n3️⃣ ${eventi[2]}\n\nScrivi 1, 2 o 3:`);
+            
+            if (eventoScelto && (eventoScelto === '1' || eventoScelto === '2' || eventoScelto === '3')) {
+                const eventoSelezionato = eventi[parseInt(eventoScelto) - 1];
+                
+                // Salva la prenotazione in memoria
+                const nuovaPrenotazione = {
+                    id: Date.now(),
+                    consulente: nomeConsulente,
+                    specializzazione: specializzazione,
+                    evento: eventoSelezionato,
+                    data: new Date().toISOString(),
+                    stato: 'confermata'
+                };
+                prenotazioniConsulenze.push(nuovaPrenotazione);
+                
+                showNotification(`✅ Consulenza prenotata con ${nomeConsulente} durante: ${eventoSelezionato}`, 'success');
+                
+                // Invia WhatsApp di conferma
+                const messaggio = `Ciao! Ho prenotato una consulenza con ${nomeConsulente} (${specializzazione}) durante l'evento: ${eventoSelezionato}. Confermi la disponibilità?`;
+                window.open(`https://wa.me/390721840410?text=${encodeURIComponent(messaggio)}`, '_blank');
+            } else if (eventoScelto !== null) {
+                showNotification('⚠️ Selezione non valida. Scegli 1, 2 o 3.', 'warning');
+            }
+        }
+
+        function showNotification(message, type) {
+            const colors = {
+                success: '#27ae60',
+                error: '#e74c3c',
+                warning: '#f39c12'
+            };
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; 
+                top: 20px; 
+                right: 20px; 
+                background: ${colors[type]}; 
+                color: white; 
+                padding: 15px; 
+                border-radius: 10px; 
+                z-index: 1000; 
+                animation: slideIn 0.5s ease;
+                max-width: 300px;
+                font-size: 14px;
+            `;
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Inputs -->
+        <input type="radio" name="nav" id="login" class="nav-input" checked>
+        <input type="radio" name="nav" id="dashboard" class="nav-input">
+        <input type="radio" name="nav" id="albo" class="nav-input">
+        <input type="radio" name="nav" id="bacheca" class="nav-input">
+        <input type="radio" name="nav" id="video" class="nav-input">
+        <input type="radio" name="nav" id="convenzioni" class="nav-input">
+        <input type="radio" name="nav" id="consulenti" class="nav-input">
+        <input type="radio" name="nav" id="progetti" class="nav-input">
+        <input type="radio" name="nav" id="agenda" class="nav-input">
+        <input type="radio" name="nav" id="nuova-convenzione" class="nav-input">
+
+        <div class="pages">
+            <!-- Login Page -->
+            <div id="loginPage" class="page">
+                <div class="header">
+                    <div class="logo">🏢</div>
+                    <h1>Consorzio Imprenditori</h1>
+                    <p>Riuniamo imprenditori allo scopo di collaborare e crescere insieme</p>
+                </div>
+                
+                <div class="login-container">
+                    <h2 style="text-align: center; margin-bottom: 25px; color: #2c3e50;">Accedi al Consorzio</h2>
+                    
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" value="admin@consorzio.it">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" value="admin123">
+                    </div>
+                    
+                    <label for="dashboard" class="btn">🔑 ACCEDI</label>
+                    
+                    <div style="background: #e8f5e8; padding: 12px; margin-top: 15px; border-radius: 8px; border-left: 4px solid #27ae60;">
+                        <h4 style="color: #2c3e50; margin-bottom: 8px;">🎯 App Completa</h4>
+                        <p style="color: #34495e; font-size: 12px;">✅ Tutte le sezioni funzionanti</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Page -->
+            <div id="dashboardPage" class="page">
+                <div class="header">
+                    <label for="login" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</label>
+                    <div class="logo">🏢</div>
+                    <h1>Dashboard Consorzio</h1>
+                    <p>Benvenuto nella piattaforma degli imprenditori</p>
+                </div>
+
+                <div style="background: #f39c12; color: white; padding: 8px; text-align: center; font-size: 14px;">
+                    🔔 Benvenuto Amministratore! Hai notifiche dalle sezioni del consorzio
+                </div>
+
+                <div class="main-content">
+                    <h2 style="color: #2c3e50; margin-bottom: 15px; text-align: center;">
+                        🎯 Sezioni del Consorzio Imprenditori
+                    </h2>
+                    
+                    <div class="dashboard-grid">
+                        <label for="agenda" class="nav-btn">
+                            <div class="notification-dot">1</div>
+                            <div class="card-icon">📅</div>
+                            <div class="card-title">Agenda del Consorzio</div>
+                        </label>
+
+                        <label for="albo" class="nav-btn">
+                            <div class="notification-dot">4</div>
+                            <div class="card-icon">👥</div>
+                            <div class="card-title">Albo Iscritti</div>
+                        </label>
+
+                        <label for="bacheca" class="nav-btn">
+                            <div class="notification-dot">2</div>
+                            <div class="card-icon">📋</div>
+                            <div class="card-title">Bacheca Imprenditori</div>
+                        </label>
+
+                        <label for="video" class="nav-btn">
+                            <div class="notification-dot">1</div>
+                            <div class="card-icon">📹</div>
+                            <div class="card-title">Video Interviste</div>
+                        </label>
+
+                        <label for="convenzioni" class="nav-btn">
+                            <div class="notification-dot">2</div>
+                            <div class="card-icon">🤝</div>
+                            <div class="card-title">Convenzioni</div>
+                        </label>
+
+                        <label for="consulenti" class="nav-btn">
+                            <div class="notification-dot">8</div>
+                            <div class="card-icon">💼</div>
+                            <div class="card-title">Consulenti</div>
+                        </label>
+
+                        <label for="progetti" class="nav-btn">
+                            <div class="notification-dot">2</div>
+                            <div class="card-icon">🚀</div>
+                            <div class="card-title">Progetti</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Albo Page -->
+            <div id="alboPage" class="page">
+                <div class="header">
+                    <label for="login" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</label>
+                    <div class="logo">👥</div>
+                    <h1>Albo Iscritti</h1>
+                </div>
+                <div class="page-content">
+                    <label for="dashboard" class="back-btn">← Dashboard</label>
+                    
+                    <div class="notification-item">
+                        <strong>Nuovi membri:</strong> 4 aziende attive nel consorzio
+                    </div>
+
+                    <div class="stats-box">
+                        <h2>👥 Directory Aziende Associate</h2>
+                        <div style="display: flex; justify-content: center; gap: 30px; margin-top: 15px; flex-wrap: wrap;">
+                            <div><div style="font-size: 24px; font-weight: bold;">4</div><div style="font-size: 12px;">Aziende</div></div>
+                            <div><div style="font-size: 24px; font-weight: bold;">96</div><div style="font-size: 12px;">Dipendenti</div></div>
+                            <div><div style="font-size: 24px; font-weight: bold;">€9.3M</div><div style="font-size: 12px;">Fatturato</div></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #007bff, #0056b3); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 24px;">R</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px;">Rossi SRL - Tecnologia</h3>
+                                <p style="color: #6c757d; font-size: 14px;">📍 Milano | 👥 24 dipendenti | €2.1M</p>
+                                <p style="color: #6c757d; font-size: 13px;">Sviluppo software, consulenza IT, digitalizzazione processi</p>
+                            </div>
+                            <a href="https://wa.me/393481234567?text=Ciao,%20sono%20interessato%20ai%20servizi%20di%20Rossi%20SRL" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #28a745, #1e7e34); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 24px;">B</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px;">Bianchi Consulting - Servizi</h3>
+                                <p style="color: #6c757d; font-size: 14px;">📍 Roma | 👥 18 dipendenti | €1.8M</p>
+                                <p style="color: #6c757d; font-size: 13px;">Consulenza aziendale, HR, formazione professionale</p>
+                            </div>
+                            <a href="https://wa.me/393479876543?text=Ciao,%20sono%20interessato%20ai%20servizi%20di%20Bianchi%20Consulting" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffc107, #e0a800); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 24px;">V</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px;">Verde Manifatture - Industria</h3>
+                                <p style="color: #6c757d; font-size: 14px;">📍 Torino | 👥 42 dipendenti | €4.2M</p>
+                                <p style="color: #6c757d; font-size: 13px;">Componenti meccanici, lavorazioni CNC, automotive</p>
+                            </div>
+                            <a href="https://wa.me/393465555555?text=Ciao,%20sono%20interessato%20ai%20servizi%20di%20Verde%20Manifatture" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #17a2b8, #138496); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 24px;">A</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px;">Azzurri Trading - Commercio</h3>
+                                <p style="color: #6c757d; font-size: 14px;">📍 Napoli | 👥 12 dipendenti | €1.2M</p>
+                                <p style="color: #6c757d; font-size: 13px;">Import/export, e-commerce B2B, logistica</p>
+                            </div>
+                            <a href="https://wa.me/393453333333?text=Ciao,%20sono%20interessato%20ai%20servizi%20di%20Azzurri%20Trading" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bacheca Page -->
+            <div id="bachecaPage" class="page">
+                <div class="header">
+                    <label for="login" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</label>
+                    <div class="logo">📋</div>
+                    <h1>Bacheca Imprenditori</h1>
+                </div>
+                <div class="page-content">
+                    <label for="dashboard" class="back-btn">← Dashboard</label>
+                    
+                    <div class="notification-item">
+                        <strong>Nuovo annuncio:</strong> Tornio CNC venduto da Verde Manifatture - €15.000
+                    </div>
+                    
+                    <div class="stats-box">
+                        <h2>📋 Marketplace del Consorzio</h2>
+                        <p style="margin: 0; font-size: 14px;">Pubblica e trova annunci esclusivi tra i membri</p>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid #e74c3c;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">V</div>
+                                <div>
+                                    <h4 style="color: #2c3e50; margin: 0;">Verde Manifatture</h4>
+                                    <p style="color: #7f8c8d; margin: 0; font-size: 12px;">📅 Oggi - 14:30</p>
+                                </div>
+                            </div>
+                            <span style="background: #e74c3c; color: white; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">🔧 MACCHINARI</span>
+                        </div>
+                        
+                        <h3 style="color: #2c3e50; margin-bottom: 8px; font-size: 16px;">Tornio CNC HAAS ST-20 - Anno 2018</h3>
+                        <div style="background: #fff5f5; color: #e74c3c; padding: 8px; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 10px;">€ 15.000</div>
+                        <p style="color: #34495e; margin-bottom: 10px; font-size: 14px;">Tornio CNC in ottime condizioni, utilizzato per produzione componenti automotive.</p>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <a href="https://wa.me/393465555555?text=Ciao,%20sono%20interessato%20al%20Tornio%20CNC%20HAAS%20ST-20" class="whatsapp-btn">💬 Contatta</a>
+                            <span style="color: #7f8c8d; font-size: 12px;">🔥 3 interessati</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Page -->
+            <div id="videoPage" class="page">
+                <div class="header">
+                    <label for="login" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</label>
+                    <div class="logo">📹</div>
+                    <h1>Video Interviste</h1>
+                </div>
+                <div class="page-content">
+                    <label for="dashboard" class="back-btn">← Dashboard</label>
+                    
+                    <div class="notification-item">
+                        <strong>Nuovo video:</strong> Intervista con Marco Rossi - CEO TechStart
+                    </div>
+                    
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div>
+                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 18px;">Innovazione nell'Industria 4.0</h3>
+                                <p style="color: #7f8c8d; font-size: 12px;">📅 15 Agosto 2025 - Intervista con Marco Rossi</p>
+                            </div>
+                            <span style="background: #e74c3c; color: white; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: bold;">NUOVO</span>
+                        </div>
+                        
+                        <div style="background: #2c3e50; height: 150px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 36px; margin-bottom: 15px; cursor: pointer;">
+                            ▶️
+                        </div>
+                        
+                        <p style="color: #34495e; line-height: 1.5; margin-bottom: 15px; font-size: 14px;">
+                            Scopri come l'automazione e l'intelligenza artificiale stanno trasformando i processi produttivi nelle PMI italiane.
+                        </p>
+                        
+                        <button class="action-btn blue">💬 Commenta Video</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Convenzioni Page -->
+            <div id="convenzioniPage" class="page">
+                <div class="header">
+                    <label for="login" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</label>
+                    <div class="logo">🤝</div>
+                    <h1>Convenzioni</h1>
+                </div>
+                <div class="page-content">
+                    <label for="dashboard" class="back-btn">← Dashboard</label>
+                    
+                    <div class="stats-box">
+                        <h2>🤝 Convenzioni Esclusive</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Convenzioni</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Partner</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">42</div><div style="font-size: 11px;">Prenotazioni</div></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 35px; height: 35px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;">B</div>
+                                <div style="color: #2c3e50; font-weight: bold; font-size: 14px;">Bianchi Consulting</div>
+                            </div>
+                            <div style="background: #e74c3c; color: white; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">20% OFF</div>
+                        </div>
+                        
+                        <h3 style="color: #2c3e50; margin-bottom: 8px; font-size: 16px;">Consulenza HR con sconto esclusivo</h3>
+                        
+                        <div style="background: #fff5f5; color: #e74c3c; padding: 8px; border-radius: 8px; border: 2px dashed #e74c3c; text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px;">
+                            SCONTO 20% - Risparmia €200
+                        </div>
+                        
+                        <p style="color: #34495e; margin-bottom: 10px; font-size: 13px;">
+                            Consulenza specializzata in gestione risorse umane, recruiting e formazione del personale.
+                        </p>
+                        
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <a href="https://wa.me/393479876543?text=Ciao,%20sono%20interessato%20alla%20convenzione%20HR" class="whatsapp-btn">💬 Prenota</a>
+                            <span style="color: #7f8c8d; font-size: 12px;">5 prenotazioni</span>
+                        </div>
+                    </div>
+                    
+                    <label for="nuova-convenzione" class="action-btn blue">🎯 Pubblica Convenzione</label>
+                </div>
+            </div>
+
+            <!-- Consulenti Page -->
+            <div id="consulentiPage" class="page">
+                <div class="header">
+                    <label for="login" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</label>
+                    <div class="logo">💼</div>
+                    <h1>Consulenti del Consorzio</h1>
+                </div>
+                <div class="page-content">
+                    <label for="dashboard" class="back-btn">← Dashboard</label>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px; border: 2px solid #9b59b6;">
+                        <h3 style="color: #9b59b6; margin-bottom: 10px;">📞 Contatto Diretto Consorzio</h3>
+                        <div style="font-size: 20px; font-weight: bold; color: #2c3e50; margin: 8px 0;">0721 - 1840410</div>
+                        <p style="margin: 0; font-size: 12px;">Per informazioni generali e assistenza immediata</p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+                        <h2 style="margin-bottom: 10px;">💼 Network Consulenti Specializzati</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Consulenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">10</div><div style="font-size: 11px;">Consulenze Incluse</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Specializzazioni</div></div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <strong>✨ Novità:</strong> 10 consulenze iniziali gratuite incluse nella tessera annuale - Prenota agli incontri mensili!
+                    </div>
+
+                    <!-- Filtro Specializzazioni -->
+                    <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">🔍 Filtra per Specializzazione</h4>
+                        <select id="filtroSpecializzazione" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 8px;" onchange="filtraConsulenti()">
+                            <option value="">Tutte le specializzazioni</option>
+                            <option value="marketing">Marketing & Comunicazione</option>
+                            <option value="tecnologia">Tecnologia & Sviluppo</option>
+                            <option value="finanza">Finanza & Controllo</option>
+                            <option value="legale">Consulenza Legale</option>
+                            <option value="energia">Energia & Ambiente</option>
+                            <option value="sicurezza">Sicurezza & Medicina del Lavoro</option>
+                            <option value="servizi">Servizi Tecnici</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Marketing & Comunicazione -->
+                    <div class="consulente-card" data-categoria="marketing" style="border-top: 4px solid #e74c3c;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, #e74c3c, #c0392b); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">MB</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">Dott.ssa Maria Bianchi</h3>
+                                <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 8px;">SEO & Digital Marketing</div>
+                                <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">MBA, Google Ads Certified, 15 anni esperienza</p>
+                                <p style="color: #34495e; font-size: 12px;">📅 Disponibile: 25 Set, 2 Ott</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #fff5f5; padding: 10px; border-radius: 8px; border-left: 4px solid #e74c3c; margin-bottom: 15px; font-size: 13px;">
+                            Specialista in SEO, Google Ads, Social Media Marketing e posizionamento siti web per PMI.
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn" onclick="prenotaConsulenza('Maria Bianchi', 'SEO & Digital Marketing')">📅 Prenota Consulenza</button>
+                            <a href="https://wa.me/390721840410?text=Vorrei%20prenotare%20consulenza%20con%20Dott.ssa%20Maria%20Bianchi" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <!-- Tecnologia & Sviluppo -->
+                    <div class="consulente-card" data-categoria="tecnologia" style="border-top: 4px solid #3498db;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, #3498db, #2980b9); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">AR</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">Ing. Andrea Rossi</h3>
+                                <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 8px;">Sviluppo Tecnico & ERP</div>
+                                <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">Ingegnere Informatico, Microsoft Certified, 12 anni</p>
+                                <p style="color: #34495e; font-size: 12px;">📅 Disponibile: 25 Set, 15 Ott</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f0f8ff; padding: 10px; border-radius: 8px; border-left: 4px solid #3498db; margin-bottom: 15px; font-size: 13px;">
+                            Gestionali aziendali ERP, sviluppo App, siti web, cyber sicurezza e digitalizzazione processi.
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn" onclick="prenotaConsulenza('Andrea Rossi', 'Sviluppo Tecnico & ERP')">📅 Prenota Consulenza</button>
+                            <a href="https://wa.me/390721840410?text=Vorrei%20prenotare%20consulenza%20con%20Ing.%20Andrea%20Rossi" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <!-- Finanza & Controllo -->
+                    <div class="consulente-card" data-categoria="finanza" style="border-top: 4px solid #27ae60;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, #27ae60, #229954); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">LV</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">Dott. Luca Verdi</h3>
+                                <div style="background: linear-gradient(135deg, #27ae60, #229954); color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 8px;">Finanza Agevolata & Controllo</div>
+                                <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">Dottore Commercialista, esperto bandi UE, 18 anni</p>
+                                <p style="color: #34495e; font-size: 12px;">📅 Disponibile: 2 Ott, 15 Ott</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f0fff0; padding: 10px; border-radius: 8px; border-left: 4px solid #27ae60; margin-bottom: 15px; font-size: 13px;">
+                            Bandi europei, finanziamenti agevolati, controllo di gestione, controllo contabile e tributario.
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn" onclick="prenotaConsulenza('Luca Verdi', 'Finanza Agevolata & Controllo')">📅 Prenota Consulenza</button>
+                            <a href="https://wa.me/390721840410?text=Vorrei%20prenotare%20consulenza%20con%20Dott.%20Luca%20Verdi" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <!-- Consulenza Legale -->
+                    <div class="consulente-card" data-categoria="legale" style="border-top: 4px solid #8e44ad;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, #8e44ad, #7d3c98); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">SN</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">Avv. Sara Neri</h3>
+                                <div style="background: linear-gradient(135deg, #8e44ad, #7d3c98); color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 8px;">Diritto di Impresa</div>
+                                <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">Avvocato specializzato in diritto commerciale, 10 anni</p>
+                                <p style="color: #34495e; font-size: 12px;">📅 Disponibile: 25 Set, 2 Ott</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #faf0ff; padding: 10px; border-radius: 8px; border-left: 4px solid #8e44ad; margin-bottom: 15px; font-size: 13px;">
+                            Consulenza contrattuale, diritto del lavoro, controversie legali e operazioni societarie.
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn" onclick="prenotaConsulenza('Sara Neri', 'Diritto di Impresa')">📅 Prenota Consulenza</button>
+                            <a href="https://wa.me/390721840410?text=Vorrei%20prenotare%20consulenza%20con%20Avv.%20Sara%20Neri" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <!-- Energia & Ambiente -->
+                    <div class="consulente-card" data-categoria="energia" style="border-top: 4px solid #f39c12;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, #f39c12, #e67e22); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">MG</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">Ing. Marco Gialli</h3>
+                                <div style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 8px;">Efficientamento Energetico</div>
+                                <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">Ingegnere Energetico, Certificatore, 14 anni</p>
+                                <p style="color: #34495e; font-size: 12px;">📅 Disponibile: 25 Set, 15 Ott</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #fffaf0; padding: 10px; border-radius: 8px; border-left: 4px solid #f39c12; margin-bottom: 15px; font-size: 13px;">
+                            Gruppo d'acquisto energetico, efficientamento, fiscalità energetica e fotovoltaico aziendale.
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn" onclick="prenotaConsulenza('Marco Gialli', 'Efficientamento Energetico')">📅 Prenota Consulenza</button>
+                            <a href="https://wa.me/390721840410?text=Vorrei%20prenotare%20consulenza%20con%20Ing.%20Marco%20Gialli" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <!-- Sicurezza & Medicina del Lavoro -->
+                    <div class="consulente-card" data-categoria="sicurezza" style="border-top: 4px solid #e67e22;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, #e67e22, #d35400); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">FB</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">Dott. Franco Blu</h3>
+                                <div style="background: linear-gradient(135deg, #e67e22, #d35400); color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 8px;">Sicurezza & Medicina del Lavoro</div>
+                                <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">Medico del Lavoro, RSPP, 20 anni esperienza</p>
+                                <p style="color: #34495e; font-size: 12px;">📅 Disponibile: 2 Ott, 15 Ott</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #fff8f0; padding: 10px; border-radius: 8px; border-left: 4px solid #e67e22; margin-bottom: 15px; font-size: 13px;">
+                            Sicurezza luoghi di lavoro, medicina del lavoro, antincendio e sicurezza macchinari.
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn" onclick="prenotaConsulenza('Franco Blu', 'Sicurezza & Medicina del Lavoro')">📅 Prenota Consulenza</button>
+                            <a href="https://wa.me/390721840410?text=Vorrei%20prenotare%20consulenza%20con%20Dott.%20Franco%20Blu" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <!-- Export Manager -->
+                    <div class="consulente-card" data-categoria="finanza" style="border-top: 4px solid #16a085;">
+                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; border-radius: 10px; background: linear-gradient(135deg, #16a085, #138d75); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold;">CR</div>
+                            <div style="flex: 1;">
+                                <h3 style="color: #2c3e50; margin-bottom: 5px; font-size: 16px;">Dott.ssa Carla Rosa</h3>
+                                <div style="background: linear-gradient(135deg, #16a085, #138d75); color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 8px;">Export Manager</div>
+                                <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 3px;">Esperta internazionalizzazione, 16 anni esperienza</p>
+                                <p style="color: #34495e; font-size: 12px;">📅 Disponibile: 25 Set, 2 Ott</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #f0ffff; padding: 10px; border-radius: 8px; border-left: 4px solid #16a085; margin-bottom: 15px; font-size: 13px;">
+                            Internazionalizzazione di impresa, export, sviluppo mercati esteri e partnership globali.
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="action-btn" onclick="prenotaConsulenza('Carla Rosa', 'Export Manager')">📅 Prenota Consulenza</button>
+                            <a href="https://wa.me/390721840410?text=Vorrei%20prenotare%20consulenza%20con%20Dott.ssa%20Carla%20Rosa" class="whatsapp-btn">💬 WhatsApp</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Progetti Page -->
+            <div id="progettiPage" class="page">
+                <div class="header">
+                    <label for="login" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</label>
+                    <div class="logo">🚀</div>
+                    <h1>Progetti del Consorzio</h1>
+                </div>
+                <div class="page-content">
+                    <label for="dashboard" class="back-btn">← Dashboard</label>
+                    
+                    <div style="background: linear-gradient(135deg, #34495e, #2c3e50); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+                        <h2 style="margin-bottom: 10px;">🚀 Comunicazioni Ufficiali</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">5</div><div style="font-size: 11px;">Comunicazioni</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">2</div><div style="font-size: 11px;">Urgenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Questo Mese</div></div>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <strong>Nuovo progetto:</strong> Digitalizzazione PMI - Fondi europei disponibili
+                    </div>
+                    
+                    <div class="card" style="border-top: 4px solid #34495e;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                            <div>
+                                <h3 style="color: #2c3e50; font-size: 18px; margin-bottom: 5px;">Bando Digitalizzazione PMI 2025</h3>
+                                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 10px; flex-wrap: wrap;">
+                                    <span style="color: #7f8c8d; font-size: 12px;">📅 15 Agosto 2025 - 09:30</span>
+                                    <span style="background: #34495e; color: white; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">Progetti</span>
+                                    <span style="background: #f39c12; color: white; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">IMPORTANTE</span>
+                                </div>
+                            </div>
+                            <div style="background: #e74c3c; color: white; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: bold;">NUOVA</div>
+                        </div>
+                        
+                        <div style="color: #34495e; line-height: 1.5; margin-bottom: 15px; font-size: 14px;">
+                            È stato pubblicato il nuovo bando per la digitalizzazione delle PMI con finanziamenti fino a 50.000€. Scadenza: 15 Ottobre 2025.
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; color: #7f8c8d; font-size: 12px; padding-top: 10px; border-top: 1px solid #ecf0f1; flex-wrap: wrap;">
+                            <span>👁️ 25 visualizzazioni</span>
+                            <span>👤 Direzione Consorzio</span>
+                            <span style="color: #e74c3c;">⏰ Scadenza: 15 Ottobre 2025</span>
+                        </div>
+                    </div>
+                    
+                    <button class="action-btn blue">📢 Pubblica Comunicazione</button>
+                </div>
+            </div>
+
+            <!-- Agenda Page -->
+            <div id="agendaPage" class="page">
+                <div class="header">
+                    <label for="login" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</label>
+                    <div class="logo">📅</div>
+                    <h1>Agenda del Consorzio</h1>
+                </div>
+                <div class="page-content">
+                    <label for="dashboard" class="back-btn">← Dashboard</label>
+                    
+                    <div class="notification-item">
+                        <strong>Nuova riunione:</strong> Assemblea generale del 25 Settembre 2025 - Ore 10:00
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+                        <h2 style="margin-bottom: 10px;">📅 Calendario Eventi</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Eventi</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">1</div><div style="font-size: 11px;">Questo Mese</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="total-participants">47</div><div style="font-size: 11px;">Partecipanti</div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-item">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div class="event-date">25 SET 2025</div>
+                            <div style="background: #3498db; color: white; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">
+                                👥 <span id="event-counter-assemblea">12</span> partecipanti
+                            </div>
+                        </div>
+                        <div style="font-weight: bold; margin-bottom: 5px; color: #2c3e50;">📋 Assemblea Generale</div>
+                        <div style="color: #6c757d; font-size: 13px; margin-bottom: 10px;">🕙 Ore 10:00 - Sala conferenze<br>Discussione bilancio 2025 e strategie di crescita</div>
+                        
+                        <div style="padding-top: 10px; border-top: 1px solid #ecf0f1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <select id="persone-assemblea" style="padding: 6px; border: 1px solid #ddd; border-radius: 5px; font-size: 12px;">
+                                <option value="1">1 persona</option>
+                                <option value="2">2 persone</option>
+                                <option value="3">3 persone</option>
+                                <option value="4">4 persone</option>
+                                <option value="5">5+ persone</option>
+                            </select>
+                            <button id="btn-assemblea" class="action-btn" onclick="confermaPartecipazione('assemblea')">✅ Parteciperò</button>
+                            <button class="action-btn red" onclick="rifiutaPartecipazione('assemblea')">❌ Non parteciperò</button>
+                            <span id="counter-assemblea" style="color: #7f8c8d; font-size: 11px;">🔥 12 partecipanti</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-item">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div class="event-date">2 OTT 2025</div>
+                            <div style="background: #27ae60; color: white; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">
+                                👥 <span id="event-counter-workshop">8</span> partecipanti
+                            </div>
+                        </div>
+                        <div style="font-weight: bold; margin-bottom: 5px; color: #2c3e50;">🚀 Workshop Innovazione Digitale</div>
+                        <div style="color: #6c757d; font-size: 13px; margin-bottom: 10px;">🕔 Ore 15:00 - Sede del Consorzio<br>Seminario su digitalizzazione aziendale e nuove tecnologie</div>
+                        
+                        <div style="padding-top: 10px; border-top: 1px solid #ecf0f1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <select id="persone-workshop" style="padding: 6px; border: 1px solid #ddd; border-radius: 5px; font-size: 12px;">
+                                <option value="1">1 persona</option>
+                                <option value="2">2 persone</option>
+                                <option value="3">3 persone</option>
+                                <option value="4">4 persone</option>
+                                <option value="5">5+ persone</option>
+                            </select>
+                            <button id="btn-workshop" class="action-btn" onclick="confermaPartecipazione('workshop')">✅ Parteciperò</button>
+                            <button class="action-btn red" onclick="rifiutaPartecipazione('workshop')">❌ Non parteciperò</button>
+                            <span id="counter-workshop" style="color: #7f8c8d; font-size: 11px;">🔥 8 partecipanti</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-item">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div class="event-date">15 OTT 2025</div>
+                            <div style="background: #9b59b6; color: white; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">
+                                👥 <span id="event-counter-networking">27</span> partecipanti
+                            </div>
+                        </div>
+                        <div style="font-weight: bold; margin-bottom: 5px; color: #2c3e50;">🤝 Networking Settore Tech</div>
+                        <div style="color: #6c757d; font-size: 13px; margin-bottom: 10px;">🕕 Ore 18:00 - Location da definire<br>Aperitivo networking per aziende tecnologiche del consorzio</div>
+                        
+                        <div style="padding-top: 10px; border-top: 1px solid #ecf0f1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <select id="persone-networking" style="padding: 6px; border: 1px solid #ddd; border-radius: 5px; font-size: 12px;">
+                                <option value="1">1 persona</option>
+                                <option value="2">2 persone</option>
+                                <option value="3">3 persone</option>
+                                <option value="4">4 persone</option>
+                                <option value="5">5+ persone</option>
+                            </select>
+                            <button id="btn-networking" class="action-btn" onclick="confermaPartecipazione('networking')">✅ Parteciperò</button>
+                            <button class="action-btn red" onclick="rifiutaPartecipazione('networking')">❌ Non parteciperò</button>
+                            <span id="counter-networking" style="color: #7f8c8d; font-size: 11px;">🔥 27 partecipanti</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Nuova Convenzione -->
+            <div id="nuovaConvenzioneForm" class="page">
+                <div class="header">
+                    <label for="login" style="position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 12px;">Logout</label>
+                    <div class="logo">🎯</div>
+                    <h1>Pubblica Convenzione</h1>
+                    <p>Crea una convenzione esclusiva per i membri</p>
+                </div>
+                <div class="page-content">
+                    <label for="convenzioni" class="back-btn">← Convenzioni</label>
+                    
+                    <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #2c3e50; margin-bottom: 20px; text-align: center; font-size: 20px;">📝 Crea Nuova Convenzione</h2>
+                        
+                        <form id="formConvenzione">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                                <div class="form-group">
+                                    <label>🏢 Nome Azienda</label>
+                                    <input type="text" id="nomeAzienda" placeholder="Es: Rossi Consulting" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>🎯 Categoria</label>
+                                    <select id="categoria" required>
+                                        <option value="">Seleziona categoria</option>
+                                        <option value="tecnologia">🔧 Tecnologia</option>
+                                        <option value="servizi">💼 Servizi</option>
+                                        <option value="manifatturiero">🏭 Manifatturiero</option>
+                                        <option value="commercio">🛒 Commercio</option>
+                                        <option value="consulenza">💡 Consulenza</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>📋 Titolo Convenzione</label>
+                                <input type="text" id="titoloConvenzione" placeholder="Es: Consulenza IT con sconto esclusivo" required>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                                <div class="form-group">
+                                    <label>💰 Sconto</label>
+                                    <select id="percentualeSconto" required>
+                                        <option value="">Seleziona sconto</option>
+                                        <option value="10">10% OFF</option>
+                                        <option value="15">15% OFF</option>
+                                        <option value="20">20% OFF</option>
+                                        <option value="25">25% OFF</option>
+                                        <option value="30">30% OFF</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>💵 Risparmio (€)</label>
+                                    <input type="number" id="risparmio" placeholder="Es: 200" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>📝 Descrizione</label>
+                                <textarea id="descrizione" placeholder="Descrivi i servizi offerti..." style="min-height: 80px;" required></textarea>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                                <div class="form-group">
+                                    <label>📞 WhatsApp</label>
+                                    <input type="tel" id="whatsapp" placeholder="+39 348 1234567" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>📧 Email</label>
+                                    <input type="email" id="email" placeholder="info@azienda.it" required>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                                <button type="button" onclick="creaConvenzione()" class="action-btn">✅ Pubblica</button>
+                                <label for="convenzioni" class="action-btn" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); cursor: pointer;">❌ Annulla</label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
