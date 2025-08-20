@@ -472,9 +472,71 @@
             transition: all 0.3s;
         }
 
+        .annuncio-foto {
+            width: 100px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid #ecf0f1;
+        }
+
+        .annuncio-foto-container {
+            position: relative;
+            width: 100px;
+            height: 80px;
+        }
+
+        .remove-foto-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        .foto-upload-container {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+            background: #f9f9f9;
+        }
+
         .back-btn:hover {
             background: rgba(255,255,255,0.3);
             transform: translateX(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .annuncio-foto {
+                width: 80px;
+                height: 64px;
+            }
+            
+            .annuncio-foto-container {
+                width: 80px;
+                height: 64px;
+            }
+            
+            .foto-preview {
+                max-width: 150px;
+                max-height: 120px;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -822,6 +884,11 @@
                                 <label>Prezzo/Budget (€)</label>
                                 <input type="text" id="prezzoVendita" placeholder="1200 o 'Scambio alla pari'">
                             </div>
+                            <div class="foto-upload-container">
+                                <label>📸 Aggiungi Foto (Opzionale)</label>
+                                <input type="file" id="fotoVendita" accept="image/*" onchange="previewFoto(this, 'previewVendita')" style="margin: 10px 0;">
+                                <div id="previewVendita"></div>
+                            </div>
                             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
                                 <button class="action-btn green" onclick="pubblicaAnnuncioVendita()">✅ Pubblica</button>
                                 <button class="action-btn red" onclick="toggleForm('formVendoCompro')">❌ Annulla</button>
@@ -898,6 +965,11 @@
                             <div class="form-group">
                                 <label>Retribuzione</label>
                                 <input type="text" id="retribuzionePersonale" placeholder="Es: €45-55K/anno">
+                            </div>
+                            <div class="foto-upload-container">
+                                <label>📸 Aggiungi Foto (Opzionale)</label>
+                                <input type="file" id="fotoPersonale" accept="image/*" onchange="previewFoto(this, 'previewPersonale')" style="margin: 10px 0;">
+                                <div id="previewPersonale"></div>
                             </div>
                             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
                                 <button class="action-btn blue" onclick="pubblicaAnnuncioPersonale()">✅ Pubblica</button>
@@ -979,6 +1051,11 @@
                                     <input type="text" id="localitaSpazio" placeholder="Roma EUR">
                                 </div>
                             </div>
+                            <div class="foto-upload-container">
+                                <label>📸 Aggiungi Foto (Opzionale)</label>
+                                <input type="file" id="fotoSpazio" accept="image/*" onchange="previewFoto(this, 'previewSpazio')" style="margin: 10px 0;">
+                                <div id="previewSpazio"></div>
+                            </div>
                             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
                                 <button class="action-btn purple" onclick="pubblicaAnnuncioSpazio()">✅ Pubblica</button>
                                 <button class="action-btn red" onclick="toggleForm('formSpazi')">❌ Annulla</button>
@@ -994,6 +1071,9 @@
                             <button class="filter-btn" onclick="filterCollab('progetti', this)">🚀 Progetti</button>
                             <button class="filter-btn" onclick="filterCollab('fornitori', this)">📦 Fornitori</button>
                             <button class="action-btn orange" onclick="toggleForm('formCollab')">➕ Proponi Collaborazione</button>
+                            <button class="action-btn blue" onclick="window.updateDeleteButtons()" style="padding: 8px 15px; font-size: 12px;">
+                                🔄 Aggiorna Pulsanti COLLAB
+                            </button>
                         </div>
 
                         <!-- Container annunci Collaborazioni -->
@@ -1055,6 +1135,11 @@
                                 <label>Budget/Investimento</label>
                                 <input type="text" id="budgetCollab" placeholder="Es: €50K condiviso o Equity 20%">
                             </div>
+                            <div class="foto-upload-container">
+                                <label>📸 Aggiungi Foto (Opzionale)</label>
+                                <input type="file" id="fotoCollab" accept="image/*" onchange="previewFoto(this, 'previewCollab')" style="margin: 10px 0;">
+                                <div id="previewCollab"></div>
+                            </div>
                             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
                                 <button class="action-btn orange" onclick="pubblicaAnnuncioCollab()">✅ Pubblica</button>
                                 <button class="action-btn red" onclick="toggleForm('formCollab')">❌ Annulla</button>
@@ -1067,9 +1152,108 @@
     </div>
 
     <script>
-        // Dati globali
-        let currentUser = null;
-        let annuncioIdCounter = 1000;
+        // Variabile globale per le foto
+        let currentFotoData = {};
+
+        // Funzione per preview foto
+        function previewFoto(input, previewId) {
+            const preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'foto-preview';
+                    img.style.maxWidth = '200px';
+                    img.style.maxHeight = '150px';
+                    img.style.borderRadius = '8px';
+                    img.style.objectFit = 'cover';
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.innerHTML = '❌ Rimuovi';
+                    removeBtn.className = 'action-btn red';
+                    removeBtn.style.marginTop = '10px';
+                    removeBtn.style.padding = '5px 10px';
+                    removeBtn.style.fontSize = '12px';
+                    removeBtn.onclick = function() {
+                        preview.innerHTML = '';
+                        input.value = '';
+                    };
+                    
+                    preview.appendChild(img);
+                    preview.appendChild(document.createElement('br'));
+                    preview.appendChild(removeBtn);
+                };
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Funzione per rimuovere foto da annuncio esistente
+        function rimuoviFotoAnnuncio(annuncioId) {
+            console.log('🗑️ Rimozione foto annuncio:', annuncioId);
+            
+            const annuncio = document.getElementById(annuncioId);
+            if (!annuncio) {
+                showNotification('❌ Annuncio non trovato', 'error');
+                return;
+            }
+            
+            const autoreAnnuncio = annuncio.getAttribute('data-autore');
+            
+            // Verifica permessi (stesso del cancella annuncio)
+            if (!currentUser) {
+                showNotification('⚠️ Devi essere loggato', 'warning');
+                return;
+            }
+            
+            const puo_rimuovere = (currentUser.email === autoreAnnuncio) || (currentUser.role === 'admin');
+            if (!puo_rimuovere) {
+                showNotification('⚠️ Puoi rimuovere solo le tue foto', 'warning');
+                return;
+            }
+            
+            const fotoContainer = annuncio.querySelector('.annuncio-foto-container');
+            if (fotoContainer) {
+                fotoContainer.style.transition = 'all 0.3s ease';
+                fotoContainer.style.opacity = '0';
+                
+                setTimeout(() => {
+                    // Sostituisci con icona generica
+                    const iconContainer = document.createElement('div');
+                    iconContainer.style.cssText = `
+                        width: 100px; 
+                        height: 80px; 
+                        background: linear-gradient(135deg, #27ae60, #229954); 
+                        border-radius: 10px; 
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: center; 
+                        color: white; 
+                        font-size: 30px;
+                    `;
+                    
+                    // Determina icona basandosi sul tipo
+                    const categoria = annuncio.querySelector('.badge.purple')?.textContent || 
+                                    annuncio.querySelector('.badge.blue')?.textContent || 'GENERICO';
+                    
+                    const icone = {
+                        'ATTREZZATURE': '🔧', 'MOBILI': '🪑', 'TECNOLOGIA': '💻', 'VEICOLI': '🚗',
+                        'OFFRO LAVORO': '💼', 'CERCO LAVORO': '🔍', 'STAGE': '🎓',
+                        'UFFICIO': '🏢', 'COWORKING': '👥', 'MAGAZZINO': '📦', 'SALA': '🏛️',
+                        'PARTNERSHIP': '🤝', 'PROGETTO': '🚀', 'GRUPPO ACQUISTO': '📦', 'RETE': '🌐'
+                    };
+                    
+                    iconContainer.innerHTML = icone[categoria] || '📋';
+                    
+                    fotoContainer.parentNode.replaceChild(iconContainer, fotoContainer);
+                    showNotification('📸 Foto rimossa con successo', 'success');
+                }, 300);
+            }
+        }
 
         const users = {
             admin: {
@@ -1200,20 +1384,49 @@
         
         // Funzione per aggiornare la visibilità dei pulsanti cancella
         window.updateDeleteButtons = function() {
-            console.log('🔄 Aggiornamento pulsanti cancella...');
+            console.log('🔄 ========== AGGIORNAMENTO PULSANTI CANCELLA ==========');
             console.log('Current user:', currentUser ? currentUser.email : 'nessuno');
             
+            // Controlla quale sezione è attiva
+            const sezioneVendita = document.getElementById('sezioneVendoCompro');
+            const sezionePersonale = document.getElementById('sezioneRicercaPersonale');
+            const sezioneSpazi = document.getElementById('sezioneSpaziCondivisi');
+            const sezioneCollab = document.getElementById('sezioneCollaborazioni');
+            
+            console.log('📋 Visibilità sezioni:', {
+                vendita: sezioneVendita ? (sezioneVendita.style.display !== 'none') : 'non trovata',
+                personale: sezionePersonale ? (sezionePersonale.style.display !== 'none') : 'non trovata',
+                spazi: sezioneSpazi ? (sezioneSpazi.style.display !== 'none') : 'non trovata',
+                collab: sezioneCollab ? (sezioneCollab.style.display !== 'none') : 'non trovata'
+            });
+            
             const allAnnunci = document.querySelectorAll('.annuncio-card');
-            console.log('📋 Annunci trovati:', allAnnunci.length);
+            console.log('📋 Annunci trovati totali:', allAnnunci.length);
+            
+            // Controlla annunci per sezione
+            const annunciVendita = document.querySelectorAll('#annunciVenditaContainer .annuncio-card');
+            const annunciPersonale = document.querySelectorAll('#annunciPersonaleContainer .annuncio-card');
+            const annunciSpazi = document.querySelectorAll('#annunciSpaziContainer .annuncio-card');
+            const annunciCollabor = document.querySelectorAll('#annunciCollabContainer .annuncio-card');
+            
+            console.log('📊 Annunci per sezione:', {
+                vendita: annunciVendita.length,
+                personale: annunciPersonale.length,
+                spazi: annunciSpazi.length,
+                collaborazioni: annunciCollabor.length
+            });
             
             allAnnunci.forEach((annuncio, index) => {
                 const autoreAnnuncio = annuncio.getAttribute('data-autore');
                 const deleteContainer = annuncio.querySelector('.delete-btn-container');
+                const parentContainer = annuncio.parentElement;
                 
                 console.log(`📌 Annuncio ${index + 1}:`, {
                     id: annuncio.id,
                     autore: autoreAnnuncio,
-                    containerPresente: !!deleteContainer
+                    containerPresente: !!deleteContainer,
+                    parentId: parentContainer ? parentContainer.id : 'nessuno',
+                    visibile: annuncio.offsetParent !== null
                 });
                 
                 if (deleteContainer) {
@@ -1223,7 +1436,7 @@
                     // Mostra il pulsante solo se l'utente può cancellare
                     if (currentUser) {
                         const puo_cancellare = currentUser.email === autoreAnnuncio || currentUser.role === 'admin';
-                        console.log(`🔑 Può cancellare:`, puo_cancellare, {
+                        console.log(`🔑 Può cancellare ${annuncio.id}:`, puo_cancellare, {
                             userEmail: currentUser.email,
                             autoreEmail: autoreAnnuncio,
                             isAdmin: currentUser.role === 'admin'
@@ -1232,7 +1445,6 @@
                         if (puo_cancellare) {
                             // Determina il tipo basandosi sul container padre
                             let tipo = 'vendita'; // default
-                            const parentContainer = annuncio.parentElement;
                             
                             if (parentContainer) {
                                 if (parentContainer.id === 'annunciVenditaContainer') {
@@ -1261,7 +1473,7 @@
                 }
             });
             
-            console.log('✅ Aggiornamento pulsanti completato');
+            console.log('✅ ========== AGGIORNAMENTO COMPLETATO ==========');
         }
 
         // Funzioni di navigazione
@@ -1419,10 +1631,24 @@
                 showNotification('📝 Compila il form sottostante', 'info');
             } else {
                 form.style.display = 'none';
+                
+                // Reset completo del form
                 form.querySelectorAll('input, textarea, select').forEach(field => {
                     if (field.type !== 'button' && field.type !== 'submit') {
                         field.value = field.tagName === 'SELECT' ? field.options[0].value : '';
                     }
+                });
+                
+                // Reset preview foto
+                const previewContainers = form.querySelectorAll('[id*="preview"]');
+                previewContainers.forEach(container => {
+                    container.innerHTML = '';
+                });
+                
+                // Reset input file
+                const fileInputs = form.querySelectorAll('input[type="file"]');
+                fileInputs.forEach(input => {
+                    input.value = '';
                 });
             }
         }
@@ -1439,6 +1665,7 @@
             const titolo = document.getElementById('titoloVendita').value;
             const descrizione = document.getElementById('descrizioneVendita').value;
             const prezzo = document.getElementById('prezzoVendita').value;
+            const fotoInput = document.getElementById('fotoVendita');
             
             if (!titolo || !descrizione || !prezzo) {
                 showNotification('⚠️ Compila tutti i campi!', 'warning');
@@ -1471,42 +1698,66 @@
                 'VEICOLI': '🚗'
             };
             
-            // Mostra il pulsante cancella solo se l'utente è admin o l'autore dell'annuncio
-            const showDeleteBtn = currentUser.role === 'admin' || true; // true perché è appena creato dall'utente corrente
-            
-            nuovoAnnuncio.innerHTML = `
-                <div style="display: flex; gap: 15px; align-items: center;">
-                    <div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[categoria]}</div>
-                    <div style="flex: 1;">
-                        <div style="margin-bottom: 8px;">
-                            <span class="badge ${badgeColors[tipo]}">${tipo}</span>
-                            <span class="badge purple">${categoria}</span>
-                            <span class="badge orange">NUOVO</span>
+            // Gestione foto
+            let fotoHtml = '';
+            if (fotoInput.files && fotoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const fotoSrc = e.target.result;
+                    
+                    fotoHtml = `
+                        <div class="annuncio-foto-container">
+                            <img src="${fotoSrc}" alt="${titolo}" class="annuncio-foto">
+                            <button class="remove-foto-btn" onclick="rimuoviFotoAnnuncio('${annuncioId}')" title="Rimuovi foto">❌</button>
                         </div>
-                        <h4 style="color: #2c3e50; margin-bottom: 5px;">${titolo}</h4>
-                        <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="color: ${tipo === 'COMPRO' ? '#e74c3c' : tipo === 'SCAMBIO' ? '#3498db' : '#27ae60'}; font-weight: bold; font-size: 20px;">${tipo === 'SCAMBIO' ? prezzo : '€' + prezzo}</span>
-                            <span style="color: #95a5a6; font-size: 11px;">${currentUser.name} - Adesso</span>
+                    `;
+                    
+                    aggiungiAnnuncioVendita();
+                };
+                reader.readAsDataURL(fotoInput.files[0]);
+            } else {
+                fotoHtml = `<div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[categoria]}</div>`;
+                aggiungiAnnuncioVendita();
+            }
+            
+            function aggiungiAnnuncioVendita() {
+                nuovoAnnuncio.innerHTML = `
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        ${fotoHtml}
+                        <div style="flex: 1;">
+                            <div style="margin-bottom: 8px;">
+                                <span class="badge ${badgeColors[tipo]}">${tipo}</span>
+                                <span class="badge purple">${categoria}</span>
+                                <span class="badge orange">NUOVO</span>
+                            </div>
+                            <h4 style="color: #2c3e50; margin-bottom: 5px;">${titolo}</h4>
+                            <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: ${tipo === 'COMPRO' ? '#e74c3c' : tipo === 'SCAMBIO' ? '#3498db' : '#27ae60'}; font-weight: bold; font-size: 20px;">${tipo === 'SCAMBIO' ? prezzo : '€' + prezzo}</span>
+                                <span style="color: #95a5a6; font-size: 11px;">${currentUser.name} - Adesso</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
+                            <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'vendita')">🗑️ Cancella</button>
                         </div>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                        ${showDeleteBtn ? `<button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'vendita')">🗑️ Cancella</button>` : ''}
-                    </div>
-                </div>
-            `;
-            
-            container.insertBefore(nuovoAnnuncio, container.firstChild);
-            
-            const counter = document.getElementById('countVendita');
-            counter.innerText = parseInt(counter.innerText) + 1;
-            
-            document.getElementById('titoloVendita').value = '';
-            document.getElementById('descrizioneVendita').value = '';
-            document.getElementById('prezzoVendita').value = '';
-            toggleForm('formVendoCompro');
-            
-            showNotification(`✅ Annuncio "${titolo}" pubblicato con successo!`, 'success');
+                `;
+                
+                container.insertBefore(nuovoAnnuncio, container.firstChild);
+                
+                const counter = document.getElementById('countVendita');
+                counter.innerText = parseInt(counter.innerText) + 1;
+                
+                // Reset form
+                document.getElementById('titoloVendita').value = '';
+                document.getElementById('descrizioneVendita').value = '';
+                document.getElementById('prezzoVendita').value = '';
+                document.getElementById('fotoVendita').value = '';
+                document.getElementById('previewVendita').innerHTML = '';
+                
+                toggleForm('formVendoCompro');
+                showNotification(`✅ Annuncio "${titolo}" pubblicato con successo!`, 'success');
+            }
         }
         
         function pubblicaAnnuncioPersonale() {
@@ -1520,6 +1771,7 @@
             const posizione = document.getElementById('posizionePersonale').value;
             const descrizione = document.getElementById('descrizionePersonale').value;
             const retribuzione = document.getElementById('retribuzionePersonale').value;
+            const fotoInput = document.getElementById('fotoPersonale');
             
             if (!posizione || !descrizione || !retribuzione) {
                 showNotification('⚠️ Compila tutti i campi!', 'warning');
@@ -1545,39 +1797,63 @@
                 'STAGE': '🎓'
             };
             
-            nuovoAnnuncio.innerHTML = `
-                <div style="display: flex; gap: 15px; align-items: center;">
-                    <div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[tipo]}</div>
-                    <div style="flex: 1;">
-                        <div style="margin-bottom: 8px;">
-                            <span class="badge blue">${tipo}</span>
-                            <span class="badge green">${contratto}</span>
-                            <span class="badge orange">NUOVO</span>
+            // Gestione foto
+            let fotoHtml = '';
+            if (fotoInput.files && fotoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fotoHtml = `
+                        <div class="annuncio-foto-container">
+                            <img src="${e.target.result}" alt="${posizione}" class="annuncio-foto">
+                            <button class="remove-foto-btn" onclick="rimuoviFotoAnnuncio('${annuncioId}')" title="Rimuovi foto">❌</button>
                         </div>
-                        <h4 style="color: #2c3e50; margin-bottom: 5px;">${posizione}</h4>
-                        <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="color: #3498db; font-weight: bold;">${retribuzione}</span>
-                            <span style="color: #95a5a6; font-size: 11px;">${currentUser.company || currentUser.name} - Adesso</span>
+                    `;
+                    aggiungiAnnuncioPersonale();
+                };
+                reader.readAsDataURL(fotoInput.files[0]);
+            } else {
+                fotoHtml = `<div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[tipo]}</div>`;
+                aggiungiAnnuncioPersonale();
+            }
+            
+            function aggiungiAnnuncioPersonale() {
+                nuovoAnnuncio.innerHTML = `
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        ${fotoHtml}
+                        <div style="flex: 1;">
+                            <div style="margin-bottom: 8px;">
+                                <span class="badge blue">${tipo}</span>
+                                <span class="badge green">${contratto}</span>
+                                <span class="badge orange">NUOVO</span>
+                            </div>
+                            <h4 style="color: #2c3e50; margin-bottom: 5px;">${posizione}</h4>
+                            <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: #3498db; font-weight: bold;">${retribuzione}</span>
+                                <span style="color: #95a5a6; font-size: 11px;">${currentUser.company || currentUser.name} - Adesso</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
+                            <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'personale')">🗑️ Cancella</button>
                         </div>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                        <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'personale')">🗑️ Cancella</button>
-                    </div>
-                </div>
-            `;
-            
-            container.insertBefore(nuovoAnnuncio, container.firstChild);
-            
-            const counter = document.getElementById('countPersonale');
-            counter.innerText = parseInt(counter.innerText) + 1;
-            
-            document.getElementById('posizionePersonale').value = '';
-            document.getElementById('descrizionePersonale').value = '';
-            document.getElementById('retribuzionePersonale').value = '';
-            toggleForm('formPersonale');
-            
-            showNotification(`✅ Offerta "${posizione}" pubblicata!`, 'success');
+                `;
+                
+                container.insertBefore(nuovoAnnuncio, container.firstChild);
+                
+                const counter = document.getElementById('countPersonale');
+                counter.innerText = parseInt(counter.innerText) + 1;
+                
+                // Reset form
+                document.getElementById('posizionePersonale').value = '';
+                document.getElementById('descrizionePersonale').value = '';
+                document.getElementById('retribuzionePersonale').value = '';
+                document.getElementById('fotoPersonale').value = '';
+                document.getElementById('previewPersonale').innerHTML = '';
+                
+                toggleForm('formPersonale');
+                showNotification(`✅ Offerta "${posizione}" pubblicata!`, 'success');
+            }
         }
         
         function pubblicaAnnuncioSpazio() {
@@ -1592,6 +1868,7 @@
             const descrizione = document.getElementById('descrizioneSpazio').value;
             const prezzo = document.getElementById('prezzoSpazio').value;
             const localita = document.getElementById('localitaSpazio').value;
+            const fotoInput = document.getElementById('fotoSpazio');
             
             if (!titolo || !descrizione || !prezzo || !localita) {
                 showNotification('⚠️ Compila tutti i campi!', 'warning');
@@ -1619,41 +1896,65 @@
                 'SALA': '🏛️'
             };
             
-            nuovoAnnuncio.innerHTML = `
-                <div style="display: flex; gap: 15px; align-items: center;">
-                    <div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[tipo]}</div>
-                    <div style="flex: 1;">
-                        <div style="margin-bottom: 8px;">
-                            <span class="badge purple">${tipo}</span>
-                            <span class="badge green">${metratura}</span>
-                            <span class="badge orange">NUOVO</span>
+            // Gestione foto
+            let fotoHtml = '';
+            if (fotoInput.files && fotoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fotoHtml = `
+                        <div class="annuncio-foto-container">
+                            <img src="${e.target.result}" alt="${titolo}" class="annuncio-foto">
+                            <button class="remove-foto-btn" onclick="rimuoviFotoAnnuncio('${annuncioId}')" title="Rimuovi foto">❌</button>
                         </div>
-                        <h4 style="color: #2c3e50; margin-bottom: 5px;">${titolo}</h4>
-                        <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="color: #9b59b6; font-weight: bold;">€${prezzo}</span>
-                            <span style="color: #95a5a6; font-size: 11px;">${localita} - Disponibile</span>
+                    `;
+                    aggiungiAnnuncioSpazio();
+                };
+                reader.readAsDataURL(fotoInput.files[0]);
+            } else {
+                fotoHtml = `<div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[tipo]}</div>`;
+                aggiungiAnnuncioSpazio();
+            }
+            
+            function aggiungiAnnuncioSpazio() {
+                nuovoAnnuncio.innerHTML = `
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        ${fotoHtml}
+                        <div style="flex: 1;">
+                            <div style="margin-bottom: 8px;">
+                                <span class="badge purple">${tipo}</span>
+                                <span class="badge green">${metratura}</span>
+                                <span class="badge orange">NUOVO</span>
+                            </div>
+                            <h4 style="color: #2c3e50; margin-bottom: 5px;">${titolo}</h4>
+                            <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: #9b59b6; font-weight: bold;">€${prezzo}</span>
+                                <span style="color: #95a5a6; font-size: 11px;">${localita} - Disponibile</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
+                            <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'spazi')">🗑️ Cancella</button>
                         </div>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                        <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'spazi')">🗑️ Cancella</button>
-                    </div>
-                </div>
-            `;
-            
-            container.insertBefore(nuovoAnnuncio, container.firstChild);
-            
-            const counter = document.getElementById('countSpazi');
-            counter.innerText = parseInt(counter.innerText) + 1;
-            
-            document.getElementById('titoloSpazio').value = '';
-            document.getElementById('descrizioneSpazio').value = '';
-            document.getElementById('prezzoSpazio').value = '';
-            document.getElementById('metratura').value = '';
-            document.getElementById('localitaSpazio').value = '';
-            toggleForm('formSpazi');
-            
-            showNotification(`✅ Spazio "${titolo}" pubblicato!`, 'success');
+                `;
+                
+                container.insertBefore(nuovoAnnuncio, container.firstChild);
+                
+                const counter = document.getElementById('countSpazi');
+                counter.innerText = parseInt(counter.innerText) + 1;
+                
+                // Reset form
+                document.getElementById('titoloSpazio').value = '';
+                document.getElementById('descrizioneSpazio').value = '';
+                document.getElementById('prezzoSpazio').value = '';
+                document.getElementById('metratura').value = '';
+                document.getElementById('localitaSpazio').value = '';
+                document.getElementById('fotoSpazio').value = '';
+                document.getElementById('previewSpazio').innerHTML = '';
+                
+                toggleForm('formSpazi');
+                showNotification(`✅ Spazio "${titolo}" pubblicato!`, 'success');
+            }
         }
         
         function pubblicaAnnuncioCollab() {
@@ -1667,6 +1968,7 @@
             const titolo = document.getElementById('titoloCollab').value;
             const descrizione = document.getElementById('descrizioneCollab').value;
             const budget = document.getElementById('budgetCollab').value;
+            const fotoInput = document.getElementById('fotoCollab');
             
             if (!titolo || !descrizione || !budget) {
                 showNotification('⚠️ Compila tutti i campi!', 'warning');
@@ -1701,39 +2003,63 @@
                 'RETE': 'blue'
             };
             
-            nuovoAnnuncio.innerHTML = `
-                <div style="display: flex; gap: 15px; align-items: center;">
-                    <div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[tipo]}</div>
-                    <div style="flex: 1;">
-                        <div style="margin-bottom: 8px;">
-                            <span class="badge ${badgeColors[tipo]}">${tipo}</span>
-                            <span class="badge blue">${settore}</span>
-                            <span class="badge purple">NUOVO</span>
+            // Gestione foto
+            let fotoHtml = '';
+            if (fotoInput.files && fotoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fotoHtml = `
+                        <div class="annuncio-foto-container">
+                            <img src="${e.target.result}" alt="${titolo}" class="annuncio-foto">
+                            <button class="remove-foto-btn" onclick="rimuoviFotoAnnuncio('${annuncioId}')" title="Rimuovi foto">❌</button>
                         </div>
-                        <h4 style="color: #2c3e50; margin-bottom: 5px;">${titolo}</h4>
-                        <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="color: #f39c12; font-weight: bold;">${budget}</span>
-                            <span style="color: #95a5a6; font-size: 11px;">${currentUser.company || currentUser.name} - Adesso</span>
+                    `;
+                    aggiungiAnnuncioCollab();
+                };
+                reader.readAsDataURL(fotoInput.files[0]);
+            } else {
+                fotoHtml = `<div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[tipo]}</div>`;
+                aggiungiAnnuncioCollab();
+            }
+            
+            function aggiungiAnnuncioCollab() {
+                nuovoAnnuncio.innerHTML = `
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        ${fotoHtml}
+                        <div style="flex: 1;">
+                            <div style="margin-bottom: 8px;">
+                                <span class="badge ${badgeColors[tipo]}">${tipo}</span>
+                                <span class="badge blue">${settore}</span>
+                                <span class="badge purple">NUOVO</span>
+                            </div>
+                            <h4 style="color: #2c3e50; margin-bottom: 5px;">${titolo}</h4>
+                            <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: #f39c12; font-weight: bold;">${budget}</span>
+                                <span style="color: #95a5a6; font-size: 11px;">${currentUser.company || currentUser.name} - Adesso</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
+                            <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'collab')">🗑️ Cancella</button>
                         </div>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                        <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'collab')">🗑️ Cancella</button>
-                    </div>
-                </div>
-            `;
-            
-            container.insertBefore(nuovoAnnuncio, container.firstChild);
-            
-            const counter = document.getElementById('countCollab');
-            counter.innerText = parseInt(counter.innerText) + 1;
-            
-            document.getElementById('titoloCollab').value = '';
-            document.getElementById('descrizioneCollab').value = '';
-            document.getElementById('budgetCollab').value = '';
-            toggleForm('formCollab');
-            
-            showNotification(`✅ Collaborazione "${titolo}" pubblicata!`, 'success');
+                `;
+                
+                container.insertBefore(nuovoAnnuncio, container.firstChild);
+                
+                const counter = document.getElementById('countCollab');
+                counter.innerText = parseInt(counter.innerText) + 1;
+                
+                // Reset form
+                document.getElementById('titoloCollab').value = '';
+                document.getElementById('descrizioneCollab').value = '';
+                document.getElementById('budgetCollab').value = '';
+                document.getElementById('fotoCollab').value = '';
+                document.getElementById('previewCollab').innerHTML = '';
+                
+                toggleForm('formCollab');
+                showNotification(`✅ Collaborazione "${titolo}" pubblicata!`, 'success');
+            }
         }
 
         // Funzioni Filtri Bacheca
