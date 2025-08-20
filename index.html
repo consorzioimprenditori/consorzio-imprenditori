@@ -1103,7 +1103,7 @@
                                     <div style="flex: 1;">
                                         <div style="margin-bottom: 8px;">
                                             <span class="badge orange">PARTNERSHIP</span>
-                                            <span class="badge green">MARKETING</span>
+                                            <span class="badge green">AGROALIMENTARE</span>
                                         </div>
                                         <h4 style="color: #2c3e50; margin-bottom: 5px;">Partner Campagna Marketing</h4>
                                         <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">Cerco partner per campagna nazionale food</p>
@@ -1136,10 +1136,21 @@
                                 <div class="form-group">
                                     <label>Settore</label>
                                     <select id="settoreCollab">
-                                        <option value="TECH">💻 Tech</option>
-                                        <option value="MARKETING">📊 Marketing</option>
-                                        <option value="ENERGIA">⚡ Energia</option>
-                                        <option value="SERVIZI">💼 Servizi</option>
+                                        <option value="AGROALIMENTARE">🌾 Agroalimentare & Food</option>
+                                        <option value="MODA-DESIGN">👗 Moda, Design & Arredamento</option>
+                                        <option value="INDUSTRIA">🏭 Industria & Manifattura</option>
+                                        <option value="AUTOMOTIVE">🚗 Automotive & Trasporti</option>
+                                        <option value="TECH-ICT">💻 Tech, ICT & Telecomunicazioni</option>
+                                        <option value="ENERGIA">⚡ Energia & Utilities</option>
+                                        <option value="EDILIZIA">🏗️ Edilizia & Costruzioni</option>
+                                        <option value="SANITA">🏥 Sanità & Farmaceutica</option>
+                                        <option value="COMMERCIO">🛍️ Commercio & Distribuzione</option>
+                                        <option value="TURISMO">🏨 Turismo & Ristorazione</option>
+                                        <option value="FINANZA">💰 Finanza & Assicurazioni</option>
+                                        <option value="SERVIZI">💼 Servizi & Consulenza</option>
+                                        <option value="LOGISTICA">📦 Logistica & Supply Chain</option>
+                                        <option value="MEDIA">🎬 Media, Cultura & Entertainment</option>
+                                        <option value="FORMAZIONE">🎓 Istruzione & Formazione</option>
                                     </select>
                                 </div>
                             </div>
@@ -1779,6 +1790,25 @@
                 'VEICOLI': '🚗'
             };
             
+            // Nomi settori formattati per visualizzazione
+            const settoreDisplay = {
+                'AGROALIMENTARE': 'Agroalimentare',
+                'MODA-DESIGN': 'Moda & Design',
+                'INDUSTRIA': 'Industria',
+                'AUTOMOTIVE': 'Automotive',
+                'TECH-ICT': 'Tech & ICT',
+                'ENERGIA': 'Energia',
+                'EDILIZIA': 'Edilizia',
+                'SANITA': 'Sanità',
+                'COMMERCIO': 'Commercio',
+                'TURISMO': 'Turismo',
+                'FINANZA': 'Finanza',
+                'SERVIZI': 'Servizi',
+                'LOGISTICA': 'Logistica',
+                'MEDIA': 'Media',
+                'FORMAZIONE': 'Formazione'
+            };
+            
             // Gestione foto
             let fotoHtml = '';
             if (fotoInput.files && fotoInput.files[0]) {
@@ -2099,6 +2129,25 @@
                 'RETE': 'blue'
             };
             
+            // Colori badge per settore
+            const settoreBadgeColors = {
+                'AGROALIMENTARE': 'green',
+                'MODA-DESIGN': 'purple',
+                'INDUSTRIA': 'blue',
+                'AUTOMOTIVE': 'red',
+                'TECH-ICT': 'blue',
+                'ENERGIA': 'orange',
+                'EDILIZIA': 'orange',
+                'SANITA': 'red',
+                'COMMERCIO': 'purple',
+                'TURISMO': 'green',
+                'FINANZA': 'blue',
+                'SERVIZI': 'purple',
+                'LOGISTICA': 'orange',
+                'MEDIA': 'red',
+                'FORMAZIONE': 'green'
+            };
+            
             // Gestione foto
             let fotoHtml = '';
             if (fotoInput.files && fotoInput.files[0]) {
@@ -2125,7 +2174,7 @@
                         <div style="flex: 1;">
                             <div style="margin-bottom: 8px;">
                                 <span class="badge ${badgeColors[tipo]}">${tipo}</span>
-                                <span class="badge blue">${settore}</span>
+                                <span class="badge ${settoreBadgeColors[settore] || 'blue'}">${settoreDisplay[settore] || settore}</span>
                                 <span class="badge purple">NUOVO</span>
                             </div>
                             <h4 style="color: #2c3e50; margin-bottom: 5px;">${titolo}</h4>
