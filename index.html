@@ -580,7 +580,7 @@
                     </div>
                     
                     <div class="dashboard-grid">
-                        <label for="bacheca" class="nav-btn admin">
+                        <label for="bacheca" class="nav-btn admin" onclick="entraNellaBacheca()">
                             <div class="notification-dot">48</div>
                             <div class="card-icon">📌</div>
                             <div class="card-title">BACHECA MARKETPLACE</div>
@@ -641,7 +641,7 @@
                     </div>
                     
                     <div class="dashboard-grid">
-                        <label for="bacheca" class="nav-btn member">
+                        <label for="bacheca" class="nav-btn member" onclick="entraNellaBacheca()">
                             <div class="notification-dot">48</div>
                             <div class="card-icon">📌</div>
                             <div class="card-title">BACHECA MARKETPLACE</div>
@@ -701,7 +701,7 @@
                     </div>
                     
                     <div class="dashboard-grid">
-                        <label for="bacheca" class="nav-btn consulente">
+                        <label for="bacheca" class="nav-btn consulente" onclick="entraNellaBacheca()">
                             <div class="notification-dot">48</div>
                             <div class="card-icon">📌</div>
                             <div class="card-title">BACHECA</div>
@@ -738,6 +738,12 @@
                             <div><div style="font-size: 20px; font-weight: bold;" id="countPersonale">1</div><div style="font-size: 11px;">Ricerche Personale</div></div>
                             <div><div style="font-size: 20px; font-weight: bold;" id="countSpazi">1</div><div style="font-size: 11px;">Spazi</div></div>
                             <div><div style="font-size: 20px; font-weight: bold;" id="countCollab">1</div><div style="font-size: 11px;">Collaborazioni</div></div>
+                        </div>
+                        <!-- BOTTONE TEST PER DEBUG -->
+                        <div style="margin-top: 15px;">
+                            <button class="action-btn blue" onclick="window.updateDeleteButtons()" style="padding: 8px 15px; font-size: 12px;">
+                                🔄 Aggiorna Pulsanti (TEST)
+                            </button>
                         </div>
                     </div>
                     
@@ -834,7 +840,7 @@
 
                         <!-- Container annunci Personale -->
                         <div id="annunciPersonaleContainer">
-                            <div class="annuncio-card" id="annuncio_esempio_2" data-autore="techsolutions@example.com">
+                            <div class="annuncio-card" id="annuncio_esempio_2" data-autore="rossi@rossisrl.it">
                                 <div style="display: flex; gap: 15px; align-items: center;">
                                     <div style="width: 100px; height: 80px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">👨‍💻</div>
                                     <div style="flex: 1;">
@@ -846,7 +852,7 @@
                                         <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">Cerchiamo developer con esperienza React/Node</p>
                                         <div style="display: flex; justify-content: space-between; align-items: center;">
                                             <span style="color: #3498db; font-weight: bold;">€45-55K/anno</span>
-                                            <span style="color: #95a5a6; font-size: 11px;">TechSolutions - Oggi</span>
+                                            <span style="color: #95a5a6; font-size: 11px;">Marco Rossi - Oggi</span>
                                         </div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
@@ -909,7 +915,7 @@
 
                         <!-- Container annunci Spazi -->
                         <div id="annunciSpaziContainer">
-                            <div class="annuncio-card" id="annuncio_esempio_3" data-autore="eur@immobiliare.it">
+                            <div class="annuncio-card" id="annuncio_esempio_3" data-autore="rossi@rossisrl.it">
                                 <div style="display: flex; gap: 15px; align-items: center;">
                                     <div style="width: 100px; height: 80px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">🏢</div>
                                     <div style="flex: 1;">
@@ -921,7 +927,7 @@
                                         <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">15 postazioni, 2 sale riunioni, parcheggio</p>
                                         <div style="display: flex; justify-content: space-between; align-items: center;">
                                             <span style="color: #9b59b6; font-weight: bold;">€2.500/mese</span>
-                                            <span style="color: #95a5a6; font-size: 11px;">Roma EUR - Disponibile</span>
+                                            <span style="color: #95a5a6; font-size: 11px;">Marco Rossi - Disponibile</span>
                                         </div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
@@ -986,7 +992,7 @@
 
                         <!-- Container annunci Collaborazioni -->
                         <div id="annunciCollabContainer">
-                            <div class="annuncio-card" id="annuncio_esempio_4" data-autore="creative@agency.it">
+                            <div class="annuncio-card" id="annuncio_esempio_4" data-autore="rossi@rossisrl.it">
                                 <div style="display: flex; gap: 15px; align-items: center;">
                                     <div style="width: 100px; height: 80px; background: linear-gradient(135deg, #f39c12, #e67e22); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">🤝</div>
                                     <div style="flex: 1;">
@@ -998,7 +1004,7 @@
                                         <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">Cerco partner per campagna nazionale food</p>
                                         <div style="display: flex; justify-content: space-between; align-items: center;">
                                             <span style="color: #f39c12; font-weight: bold;">Budget: €50K condiviso</span>
-                                            <span style="color: #95a5a6; font-size: 11px;">Creative Agency - 1 giorno fa</span>
+                                            <span style="color: #95a5a6; font-size: 11px;">Marco Rossi - 1 giorno fa</span>
                                         </div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
@@ -1087,33 +1093,60 @@
         
         // Funzione per cancellare annuncio
         window.cancellaAnnuncio = function(annuncioId, tipo) {
-            console.log('Cancellazione annuncio:', annuncioId, tipo);
+            console.log('🗑️ CANCELLAZIONE RICHIESTA:', {
+                annuncioId: annuncioId,
+                tipo: tipo,
+                currentUser: currentUser ? currentUser.email : 'nessuno'
+            });
             
             try {
                 const annuncio = document.getElementById(annuncioId);
                 if (!annuncio) {
-                    console.error('Annuncio non trovato:', annuncioId);
+                    console.error('❌ Annuncio non trovato nel DOM:', annuncioId);
                     showNotification('❌ Errore: annuncio non trovato', 'error');
                     return;
                 }
                 
+                console.log('✅ Annuncio trovato nel DOM:', annuncio);
+                
                 // Verifica permessi
                 const autoreAnnuncio = annuncio.getAttribute('data-autore');
-                if (currentUser) {
-                    // Solo l'autore o l'admin possono cancellare
-                    if (currentUser.email !== autoreAnnuncio && currentUser.role !== 'admin') {
-                        showNotification('⚠️ Non hai i permessi per cancellare questo annuncio', 'warning');
-                        return;
-                    }
-                } else {
+                console.log('👤 Controllo permessi:', {
+                    autoreAnnuncio: autoreAnnuncio,
+                    currentUserEmail: currentUser ? currentUser.email : 'nessuno',
+                    currentUserRole: currentUser ? currentUser.role : 'nessuno',
+                    emailMatch: currentUser ? (currentUser.email === autoreAnnuncio) : false,
+                    isAdmin: currentUser ? (currentUser.role === 'admin') : false
+                });
+                
+                if (!currentUser) {
+                    console.log('⚠️ Utente non loggato');
                     showNotification('⚠️ Devi essere loggato per cancellare annunci', 'warning');
                     return;
                 }
                 
-                if (!confirm('Sei sicuro di voler cancellare questo annuncio?')) {
-                    console.log('Cancellazione annullata dall\'utente');
+                // Solo l'autore o l'admin possono cancellare
+                const puo_cancellare = (currentUser.email === autoreAnnuncio) || (currentUser.role === 'admin');
+                console.log('🔑 Può cancellare?', puo_cancellare);
+                
+                if (!puo_cancellare) {
+                    console.log('❌ Permessi insufficienti');
+                    showNotification('⚠️ Puoi cancellare solo i tuoi annunci', 'warning');
                     return;
                 }
+                
+                console.log('✅ Permessi OK, richiedendo conferma...');
+                
+                // Conferma con debug
+                const conferma = confirm('Sei sicuro di voler cancellare questo annuncio?');
+                console.log('❓ Risposta conferma:', conferma);
+                
+                if (!conferma) {
+                    console.log('❌ Cancellazione ANNULLATA dall\'utente (ha cliccato Annulla)');
+                    return;
+                }
+                
+                console.log('✅ Conferma RICEVUTA, procedendo con la cancellazione...');
                 
                 // Animazione fade out
                 annuncio.style.transition = 'all 0.5s ease';
@@ -1121,8 +1154,9 @@
                 annuncio.style.transform = 'translateX(-100%)';
                 
                 setTimeout(() => {
+                    console.log('🗑️ Rimuovendo annuncio dal DOM...');
                     annuncio.remove();
-                    console.log('Annuncio rimosso dal DOM');
+                    console.log('✅ Annuncio rimosso dal DOM');
                     
                     // Aggiorna contatore
                     let counter;
@@ -1138,25 +1172,43 @@
                     
                     if (counter) {
                         const currentCount = parseInt(counter.innerText);
-                        counter.innerText = Math.max(0, currentCount - 1);
-                        console.log('Contatore aggiornato');
+                        const newCount = Math.max(0, currentCount - 1);
+                        counter.innerText = newCount;
+                        console.log('📊 Contatore aggiornato:', {
+                            tipo: tipo,
+                            oldValue: currentCount,
+                            newValue: newCount
+                        });
+                    } else {
+                        console.log('⚠️ Counter non trovato per tipo:', tipo);
                     }
                     
                     showNotification('🗑️ Annuncio cancellato con successo', 'success');
                 }, 500);
+                
             } catch (error) {
-                console.error('Errore durante la cancellazione:', error);
+                console.error('💥 ERRORE durante la cancellazione:', error);
                 showNotification('❌ Errore durante la cancellazione', 'error');
             }
         }
         
         // Funzione per aggiornare la visibilità dei pulsanti cancella
         window.updateDeleteButtons = function() {
-            const allAnnunci = document.querySelectorAll('.annuncio-card');
+            console.log('🔄 Aggiornamento pulsanti cancella...');
+            console.log('Current user:', currentUser ? currentUser.email : 'nessuno');
             
-            allAnnunci.forEach(annuncio => {
+            const allAnnunci = document.querySelectorAll('.annuncio-card');
+            console.log('📋 Annunci trovati:', allAnnunci.length);
+            
+            allAnnunci.forEach((annuncio, index) => {
                 const autoreAnnuncio = annuncio.getAttribute('data-autore');
                 const deleteContainer = annuncio.querySelector('.delete-btn-container');
+                
+                console.log(`📌 Annuncio ${index + 1}:`, {
+                    id: annuncio.id,
+                    autore: autoreAnnuncio,
+                    containerPresente: !!deleteContainer
+                });
                 
                 if (deleteContainer) {
                     // Pulisci il container
@@ -1164,7 +1216,14 @@
                     
                     // Mostra il pulsante solo se l'utente può cancellare
                     if (currentUser) {
-                        if (currentUser.email === autoreAnnuncio || currentUser.role === 'admin') {
+                        const puo_cancellare = currentUser.email === autoreAnnuncio || currentUser.role === 'admin';
+                        console.log(`🔑 Può cancellare:`, puo_cancellare, {
+                            userEmail: currentUser.email,
+                            autoreEmail: autoreAnnuncio,
+                            isAdmin: currentUser.role === 'admin'
+                        });
+                        
+                        if (puo_cancellare) {
                             // Determina il tipo basandosi sul container padre
                             let tipo = 'vendita'; // default
                             const parentContainer = annuncio.parentElement;
@@ -1181,6 +1240,8 @@
                                 }
                             }
                             
+                            console.log(`✅ Aggiungendo pulsante cancella per ${annuncio.id} (tipo: ${tipo})`);
+                            
                             deleteContainer.innerHTML = `
                                 <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" 
                                         onclick="window.cancellaAnnuncio('${annuncio.id}', '${tipo}')">
@@ -1189,8 +1250,12 @@
                             `;
                         }
                     }
+                } else {
+                    console.log(`❌ Container delete-btn-container mancante per ${annuncio.id}`);
                 }
             });
+            
+            console.log('✅ Aggiornamento pulsanti completato');
         }
 
         // Funzioni di navigazione
@@ -1210,6 +1275,8 @@
             
             if (user) {
                 currentUser = user;
+                console.log('🔑 Login effettuato:', currentUser);
+                
                 if (role === 'admin') {
                     document.getElementById('admin-dashboard').checked = true;
                 } else if (role === 'member') {
@@ -1217,8 +1284,15 @@
                 } else if (role === 'consulente') {
                     document.getElementById('consulente-dashboard').checked = true;
                 }
+                
                 updateUserInfo();
-                window.updateDeleteButtons(); // Aggiorna i pulsanti cancella
+                
+                // Aggiorna immediatamente i pulsanti
+                console.log('🔄 Chiamando updateDeleteButtons dopo login...');
+                setTimeout(() => {
+                    window.updateDeleteButtons();
+                }, 500);
+                
                 showNotification(`✅ Accesso effettuato come ${user.name}`, 'success');
             } else {
                 showNotification('❌ Credenziali non valide', 'error');
@@ -1244,6 +1318,15 @@
             } else {
                 document.getElementById('login').checked = true;
             }
+        }
+
+        // Funzione che viene chiamata quando si entra nella bacheca
+        function entraNellaBacheca() {
+            console.log('📌 Entrato nella bacheca!');
+            setTimeout(() => {
+                console.log('🔄 Aggiornando pulsanti dalla bacheca...');
+                window.updateDeleteButtons();
+            }, 300);
         }
 
         function updateUserInfo() {
@@ -1287,6 +1370,11 @@
                 sectionToShow.classList.add('active');
                 sectionToShow.style.display = 'block';
                 console.log('Sezione attivata:', sectionToShow.id);
+                
+                // Aggiorna i pulsanti cancella quando si cambia tab
+                setTimeout(() => {
+                    window.updateDeleteButtons();
+                }, 100);
             }
         }
 
