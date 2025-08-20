@@ -1376,7 +1376,7 @@
                             <span style="color: #95a5a6; font-size: 11px;">${currentUser.name} - Adesso</span>
                         </div>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
                         ${showDeleteBtn ? `<button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'vendita')">🗑️ Cancella</button>` : ''}
                     </div>
                 </div>
@@ -1447,7 +1447,7 @@
                             <span style="color: #95a5a6; font-size: 11px;">${currentUser.company || currentUser.name} - Adesso</span>
                         </div>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
                         <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'personale')">🗑️ Cancella</button>
                     </div>
                 </div>
@@ -1521,7 +1521,7 @@
                             <span style="color: #95a5a6; font-size: 11px;">${localita} - Disponibile</span>
                         </div>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
                         <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'spazi')">🗑️ Cancella</button>
                     </div>
                 </div>
@@ -1603,7 +1603,7 @@
                             <span style="color: #95a5a6; font-size: 11px;">${currentUser.company || currentUser.name} - Adesso</span>
                         </div>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
                         <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'collab')">🗑️ Cancella</button>
                     </div>
                 </div>
