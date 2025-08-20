@@ -1326,7 +1326,26 @@
             setTimeout(() => {
                 console.log('🔄 Aggiornando pulsanti dalla bacheca...');
                 window.updateDeleteButtons();
+                
+                // Aggiornamento periodico per essere sicuri
+                setTimeout(() => {
+                    console.log('🔄 Secondo aggiornamento pulsanti...');
+                    window.updateDeleteButtons();
+                }, 1000);
+                
+                setTimeout(() => {
+                    console.log('🔄 Terzo aggiornamento pulsanti...');
+                    window.updateDeleteButtons();
+                }, 2000);
             }, 300);
+        }
+
+        // Funzione per aggiornare pulsanti automaticamente
+        function aggiornamentoPeriodico() {
+            if (currentUser && document.getElementById('bachecaPage').style.display !== 'none') {
+                console.log('🔄 Aggiornamento automatico pulsanti...');
+                window.updateDeleteButtons();
+            }
         }
 
         function updateUserInfo() {
@@ -1340,7 +1359,7 @@
 
         // Funzioni Tab Bacheca
         function switchTab(tab, btnElement) {
-            console.log('Switching to tab:', tab);
+            console.log('🔄 Switching to tab:', tab);
             
             // Se btnElement non è passato, usa event.target
             const clickedBtn = btnElement || (window.event ? window.event.target : null);
@@ -1369,12 +1388,13 @@
             if (sectionToShow) {
                 sectionToShow.classList.add('active');
                 sectionToShow.style.display = 'block';
-                console.log('Sezione attivata:', sectionToShow.id);
+                console.log('✅ Sezione attivata:', sectionToShow.id);
                 
-                // Aggiorna i pulsanti cancella quando si cambia tab
+                // IMPORTANTE: Aggiorna i pulsanti cancella quando si cambia tab
                 setTimeout(() => {
+                    console.log('🔄 Aggiornando pulsanti cancella per la nuova sezione...');
                     window.updateDeleteButtons();
-                }, 100);
+                }, 200);
             }
         }
 
@@ -1827,14 +1847,22 @@
             document.head.appendChild(style);
             
             // Aggiorna i pulsanti cancella all'avvio
-            window.updateDeleteButtons();
-            console.log('✅ Pulsanti cancella aggiornati');
+            setTimeout(() => {
+                console.log('🔄 Primo aggiornamento pulsanti...');
+                window.updateDeleteButtons();
+            }, 500);
             
-            // Test del pulsante cancella
-            const testBtn = document.querySelector('.action-btn.red');
-            if (testBtn) {
-                console.log('✅ Pulsanti cancella trovati nel DOM');
-            }
+            setTimeout(() => {
+                console.log('🔄 Secondo aggiornamento pulsanti...');
+                window.updateDeleteButtons();
+            }, 1500);
+            
+            // Aggiornamento periodico ogni 3 secondi
+            setInterval(() => {
+                if (currentUser) {
+                    aggiornamentoPeriodico();
+                }
+            }, 3000);
             
             console.log('✅ Sistema inizializzato correttamente');
         };
