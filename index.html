@@ -829,18 +829,6 @@
                             <div><div style="font-size: 20px; font-weight: bold;" id="countSpazi">1</div><div style="font-size: 11px;">Spazi</div></div>
                             <div><div style="font-size: 20px; font-weight: bold;" id="countCollab">1</div><div style="font-size: 11px;">Collaborazioni</div></div>
                         </div>
-                        <!-- BOTTONE TEST PER DEBUG -->
-                        <div style="margin-top: 15px; text-align: center;">
-                            <button class="action-btn blue" onclick="window.updateDeleteButtons()" style="padding: 12px 20px; font-size: 14px; margin: 0 10px;">
-                                🔄 Aggiorna Pulsanti
-                            </button>
-                            <button class="action-btn green" onclick="testFotoFunctions()" style="padding: 12px 20px; font-size: 14px; margin: 0 10px;">
-                                📸 TEST FOTO SYSTEM
-                            </button>
-                            <button class="action-btn orange" onclick="aggiungiCampoFotoATutti()" style="padding: 12px 20px; font-size: 14px; margin: 0 10px;">
-                                🎯 FORZA PULSANTI FOTO
-                            </button>
-                        </div>
                     </div>
                     
                     <!-- Tab Navigation -->
@@ -878,7 +866,6 @@
                                         </div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                                        <!-- PULSANTI STATICI PER TEST -->
                                         <button class="action-btn green" style="padding: 6px 12px; font-size: 11px;" onclick="aggiungiFotoAnnuncio('annuncio_esempio_1')" title="Aggiungi foto">📸➕ Foto</button>
                                         <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('annuncio_esempio_1', 'vendita')">🗑️ Cancella</button>
                                     </div>
@@ -940,9 +927,6 @@
                             <button class="filter-btn" onclick="filterPersonale('offro', this)">💼 Offro Lavoro</button>
                             <button class="filter-btn" onclick="filterPersonale('cerco', this)">🔍 Cerco Lavoro</button>
                             <button class="action-btn blue" onclick="toggleForm('formPersonale')">➕ Pubblica Offerta</button>
-                            <button class="action-btn orange" onclick="window.updateDeleteButtons()" style="padding: 8px 15px; font-size: 12px;">
-                                🔄 Aggiorna Pulsanti PERSONALE
-                            </button>
                         </div>
 
                         <!-- Container annunci Personale -->
@@ -963,7 +947,6 @@
                                         </div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                                        <!-- PULSANTI STATICI PER TEST -->
                                         <button class="action-btn green" style="padding: 6px 12px; font-size: 11px;" onclick="aggiungiFotoAnnuncio('annuncio_esempio_2')" title="Aggiungi foto">📸➕ Foto</button>
                                         <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('annuncio_esempio_2', 'personale')">🗑️ Cancella</button>
                                     </div>
@@ -1026,9 +1009,6 @@
                             <button class="filter-btn" onclick="filterSpazi('coworking', this)">👥 Coworking</button>
                             <button class="filter-btn" onclick="filterSpazi('magazzini', this)">📦 Magazzini</button>
                             <button class="action-btn purple" onclick="toggleForm('formSpazi')">➕ Aggiungi Spazio</button>
-                            <button class="action-btn orange" onclick="window.updateDeleteButtons()" style="padding: 8px 15px; font-size: 12px;">
-                                🔄 Aggiorna Pulsanti SPAZI
-                            </button>
                         </div>
 
                         <!-- Container annunci Spazi -->
@@ -1049,7 +1029,6 @@
                                         </div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                                        <!-- PULSANTI STATICI PER TEST -->
                                         <button class="action-btn green" style="padding: 6px 12px; font-size: 11px;" onclick="aggiungiFotoAnnuncio('annuncio_esempio_3')" title="Aggiungi foto">📸➕ Foto</button>
                                         <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('annuncio_esempio_3', 'spazi')">🗑️ Cancella</button>
                                     </div>
@@ -1114,9 +1093,6 @@
                             <button class="filter-btn" onclick="filterCollab('progetti', this)">🚀 Progetti</button>
                             <button class="filter-btn" onclick="filterCollab('fornitori', this)">📦 Fornitori</button>
                             <button class="action-btn orange" onclick="toggleForm('formCollab')">➕ Proponi Collaborazione</button>
-                            <button class="action-btn blue" onclick="window.updateDeleteButtons()" style="padding: 8px 15px; font-size: 12px;">
-                                🔄 Aggiorna Pulsanti COLLAB
-                            </button>
                         </div>
 
                         <!-- Container annunci Collaborazioni -->
@@ -1137,7 +1113,6 @@
                                         </div>
                                     </div>
                                     <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                                        <!-- PULSANTI STATICI PER TEST -->
                                         <button class="action-btn green" style="padding: 6px 12px; font-size: 11px;" onclick="aggiungiFotoAnnuncio('annuncio_esempio_4')" title="Aggiungi foto">📸➕ Foto</button>
                                         <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('annuncio_esempio_4', 'collab')">🗑️ Cancella</button>
                                     </div>
@@ -1198,9 +1173,17 @@
     </div>
 
     <script>
-        // Variabile globale per le foto
-        let currentFotoData = {};
+        // ===========================================
+        // VARIABILI GLOBALI IMPORTANTI (MANCAVANO!)
+        // ===========================================
+        let currentUser = null;  // Utente corrente loggato
+        let annuncioIdCounter = 100;  // Contatore per ID univoci annunci
+        let currentFotoData = {};  // Storage per le foto
 
+        // ===========================================
+        // FUNZIONI FOTO
+        // ===========================================
+        
         // Funzione per preview foto
         function previewFoto(input, previewId) {
             const preview = document.getElementById(previewId);
@@ -1304,6 +1287,9 @@
             document.body.appendChild(fileInput);
             fileInput.click();
         }
+
+        // FUNZIONE CORRETTA per rimuovere foto
+        function rimuoviFotoAnnuncio(annuncioId) {
             console.log('🗑️ Rimozione foto annuncio:', annuncioId);
             
             const annuncio = document.getElementById(annuncioId);
@@ -1371,6 +1357,9 @@
             }
         }
 
+        // ===========================================
+        // DATABASE UTENTI
+        // ===========================================
         const users = {
             admin: {
                 email: 'admin@consorzio.it',
@@ -1396,6 +1385,10 @@
                 phone: '+39 072 1840410'
             }
         };
+        
+        // ===========================================
+        // FUNZIONI PRINCIPALI
+        // ===========================================
         
         // Funzione per cancellare annuncio
         window.cancellaAnnuncio = function(annuncioId, tipo) {
@@ -1503,34 +1496,8 @@
             console.log('🔄 ========== AGGIORNAMENTO PULSANTI CANCELLA ==========');
             console.log('Current user:', currentUser ? currentUser.email : 'nessuno');
             
-            // Controlla quale sezione è attiva
-            const sezioneVendita = document.getElementById('sezioneVendoCompro');
-            const sezionePersonale = document.getElementById('sezioneRicercaPersonale');
-            const sezioneSpazi = document.getElementById('sezioneSpaziCondivisi');
-            const sezioneCollab = document.getElementById('sezioneCollaborazioni');
-            
-            console.log('📋 Visibilità sezioni:', {
-                vendita: sezioneVendita ? (sezioneVendita.style.display !== 'none') : 'non trovata',
-                personale: sezionePersonale ? (sezionePersonale.style.display !== 'none') : 'non trovata',
-                spazi: sezioneSpazi ? (sezioneSpazi.style.display !== 'none') : 'non trovata',
-                collab: sezioneCollab ? (sezioneCollab.style.display !== 'none') : 'non trovata'
-            });
-            
             const allAnnunci = document.querySelectorAll('.annuncio-card');
             console.log('📋 Annunci trovati totali:', allAnnunci.length);
-            
-            // Controlla annunci per sezione
-            const annunciVendita = document.querySelectorAll('#annunciVenditaContainer .annuncio-card');
-            const annunciPersonale = document.querySelectorAll('#annunciPersonaleContainer .annuncio-card');
-            const annunciSpazi = document.querySelectorAll('#annunciSpaziContainer .annuncio-card');
-            const annunciCollabor = document.querySelectorAll('#annunciCollabContainer .annuncio-card');
-            
-            console.log('📊 Annunci per sezione:', {
-                vendita: annunciVendita.length,
-                personale: annunciPersonale.length,
-                spazi: annunciSpazi.length,
-                collaborazioni: annunciCollabor.length
-            });
             
             allAnnunci.forEach((annuncio, index) => {
                 const autoreAnnuncio = annuncio.getAttribute('data-autore');
@@ -1552,11 +1519,7 @@
                     // Mostra il pulsante solo se l'utente può cancellare
                     if (currentUser) {
                         const puo_cancellare = currentUser.email === autoreAnnuncio || currentUser.role === 'admin';
-                        console.log(`🔑 Può cancellare ${annuncio.id}:`, puo_cancellare, {
-                            userEmail: currentUser.email,
-                            autoreEmail: autoreAnnuncio,
-                            isAdmin: currentUser.role === 'admin'
-                        });
+                        console.log(`🔑 Può cancellare ${annuncio.id}:`, puo_cancellare);
                         
                         if (puo_cancellare) {
                             // Determina il tipo basandosi sul container padre
@@ -1606,7 +1569,9 @@
             console.log('✅ ========== AGGIORNAMENTO COMPLETATO ==========');
         }
 
-        // Funzioni di navigazione
+        // ===========================================
+        // FUNZIONI DI NAVIGAZIONE
+        // ===========================================
         function switchLoginTab(tab) {
             document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
@@ -1674,94 +1639,7 @@
             setTimeout(() => {
                 console.log('🔄 Aggiornando pulsanti dalla bacheca...');
                 window.updateDeleteButtons();
-                
-                // Aggiornamento periodico per essere sicuri
-                setTimeout(() => {
-                    console.log('🔄 Secondo aggiornamento pulsanti...');
-                    window.updateDeleteButtons();
-                }, 1000);
-                
-                setTimeout(() => {
-                    console.log('🔄 Terzo aggiornamento pulsanti...');
-                    window.updateDeleteButtons();
-                }, 2000);
             }, 300);
-        }
-
-        // Funzione per aggiornare pulsanti automaticamente
-        function aggiornamentoPeriodico() {
-            if (currentUser && document.getElementById('bachecaPage').style.display !== 'none') {
-                console.log('🔄 Aggiornamento automatico pulsanti...');
-                window.updateDeleteButtons();
-            }
-        }
-
-        // Funzione di test per le foto
-        function testFotoFunctions() {
-            console.log('📸 TEST FUNZIONI FOTO');
-            
-            if (!currentUser) {
-                showNotification('⚠️ Devi essere loggato per testare le foto', 'warning');
-                return;
-            }
-            
-            const allAnnunci = document.querySelectorAll('.annuncio-card');
-            console.log('📋 Annunci trovati per test foto:', allAnnunci.length);
-            
-            allAnnunci.forEach(annuncio => {
-                const autore = annuncio.getAttribute('data-autore');
-                const hasFoto = annuncio.querySelector('.annuncio-foto');
-                const hasIcon = annuncio.querySelector('div[style*="width: 100px"][style*="height: 80px"]');
-                
-                console.log(`📌 ${annuncio.id}:`, {
-                    autore: autore,
-                    puo_modificare: (currentUser.email === autore || currentUser.role === 'admin'),
-                    hasFoto: !!hasFoto,
-                    hasIcon: !!hasIcon
-                });
-            });
-            
-            showNotification('📸 Test foto completato - controlla console', 'info');
-        }
-
-        // Funzione per forzare l'aggiunta dei pulsanti foto a tutti gli annunci
-        function aggiungiCampoFotoATutti() {
-            console.log('🎯 FORZANDO AGGIUNTA PULSANTI FOTO...');
-            
-            if (!currentUser) {
-                showNotification('⚠️ Devi essere loggato', 'warning');
-                return;
-            }
-            
-            const allAnnunci = document.querySelectorAll('.annuncio-card');
-            console.log('📋 Annunci trovati:', allAnnunci.length);
-            
-            allAnnunci.forEach(annuncio => {
-                const autore = annuncio.getAttribute('data-autore');
-                const deleteContainer = annuncio.querySelector('.delete-btn-container');
-                
-                if (deleteContainer && (currentUser.email === autore || currentUser.role === 'admin')) {
-                    const hasFoto = annuncio.querySelector('.annuncio-foto');
-                    
-                    console.log(`🎯 Forzando pulsanti per ${annuncio.id}, hasFoto: ${!!hasFoto}`);
-                    
-                    if (hasFoto) {
-                        // Ha foto - mostra rimuovi
-                        deleteContainer.innerHTML = `
-                            <button class="action-btn blue" style="padding: 8px 12px; font-size: 12px; margin-bottom: 5px;" onclick="rimuoviFotoAnnuncio('${annuncio.id}')" title="Rimuovi foto">📸❌ Rimuovi</button>
-                            <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncio.id}', 'vendita')">🗑️ Cancella</button>
-                        `;
-                    } else {
-                        // Non ha foto - mostra aggiungi
-                        deleteContainer.innerHTML = `
-                            <button class="action-btn green" style="padding: 8px 12px; font-size: 12px; margin-bottom: 5px;" onclick="aggiungiFotoAnnuncio('${annuncio.id}')" title="Aggiungi foto">📸➕ Aggiungi</button>
-                            <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncio.id}', 'vendita')">🗑️ Cancella</button>
-                        `;
-                    }
-                }
-            });
-            
-            showNotification('🎯 Pulsanti foto forzati su tutti gli annunci!', 'success');
         }
 
         function updateUserInfo() {
@@ -1773,11 +1651,12 @@
             });
         }
 
-        // Funzioni Tab Bacheca
+        // ===========================================
+        // FUNZIONI TAB BACHECA
+        // ===========================================
         function switchTab(tab, btnElement) {
             console.log('🔄 Switching to tab:', tab);
             
-            // Se btnElement non è passato, usa event.target
             const clickedBtn = btnElement || (window.event ? window.event.target : null);
             
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -1814,7 +1693,9 @@
             }
         }
 
-        // Funzioni Form Toggle
+        // ===========================================
+        // FUNZIONI FORM TOGGLE
+        // ===========================================
         function toggleForm(formId) {
             const form = document.getElementById(formId);
             if (!form) {
@@ -1851,7 +1732,9 @@
             }
         }
 
-        // Funzioni Pubblicazione Annunci
+        // ===========================================
+        // FUNZIONI PUBBLICAZIONE ANNUNCI
+        // ===========================================
         function pubblicaAnnuncioVendita() {
             if (!currentUser) {
                 showNotification('⚠️ Devi essere loggato per pubblicare', 'warning');
@@ -1955,6 +1838,11 @@
                 
                 toggleForm('formVendoCompro');
                 showNotification(`✅ Annuncio "${titolo}" pubblicato con successo!`, 'success');
+                
+                // Aggiorna pulsanti
+                setTimeout(() => {
+                    window.updateDeleteButtons();
+                }, 200);
             }
         }
         
@@ -2051,6 +1939,11 @@
                 
                 toggleForm('formPersonale');
                 showNotification(`✅ Offerta "${posizione}" pubblicata!`, 'success');
+                
+                // Aggiorna pulsanti
+                setTimeout(() => {
+                    window.updateDeleteButtons();
+                }, 200);
             }
         }
         
@@ -2152,6 +2045,11 @@
                 
                 toggleForm('formSpazi');
                 showNotification(`✅ Spazio "${titolo}" pubblicato!`, 'success');
+                
+                // Aggiorna pulsanti
+                setTimeout(() => {
+                    window.updateDeleteButtons();
+                }, 200);
             }
         }
         
@@ -2257,12 +2155,18 @@
                 
                 toggleForm('formCollab');
                 showNotification(`✅ Collaborazione "${titolo}" pubblicata!`, 'success');
+                
+                // Aggiorna pulsanti
+                setTimeout(() => {
+                    window.updateDeleteButtons();
+                }, 200);
             }
         }
 
-        // Funzioni Filtri Bacheca
+        // ===========================================
+        // FUNZIONI FILTRI BACHECA
+        // ===========================================
         function filterAnnunci(tipo, btn) {
-            // Trova solo i filter-btn nel contenitore del bottone cliccato
             const container = btn.closest('.filter-bar');
             if (container) {
                 container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -2298,7 +2202,9 @@
             showNotification(`🔍 Filtro: ${tipo}`, 'info');
         }
 
-        // Notifiche
+        // ===========================================
+        // NOTIFICHE
+        // ===========================================
         function showNotification(message, type) {
             const colors = {
                 success: '#27ae60',
@@ -2331,7 +2237,9 @@
             }, 3000);
         }
 
-        // Inizializzazione
+        // ===========================================
+        // INIZIALIZZAZIONE
+        // ===========================================
         window.onload = function() {
             console.log('🔄 Inizializzazione sistema...');
             
@@ -2381,18 +2289,6 @@
                 console.log('🔄 Primo aggiornamento pulsanti...');
                 window.updateDeleteButtons();
             }, 500);
-            
-            setTimeout(() => {
-                console.log('🔄 Secondo aggiornamento pulsanti...');
-                window.updateDeleteButtons();
-            }, 1500);
-            
-            // Aggiornamento periodico ogni 3 secondi
-            setInterval(() => {
-                if (currentUser) {
-                    aggiornamentoPeriodico();
-                }
-            }, 3000);
             
             console.log('✅ Sistema inizializzato correttamente');
         };
