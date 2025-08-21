@@ -74,7 +74,8 @@
         #admin-dashboard:checked ~ .pages #adminDashboardPage,
         #member-dashboard:checked ~ .pages #memberDashboardPage,
         #consulente-dashboard:checked ~ .pages #consulenteDashboardPage,
-        #bacheca:checked ~ .pages #bachecaPage {
+        #bacheca:checked ~ .pages #bachecaPage,
+        #agenda-eventi:checked ~ .pages #agendaEventiPage {
             display: block;
         }
 
@@ -546,6 +547,159 @@
             transform: translateX(-3px);
         }
 
+        /* Stili Agenda Eventi */
+        .evento-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #ecf0f1;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .evento-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+
+        .evento-header {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .evento-data {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .evento-giorno {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .evento-mese {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .evento-info {
+            flex: 1;
+        }
+
+        .evento-titolo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .evento-dettagli {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .evento-dettaglio {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .partecipanti-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .partecipanti-avatar {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            color: white;
+            font-weight: bold;
+            margin-right: -10px;
+            border: 2px solid white;
+            font-size: 12px;
+        }
+
+        .btn-partecipa {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn-partecipa:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-cancella {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn-cancella:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .notifica-setting {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .evento-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .status-confermato {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-in-attesa {
+            background: #fff3cd;
+            color: #856404;
+        }
+
         @media (max-width: 768px) {
             .annuncio-foto {
                 width: 80px;
@@ -576,6 +730,7 @@
         <input type="radio" name="nav" id="member-dashboard" class="nav-input">
         <input type="radio" name="nav" id="consulente-dashboard" class="nav-input">
         <input type="radio" name="nav" id="bacheca" class="nav-input">
+        <input type="radio" name="nav" id="agenda-eventi" class="nav-input">
 
         <div class="pages">
             <!-- Login Page -->
@@ -737,11 +892,11 @@
                             <div class="card-title">BACHECA MARKETPLACE</div>
                         </label>
 
-                        <div class="nav-btn member" onclick="showNotification('📅 Agenda Eventi - Funzione Attiva!', 'success')">
+                        <label for="agenda-eventi" class="nav-btn member">
                             <div class="notification-dot">5</div>
                             <div class="card-icon">📅</div>
                             <div class="card-title">AGENDA EVENTI</div>
-                        </div>
+                        </label>
 
                         <div class="nav-btn member" onclick="showNotification('💼 20 Consulenti Disponibili!', 'success')">
                             <div class="notification-dot">20</div>
@@ -1180,6 +1335,263 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Agenda Eventi Page -->
+            <div id="agendaEventiPage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 User</div>
+                    <div class="logo">📅</div>
+                    <h1>Agenda Eventi del Consorzio</h1>
+                    <p>Partecipa agli eventi e ricevi notifiche automatiche</p>
+                </div>
+                
+                <div class="page-content">
+                    <!-- Stats Box Eventi -->
+                    <div class="member-stats-box">
+                        <h2 style="margin-bottom: 10px;">📅 I Tuoi Eventi</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiTotali">8</div><div style="font-size: 11px;">Eventi Totali</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiConfermati">3</div><div style="font-size: 11px;">Confermati</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiQuestoMese">5</div><div style="font-size: 11px;">Questo Mese</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="notificheAttive">2</div><div style="font-size: 11px;">Notifiche Attive</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Impostazioni Notifiche -->
+                    <div class="notifica-setting">
+                        <h4 style="margin-bottom: 10px;">⚙️ Impostazioni Notifiche</h4>
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="notificaWhatsapp" checked>
+                                <span>📱 WhatsApp</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="notificaApp" checked>
+                                <span>🔔 Notifica App</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="notificaEmail">
+                                <span>📧 Email</span>
+                            </label>
+                            <span style="color: #666; font-size: 12px;">
+                                ⏰ Riceverai: 1° avviso il giorno prima | 2° avviso alle 8:00 del giorno dell'evento
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Filtri Eventi -->
+                    <div class="filter-bar" style="margin-top: 20px;">
+                        <button class="filter-btn active" onclick="filterEventi('tutti', this)">Tutti gli Eventi</button>
+                        <button class="filter-btn" onclick="filterEventi('confermati', this)">✅ Confermati</button>
+                        <button class="filter-btn" onclick="filterEventi('questo-mese', this)">📅 Questo Mese</button>
+                        <button class="filter-btn" onclick="filterEventi('prossimi', this)">⏳ Prossimi 7 giorni</button>
+                    </div>
+
+                    <!-- Lista Eventi -->
+                    <div id="listaEventi" style="margin-top: 20px;">
+                        
+                        <!-- Evento 1 - Networking -->
+                        <div class="evento-card" data-evento-id="1" data-status="disponibile">
+                            <div class="evento-header">
+                                <div class="evento-data">
+                                    <div class="evento-giorno">28</div>
+                                    <div class="evento-mese">GEN</div>
+                                </div>
+                                <div class="evento-info">
+                                    <div class="evento-titolo">
+                                        🤝 Networking Imprenditori Roma
+                                        <span class="badge green">NETWORKING</span>
+                                    </div>
+                                    <div class="evento-dettagli">
+                                        <div class="evento-dettaglio">📍 Hotel Hilton Roma EUR</div>
+                                        <div class="evento-dettaglio">⏰ 18:30 - 21:00</div>
+                                        <div class="evento-dettaglio">👥 45 partecipanti</div>
+                                        <div class="evento-dettaglio">💰 Gratuito per membri</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="color: #666; margin: 10px 0;">
+                                Serata di networking dedicata agli imprenditori del consorzio. Aperitivo incluso, 
+                                presentazione nuovi membri e opportunità di business.
+                            </p>
+                            <div class="partecipanti-box">
+                                <strong>Partecipanti confermati:</strong>
+                                <div style="margin-top: 10px;">
+                                    <span class="partecipanti-avatar">MR</span>
+                                    <span class="partecipanti-avatar" style="background: linear-gradient(135deg, #27ae60, #229954);">GB</span>
+                                    <span class="partecipanti-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">LP</span>
+                                    <span class="partecipanti-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">AT</span>
+                                    <span style="margin-left: 15px; color: #666;">+41 altri</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <button class="btn-partecipa" onclick="confermaPartecipazione(1)">
+                                    ✅ Conferma Partecipazione
+                                </button>
+                                <span style="color: #666; font-size: 13px;">📅 Tra 7 giorni</span>
+                            </div>
+                        </div>
+
+                        <!-- Evento 2 - Workshop (Già confermato) -->
+                        <div class="evento-card" data-evento-id="2" data-status="confermato" style="border-color: #27ae60;">
+                            <div class="evento-header">
+                                <div class="evento-data" style="background: linear-gradient(135deg, #27ae60, #229954);">
+                                    <div class="evento-giorno">05</div>
+                                    <div class="evento-mese">FEB</div>
+                                </div>
+                                <div class="evento-info">
+                                    <div class="evento-titolo">
+                                        💻 Workshop Digital Marketing 2025
+                                        <span class="badge blue">FORMAZIONE</span>
+                                        <span class="evento-status status-confermato">✅ CONFERMATO</span>
+                                    </div>
+                                    <div class="evento-dettagli">
+                                        <div class="evento-dettaglio">📍 Sede Consorzio - Sala Conferenze</div>
+                                        <div class="evento-dettaglio">⏰ 09:00 - 13:00</div>
+                                        <div class="evento-dettaglio">👥 25/30 posti</div>
+                                        <div class="evento-dettaglio">💰 Incluso nella quota</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="color: #666; margin: 10px 0;">
+                                Workshop intensivo sulle strategie di digital marketing per il 2025. 
+                                Relatore: Dott. Giovanni Russo, esperto Google Ads e Social Media.
+                            </p>
+                            <div class="partecipanti-box" style="background: #d4edda;">
+                                <strong>✅ Sei iscritto a questo evento!</strong>
+                                <div style="margin-top: 8px; color: #155724;">
+                                    🔔 Riceverai notifica il 04/02 e il 05/02 alle 8:00
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <button class="btn-cancella" onclick="cancellaPartecipazione(2)">
+                                    ❌ Cancella Partecipazione
+                                </button>
+                                <button class="action-btn blue" style="padding: 12px 20px;" onclick="aggiungiAlCalendario(2)">
+                                    📅 Aggiungi al Calendario
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Evento 3 - Assemblea -->
+                        <div class="evento-card" data-evento-id="3" data-status="disponibile">
+                            <div class="evento-header">
+                                <div class="evento-data" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                                    <div class="evento-giorno">15</div>
+                                    <div class="evento-mese">FEB</div>
+                                </div>
+                                <div class="evento-info">
+                                    <div class="evento-titolo">
+                                        🏛️ Assemblea Generale Soci
+                                        <span class="badge red">IMPORTANTE</span>
+                                        <span class="badge orange">OBBLIGATORIO</span>
+                                    </div>
+                                    <div class="evento-dettagli">
+                                        <div class="evento-dettaglio">📍 Auditorium Consorzio</div>
+                                        <div class="evento-dettaglio">⏰ 15:00 - 18:00</div>
+                                        <div class="evento-dettaglio">👥 Tutti i membri</div>
+                                        <div class="evento-dettaglio">📋 Ordine del giorno disponibile</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="color: #666; margin: 10px 0;">
+                                Assemblea generale obbligatoria per tutti i soci. Approvazione bilancio, 
+                                elezione nuovo consiglio, presentazione progetti 2025.
+                            </p>
+                            <div style="margin-top: 15px;">
+                                <button class="btn-partecipa" onclick="confermaPartecipazione(3)">
+                                    ✅ Conferma Presenza
+                                </button>
+                                <button class="action-btn purple" style="padding: 12px 20px;" onclick="scaricaOrdineGiorno(3)">
+                                    📄 Scarica Ordine del Giorno
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Evento 4 - Cena di Gala (Confermato) -->
+                        <div class="evento-card" data-evento-id="4" data-status="confermato" style="border-color: #27ae60;">
+                            <div class="evento-header">
+                                <div class="evento-data" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                                    <div class="evento-giorno">22</div>
+                                    <div class="evento-mese">FEB</div>
+                                </div>
+                                <div class="evento-info">
+                                    <div class="evento-titolo">
+                                        🍷 Cena di Gala Annuale
+                                        <span class="badge purple">SOCIALE</span>
+                                        <span class="evento-status status-confermato">✅ CONFERMATO</span>
+                                    </div>
+                                    <div class="evento-dettagli">
+                                        <div class="evento-dettaglio">📍 Villa Miani - Roma</div>
+                                        <div class="evento-dettaglio">⏰ 20:00 - 24:00</div>
+                                        <div class="evento-dettaglio">👥 120 partecipanti</div>
+                                        <div class="evento-dettaglio">💰 €50 per persona</div>
+                                        <div class="evento-dettaglio">👔 Dress code: Elegante</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="color: #666; margin: 10px 0;">
+                                Cena di gala annuale con premiazione imprenditori dell'anno. 
+                                Menu gourmet, musica dal vivo, possibilità di invitare un accompagnatore.
+                            </p>
+                            <div class="partecipanti-box" style="background: #d4edda;">
+                                <strong>✅ Partecipazione confermata per 2 persone</strong>
+                                <div style="margin-top: 8px; color: #155724;">
+                                    💳 Pagamento effettuato: €100 | 🔔 Notifiche programmate
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <button class="btn-cancella" onclick="cancellaPartecipazione(4)">
+                                    ❌ Cancella Prenotazione
+                                </button>
+                                <button class="action-btn orange" style="padding: 12px 20px;" onclick="invitaOspite(4)">
+                                    ➕ Modifica Accompagnatore
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Evento 5 - Visita Aziendale -->
+                        <div class="evento-card" data-evento-id="5" data-status="disponibile">
+                            <div class="evento-header">
+                                <div class="evento-data" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                                    <div class="evento-giorno">10</div>
+                                    <div class="evento-mese">MAR</div>
+                                </div>
+                                <div class="evento-info">
+                                    <div class="evento-titolo">
+                                        🏭 Visita Stabilimento Ferrari
+                                        <span class="badge orange">ESCLUSIVO</span>
+                                        <span class="badge green">POSTI LIMITATI</span>
+                                    </div>
+                                    <div class="evento-dettagli">
+                                        <div class="evento-dettaglio">📍 Maranello (MO)</div>
+                                        <div class="evento-dettaglio">⏰ Partenza bus ore 7:00</div>
+                                        <div class="evento-dettaglio">👥 20/20 posti (Lista d'attesa)</div>
+                                        <div class="evento-dettaglio">💰 €120 (trasporto + pranzo)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="color: #666; margin: 10px 0;">
+                                Visita esclusiva allo stabilimento Ferrari con tour guidato, 
+                                museo e test drive su pista. Pranzo presso ristorante aziendale.
+                            </p>
+                            <div class="partecipanti-box" style="background: #fff3cd;">
+                                <strong>⚠️ Evento al completo</strong>
+                                <div style="margin-top: 8px; color: #856404;">
+                                    Puoi iscriverti alla lista d'attesa
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <button class="action-btn orange" onclick="listaAttesa(5)">
+                                    📋 Iscriviti alla Lista d'Attesa
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1190,6 +1602,14 @@
         let currentUser = null;  // Utente corrente loggato
         let annuncioIdCounter = 100;  // Contatore per ID univoci annunci
         let currentFotoData = {};  // Storage per le foto
+        
+        // Database Eventi e Partecipazioni
+        let eventiPartecipazioni = {
+            2: true,  // Workshop già confermato
+            4: true   // Cena di gala già confermata
+        };
+        
+        let notificheEventi = {};
 
         // ===========================================
         // FUNZIONI FOTO
@@ -2284,6 +2704,262 @@
                 notification.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => notification.remove(), 300);
             }, 3000);
+        }
+
+        // ===========================================
+        // FUNZIONI AGENDA EVENTI
+        // ===========================================
+        
+        function confermaPartecipazione(eventoId) {
+            if (!currentUser || currentUser.role !== 'member') {
+                showNotification('⚠️ Solo i membri possono partecipare agli eventi', 'warning');
+                return;
+            }
+            
+            // Simula conferma partecipazione
+            eventiPartecipazioni[eventoId] = true;
+            
+            // Aggiorna UI
+            const eventoCard = document.querySelector(`[data-evento-id="${eventoId}"]`);
+            if (eventoCard) {
+                eventoCard.setAttribute('data-status', 'confermato');
+                eventoCard.style.borderColor = '#27ae60';
+                
+                // Trova il container dei pulsanti
+                const buttonContainer = eventoCard.querySelector('.btn-partecipa').parentElement;
+                buttonContainer.innerHTML = `
+                    <button class="btn-cancella" onclick="cancellaPartecipazione(${eventoId})">
+                        ❌ Cancella Partecipazione
+                    </button>
+                    <button class="action-btn blue" style="padding: 12px 20px;" onclick="aggiungiAlCalendario(${eventoId})">
+                        📅 Aggiungi al Calendario
+                    </button>
+                `;
+                
+                // Aggiorna box partecipanti
+                const partecipantiBox = eventoCard.querySelector('.partecipanti-box');
+                if (partecipantiBox) {
+                    partecipantiBox.style.background = '#d4edda';
+                    partecipantiBox.innerHTML = `
+                        <strong>✅ Sei iscritto a questo evento!</strong>
+                        <div style="margin-top: 8px; color: #155724;">
+                            🔔 Riceverai notifica il giorno prima e alle 8:00 del giorno dell'evento
+                        </div>
+                    `;
+                }
+                
+                // Aggiorna status nell'header
+                const titoloDiv = eventoCard.querySelector('.evento-titolo');
+                if (!titoloDiv.querySelector('.status-confermato')) {
+                    titoloDiv.innerHTML += '<span class="evento-status status-confermato">✅ CONFERMATO</span>';
+                }
+            }
+            
+            // Aggiorna contatori
+            aggiornaContatoriEventi();
+            
+            // Simula invio notifiche
+            impostaNotifiche(eventoId);
+            
+            showNotification('✅ Partecipazione confermata! Riceverai le notifiche come richiesto', 'success');
+        }
+        
+        function cancellaPartecipazione(eventoId) {
+            if (!currentUser || currentUser.role !== 'member') {
+                showNotification('⚠️ Operazione non consentita', 'warning');
+                return;
+            }
+            
+            const conferma = confirm('Sei sicuro di voler cancellare la tua partecipazione?');
+            if (!conferma) return;
+            
+            // Rimuovi partecipazione
+            delete eventiPartecipazioni[eventoId];
+            
+            // Aggiorna UI
+            const eventoCard = document.querySelector(`[data-evento-id="${eventoId}"]`);
+            if (eventoCard) {
+                eventoCard.setAttribute('data-status', 'disponibile');
+                eventoCard.style.borderColor = '#ecf0f1';
+                
+                // Ripristina pulsante partecipa
+                const buttonContainer = eventoCard.querySelector('.btn-cancella').parentElement;
+                
+                // Determina il testo in base all'evento
+                let testoData = '';
+                if (eventoId == 1) testoData = '📅 Tra 7 giorni';
+                else if (eventoId == 3) testoData = '📅 15 Febbraio';
+                else testoData = '📅 Prossimamente';
+                
+                buttonContainer.innerHTML = `
+                    <button class="btn-partecipa" onclick="confermaPartecipazione(${eventoId})">
+                        ✅ Conferma Partecipazione
+                    </button>
+                    <span style="color: #666; font-size: 13px;">${testoData}</span>
+                `;
+                
+                // Ripristina box partecipanti originale
+                const partecipantiBox = eventoCard.querySelector('.partecipanti-box');
+                if (partecipantiBox && eventoId != 5) {
+                    partecipantiBox.style.background = '#f8f9fa';
+                    partecipantiBox.innerHTML = `
+                        <strong>Partecipanti confermati:</strong>
+                        <div style="margin-top: 10px;">
+                            <span class="partecipanti-avatar">MR</span>
+                            <span class="partecipanti-avatar" style="background: linear-gradient(135deg, #27ae60, #229954);">GB</span>
+                            <span class="partecipanti-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">LP</span>
+                            <span class="partecipanti-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">AT</span>
+                            <span style="margin-left: 15px; color: #666;">+altri</span>
+                        </div>
+                    `;
+                }
+                
+                // Rimuovi status confermato
+                const statusBadge = eventoCard.querySelector('.status-confermato');
+                if (statusBadge) {
+                    statusBadge.remove();
+                }
+            }
+            
+            // Aggiorna contatori
+            aggiornaContatoriEventi();
+            
+            // Cancella notifiche
+            cancellaNotifiche(eventoId);
+            
+            showNotification('❌ Partecipazione cancellata', 'info');
+        }
+        
+        function impostaNotifiche(eventoId) {
+            const whatsapp = document.getElementById('notificaWhatsapp')?.checked;
+            const app = document.getElementById('notificaApp')?.checked;
+            const email = document.getElementById('notificaEmail')?.checked;
+            
+            notificheEventi[eventoId] = {
+                whatsapp: whatsapp,
+                app: app,
+                email: email,
+                impostate: new Date()
+            };
+            
+            console.log(`📱 Notifiche impostate per evento ${eventoId}:`, notificheEventi[eventoId]);
+            
+            // Simula programmazione notifiche
+            if (whatsapp || app) {
+                setTimeout(() => {
+                    showNotification(`📱 Notifiche programmate per l'evento!`, 'success');
+                }, 1000);
+            }
+        }
+        
+        function cancellaNotifiche(eventoId) {
+            delete notificheEventi[eventoId];
+            console.log(`🔕 Notifiche cancellate per evento ${eventoId}`);
+        }
+        
+        function aggiornaContatoriEventi() {
+            const confermati = Object.keys(eventiPartecipazioni).length;
+            const confermatiEl = document.getElementById('eventiConfermati');
+            if (confermatiEl) {
+                confermatiEl.innerText = confermati;
+            }
+            
+            const notificheEl = document.getElementById('notificheAttive');
+            if (notificheEl) {
+                notificheEl.innerText = Object.keys(notificheEventi).length;
+            }
+        }
+        
+        function aggiungiAlCalendario(eventoId) {
+            showNotification('📅 Evento aggiunto al tuo calendario!', 'success');
+            
+            // Simula download file .ics
+            console.log(`📅 Generazione file calendario per evento ${eventoId}`);
+        }
+        
+        function scaricaOrdineGiorno(eventoId) {
+            showNotification('📄 Download ordine del giorno in corso...', 'info');
+            
+            // Simula download PDF
+            setTimeout(() => {
+                showNotification('✅ Ordine del giorno scaricato!', 'success');
+            }, 1500);
+        }
+        
+        function invitaOspite(eventoId) {
+            const nomeOspite = prompt('Inserisci il nome del tuo accompagnatore:');
+            if (nomeOspite) {
+                showNotification(`✅ Accompagnatore "${nomeOspite}" registrato!`, 'success');
+            }
+        }
+        
+        function listaAttesa(eventoId) {
+            showNotification('📋 Sei stato aggiunto alla lista d\'attesa. Ti avviseremo se si libera un posto!', 'info');
+            
+            const eventoCard = document.querySelector(`[data-evento-id="${eventoId}"]`);
+            if (eventoCard) {
+                const buttonContainer = eventoCard.querySelector('.action-btn.orange').parentElement;
+                buttonContainer.innerHTML = `
+                    <button class="action-btn" style="background: #95a5a6; cursor: not-allowed;" disabled>
+                        ⏳ In Lista d'Attesa (Posizione: 3)
+                    </button>
+                `;
+            }
+        }
+        
+        function filterEventi(filtro, btn) {
+            // Aggiorna stato pulsanti
+            const container = btn.closest('.filter-bar');
+            if (container) {
+                container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            
+            // Mostra/nascondi eventi in base al filtro
+            const tuttiEventi = document.querySelectorAll('.evento-card');
+            
+            tuttiEventi.forEach(evento => {
+                const eventoId = evento.getAttribute('data-evento-id');
+                const status = evento.getAttribute('data-status');
+                
+                switch(filtro) {
+                    case 'tutti':
+                        evento.style.display = 'block';
+                        break;
+                    case 'confermati':
+                        evento.style.display = status === 'confermato' ? 'block' : 'none';
+                        break;
+                    case 'questo-mese':
+                        // Mostra solo eventi di febbraio
+                        evento.style.display = ['2', '3', '4'].includes(eventoId) ? 'block' : 'none';
+                        break;
+                    case 'prossimi':
+                        // Mostra solo evento 1 (prossimi 7 giorni)
+                        evento.style.display = eventoId === '1' ? 'block' : 'none';
+                        break;
+                    default:
+                        evento.style.display = 'block';
+                }
+            });
+            
+            showNotification(`🔍 Filtro applicato: ${filtro}`, 'info');
+        }
+        
+        // Funzione per simulare notifiche in tempo reale
+        function simulaNotificaRealTime() {
+            if (currentUser && currentUser.role === 'member') {
+                // Controlla se ci sono eventi confermati
+                const eventiConf = Object.keys(eventiPartecipazioni);
+                if (eventiConf.length > 0) {
+                    // Simula notifica random ogni tanto
+                    const randomTime = Math.random() * 60000 + 30000; // Tra 30 e 90 secondi
+                    setTimeout(() => {
+                        if (currentUser && document.getElementById('agendaEventiPage').style.display !== 'none') {
+                            showNotification('🔔 Promemoria: Workshop Digital Marketing domani alle 09:00!', 'info');
+                        }
+                    }, randomTime);
+                }
+            }
         }
 
         // ===========================================
