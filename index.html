@@ -653,6 +653,23 @@
             transform: scale(0.95);
         }
 
+        /* Home Button in Header */
+        .home-btn {
+            background: rgba(221, 252, 27, 0.2);
+            border: 1px solid rgba(221, 252, 27, 0.3);
+            color: var(--lime);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .home-btn:active {
+            transform: scale(0.95);
+        }
+
         /* Annuncio Form */
         .add-annuncio-btn {
             background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dark) 100%);
@@ -898,7 +915,10 @@
         <div id="bachecaPage" class="page">
             <div class="top-bar">
                 <div class="page-title">Bacheca</div>
-                <div class="user-badge">User</div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="home-btn" onclick="goToPage('dashboard')">🏠 Home</button>
+                    <div class="user-badge">User</div>
+                </div>
             </div>
 
             <div class="page-content">
@@ -959,7 +979,10 @@
         <div id="eventiPage" class="page">
             <div class="top-bar">
                 <div class="page-title">Agenda Eventi</div>
-                <div class="user-badge">User</div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="home-btn" onclick="goToPage('dashboard')">🏠 Home</button>
+                    <div class="user-badge">User</div>
+                </div>
             </div>
 
             <div class="page-content">
@@ -988,7 +1011,10 @@
         <div id="consulentiPage" class="page">
             <div class="top-bar">
                 <div class="page-title">Consulenti</div>
-                <div class="user-badge">User</div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="home-btn" onclick="goToPage('dashboard')">🏠 Home</button>
+                    <div class="user-badge">User</div>
+                </div>
             </div>
 
             <div class="page-content">
@@ -1043,7 +1069,10 @@
         <div id="membriPage" class="page">
             <div class="top-bar">
                 <div class="page-title">Membri</div>
-                <div class="user-badge">User</div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="home-btn" onclick="goToPage('dashboard')">🏠 Home</button>
+                    <div class="user-badge">User</div>
+                </div>
             </div>
 
             <div class="page-content">
@@ -1095,7 +1124,10 @@
         <div id="videoPage" class="page">
             <div class="top-bar">
                 <div class="page-title">Video Formativi</div>
-                <div class="user-badge">User</div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="home-btn" onclick="goToPage('dashboard')">🏠 Home</button>
+                    <div class="user-badge">User</div>
+                </div>
             </div>
 
             <div class="page-content">
@@ -1131,7 +1163,10 @@
         <div id="convenzioniPage" class="page">
             <div class="top-bar">
                 <div class="page-title">Convenzioni</div>
-                <div class="user-badge">User</div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="home-btn" onclick="goToPage('dashboard')">🏠 Home</button>
+                    <div class="user-badge">User</div>
+                </div>
             </div>
 
             <div class="page-content">
