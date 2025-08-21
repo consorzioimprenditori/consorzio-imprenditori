@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consorzio Imprenditori - Sistema Completo con Messaggistica</title>
+    <title>Consorzio Imprenditori - Sistema Completo</title>
     <style>
         * {
             margin: 0;
@@ -659,10 +659,6 @@
             font-weight: bold;
         }
 
-        .consulente-photo {
-            margin-right: 20px;
-        }
-
         .consulente-info {
             flex: 1;
         }
@@ -678,18 +674,6 @@
             color: #7f8c8d;
             font-size: 14px;
             margin-bottom: 10px;
-        }
-
-        .consulente-esperienza {
-            color: #7f8c8d;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        .consulente-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
         }
 
         .disponibilita-badge {
@@ -731,23 +715,6 @@
             cursor: not-allowed;
         }
 
-        .btn-messaggio {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-left: 10px;
-        }
-
-        .btn-messaggio:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
-        }
-
         .consulenze-counter {
             background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
@@ -767,86 +734,6 @@
 
         .form-consulenza.active {
             display: block;
-        }
-
-        /* Modal Messaggistica */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .modal-header h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .messaggio-form textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 14px;
-            font-family: inherit;
-            resize: vertical;
-        }
-
-        .messaggio-form textarea:focus {
-            border-color: #3498db;
-            outline: none;
-        }
-
-        .messaggio-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #7f8c8d;
         }
 
         @media (max-width: 768px) {
@@ -1269,14 +1156,14 @@
                 </div>
             </div>
 
-            <!-- Pagina Consulenti MIGLIORATA -->
+            <!-- Pagina Consulenti -->
             <div id="consulentiPage" class="page">
                 <div class="header">
                     <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
                     <div class="user-info">👤 User</div>
                     <div class="logo">💼</div>
                     <h1>Consulenti del Consorzio</h1>
-                    <p>Richiedi consulenze gratuite con i nostri 20 esperti specializzati</p>
+                    <p>Richiedi consulenze gratuite con i nostri esperti</p>
                 </div>
                 
                 <div class="page-content">
@@ -1293,382 +1180,89 @@
                                 <div style="font-size: 14px;">Rimanenti</div>
                             </div>
                             <div>
-                                <div style="font-size: 28px; font-weight: bold;">20</div>
-                                <div style="font-size: 14px;">Consulenti Totali</div>
+                                <div style="font-size: 28px; font-weight: bold;">10</div>
+                                <div style="font-size: 14px;">Totali Incluse</div>
                             </div>
                         </div>
                         <p style="margin-top: 15px; font-size: 13px;">
-                            ⏱️ Ogni consulenza dura 30 minuti | 📋 Max 1 consulenza per consulente | 💬 Messaggistica integrata
+                            ⏱️ Ogni consulenza dura 30 minuti | 📋 Max 1 consulenza per consulente
                         </p>
                     </div>
 
-                    <!-- Filtri Specializzazioni -->
-                    <div class="filter-bar" style="margin-top: 20px;">
-                        <label style="font-weight: bold; color: #2c3e50;">🔍 Filtra per specializzazione:</label>
-                        <select id="filtroSpecializzazione" onchange="filtraConsulenti()" style="padding: 8px 15px; border-radius: 10px; border: 2px solid #ddd; background: white;">
-                            <option value="tutti">🌟 Tutti i Consulenti (20)</option>
-                            <option value="finanza">💰 Finanza Agevolata (3)</option>
-                            <option value="legale">⚖️ Consulenza Legale (2)</option>
-                            <option value="cybersecurity">🔒 Cyber Security (2)</option>
-                            <option value="marketing">📈 Marketing Digitale (3)</option>
-                            <option value="hr">👥 Risorse Umane (2)</option>
-                            <option value="fiscale">📊 Fiscale & Tributario (2)</option>
-                            <option value="export">🌍 Export & Internazionalizzazione (2)</option>
-                            <option value="innovazione">🚀 Innovazione & Startup (2)</option>
-                            <option value="immobiliare">🏢 Immobiliare & Costruzioni (2)</option>
-                        </select>
-                        <button class="action-btn blue" onclick="mostraTuttiConsulenti()">👥 Mostra Tutti</button>
-                    </div>
-
-                    <!-- Lista Consulenti Completa -->
+                    <!-- Lista Consulenti (primi 5 per esempio) -->
                     <div id="listaConsulenti" style="margin-top: 20px;">
                         
                         <!-- Consulente 1 - Finanza agevolata -->
-                        <div class="consulente-card" data-consulente-id="1" data-specializzazione="finanza">
+                        <div class="consulente-card" data-consulente-id="1">
                             <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Giovanni Bianchi" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">GB</div>
                                 <div class="consulente-info">
                                     <div class="consulente-nome">
                                         Dott. Giovanni Bianchi
                                         <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
                                     </div>
                                     <div class="consulente-specializzazione">
-                                        💰 <strong>Finanza Agevolata</strong> - Esperto in bandi, contributi e finanziamenti europei
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 15 anni esperienza | 📞 +39 06 1234567 | 📧 g.bianchi@consorzio.it
+                                        💰 <strong>Finanza agevolata</strong> - Esperto in bandi, contributi e finanziamenti europei
                                     </div>
                                 </div>
-                                <div class="consulente-actions">
+                                <div>
                                     <button class="btn-prenota" onclick="prenotaConsulenza(1)">
                                         📅 Prenota Consulenza
-                                    </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(1)">
-                                        💬 Invia Messaggio
                                     </button>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Consulente 2 - Consulenza legale -->
-                        <div class="consulente-card" data-consulente-id="2" data-specializzazione="legale">
+                        <div class="consulente-card" data-consulente-id="2">
                             <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b105?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Laura Rossi" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">LR</div>
                                 <div class="consulente-info">
                                     <div class="consulente-nome">
                                         Avv. Laura Rossi
                                         <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
                                     </div>
                                     <div class="consulente-specializzazione">
-                                        ⚖️ <strong>Consulenza Legale d'Impresa</strong> - Contrattualistica, società, recupero crediti
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 12 anni esperienza | 📞 +39 06 1234568 | 📧 l.rossi@consorzio.it
+                                        ⚖️ <strong>Consulenza legale d'impresa</strong> - Contrattualistica, società, recupero crediti
                                     </div>
                                 </div>
-                                <div class="consulente-actions">
+                                <div>
                                     <button class="btn-prenota" onclick="prenotaConsulenza(2)">
                                         📅 Prenota Consulenza
-                                    </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(2)">
-                                        💬 Invia Messaggio
                                     </button>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Consulente 3 - Cyber sicurezza -->
-                        <div class="consulente-card" data-consulente-id="3" data-specializzazione="cybersecurity">
+                        <div class="consulente-card" data-consulente-id="3">
                             <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Marco Verdi" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">MV</div>
                                 <div class="consulente-info">
                                     <div class="consulente-nome">
                                         Ing. Marco Verdi
                                         <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
                                     </div>
                                     <div class="consulente-specializzazione">
-                                        🔒 <strong>Cyber Security</strong> - Protezione dati, GDPR, audit di sicurezza
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 10 anni esperienza | 📞 +39 06 1234569 | 📧 m.verdi@consorzio.it
+                                        🔒 <strong>Cyber sicurezza</strong> - Protezione dati, GDPR, audit di sicurezza
                                     </div>
                                 </div>
-                                <div class="consulente-actions">
+                                <div>
                                     <button class="btn-prenota" onclick="prenotaConsulenza(3)">
                                         📅 Prenota Consulenza
                                     </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(3)">
-                                        💬 Invia Messaggio
-                                    </button>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Consulente 4 - Marketing -->
-                        <div class="consulente-card" data-consulente-id="4" data-specializzazione="marketing">
-                            <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Sofia Martinez" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott.ssa Sofia Martinez
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        📈 <strong>Marketing Digitale</strong> - SEO, SEM, Social Media, Analytics
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 8 anni esperienza | 📞 +39 06 1234570 | 📧 s.martinez@consorzio.it
-                                    </div>
-                                </div>
-                                <div class="consulente-actions">
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(4)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(4)">
-                                        💬 Invia Messaggio
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 5 - HR -->
-                        <div class="consulente-card" data-consulente-id="5" data-specializzazione="hr">
-                            <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Elena Ferrari" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott.ssa Elena Ferrari
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        👥 <strong>Risorse Umane</strong> - Selezione, formazione, gestione del personale
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 13 anni esperienza | 📞 +39 06 1234571 | 📧 e.ferrari@consorzio.it
-                                    </div>
-                                </div>
-                                <div class="consulente-actions">
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(5)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(5)">
-                                        💬 Invia Messaggio
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 6 - Fiscale -->
-                        <div class="consulente-card" data-consulente-id="6" data-specializzazione="fiscale">
-                            <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Andrea Romano" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Andrea Romano
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        📊 <strong>Fiscale & Tributario</strong> - Dichiarazioni, ottimizzazione fiscale, contabilità
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 18 anni esperienza | 📞 +39 06 1234572 | 📧 a.romano@consorzio.it
-                                    </div>
-                                </div>
-                                <div class="consulente-actions">
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(6)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(6)">
-                                        💬 Invia Messaggio
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 7 - Export -->
-                        <div class="consulente-card" data-consulente-id="7" data-specializzazione="export">
-                            <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Luca Moretti" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Luca Moretti
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🌍 <strong>Export & Internazionalizzazione</strong> - Mercati esteri, dogane, contratti internazionali
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 14 anni esperienza | 📞 +39 06 1234573 | 📧 l.moretti@consorzio.it
-                                    </div>
-                                </div>
-                                <div class="consulente-actions">
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(7)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(7)">
-                                        💬 Invia Messaggio
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 8 - Innovazione -->
-                        <div class="consulente-card" data-consulente-id="8" data-specializzazione="innovazione">
-                            <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Chiara Conti" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott.ssa Chiara Conti
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🚀 <strong>Innovazione & Startup</strong> - Business model, pitch, crowdfunding, acceleratori
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 9 anni esperienza | 📞 +39 06 1234574 | 📧 c.conti@consorzio.it
-                                    </div>
-                                </div>
-                                <div class="consulente-actions">
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(8)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(8)">
-                                        💬 Invia Messaggio
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 9 - Immobiliare -->
-                        <div class="consulente-card" data-consulente-id="9" data-specializzazione="immobiliare">
-                            <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Roberto Santini" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Arch. Roberto Santini
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🏢 <strong>Immobiliare & Costruzioni</strong> - Permessi, ristrutturazioni, valutazioni immobiliari
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 16 anni esperienza | 📞 +39 06 1234575 | 📧 r.santini@consorzio.it
-                                    </div>
-                                </div>
-                                <div class="consulente-actions">
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(9)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(9)">
-                                        💬 Invia Messaggio
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 10 - Finanza 2 -->
-                        <div class="consulente-card" data-consulente-id="10" data-specializzazione="finanza">
-                            <div class="consulente-header">
-                                <div class="consulente-photo">
-                                    <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Francesca Ricci" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott.ssa Francesca Ricci
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        💰 <strong>Finanza Agevolata</strong> - Startup innovative, industria 4.0, green economy
-                                    </div>
-                                    <div class="consulente-esperienza">
-                                        ⭐ 11 anni esperienza | 📞 +39 06 1234576 | 📧 f.ricci@consorzio.it
-                                    </div>
-                                </div>
-                                <div class="consulente-actions">
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(10)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                    <button class="btn-messaggio" onclick="apriMessaggio(10)">
-                                        💬 Invia Messaggio
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Continuiamo con altri 10 consulenti... -->
-                        <div style="text-align: center; margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 15px;">
-                            <h3 style="color: #2c3e50; margin-bottom: 10px;">🌟 Altri 10 Consulenti Esperti</h3>
-                            <p style="color: #7f8c8d; margin-bottom: 15px;">Specialisti in: Marketing avanzato, HR strategico, Cyber Security avanzata, Export Asia, etc.</p>
-                            <button class="action-btn blue" onclick="caricaAltriConsulenti()">📋 Carica Altri Consulenti</button>
-                        </div>
+                        <!-- Altri 17 consulenti seguiranno lo stesso schema -->
+                        <p style="text-align: center; margin-top: 20px; color: #7f8c8d;">
+                            + Altri 17 consulenti specializzati disponibili
+                        </p>
 
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Modal Messaggistica -->
-    <div id="modalMessaggio" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close" onclick="chiudiModalMessaggio()">×</button>
-            <div class="modal-header">
-                <h3 id="modalTitolo">💬 Invia Messaggio</h3>
-                <p id="modalSottotitolo">Consulente selezionato</p>
-            </div>
-            
-            <div class="messaggio-info">
-                ℹ️ <strong>Nota:</strong> Il messaggio sarà inviato direttamente al consulente che riceverà una notifica nella sua dashboard. Ti risponderà tramite la messaggistica interna del Consorzio.
-            </div>
-
-            <form class="messaggio-form" onsubmit="inviaMessaggio(event)">
-                <div class="form-group">
-                    <label>🏢 La tua azienda</label>
-                    <input type="text" id="mittente" value="Rossi S.r.l." readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label>📝 Oggetto del messaggio</label>
-                    <input type="text" id="oggetto" placeholder="es. Richiesta informazioni bando industria 4.0" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>💬 Il tuo messaggio</label>
-                    <textarea id="testoMessaggio" placeholder="Scrivi qui il tuo messaggio per il consulente..." required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label>📞 Preferisco essere contattato via</label>
-                    <select id="contattoPreferenza">
-                        <option value="email">📧 Email</option>
-                        <option value="telefono">📞 Telefono</option>
-                        <option value="entrambi">📧📞 Email e Telefono</option>
-                        <option value="msg-interna">💬 Solo messaggistica interna</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="btn" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
-                    📨 Invia Messaggio
-                </button>
-            </form>
         </div>
     </div>
 
@@ -1678,8 +1272,6 @@
         let eventiPartecipazioni = {2: true, 4: true};
         let consulenzePrenotate = {};
         let contatoreConsulenze = 0;
-        let messaggiInviati = [];
-        let consulenteSelezionato = null;
 
         // Database utenti
         const users = {
@@ -1701,20 +1293,6 @@
                 role: 'consulente',
                 name: 'Dott.ssa Maria Bianchi'
             }
-        };
-
-        // Database consulenti
-        const consulenti = {
-            1: { nome: "Dott. Giovanni Bianchi", specializzazione: "finanza", email: "g.bianchi@consorzio.it" },
-            2: { nome: "Avv. Laura Rossi", specializzazione: "legale", email: "l.rossi@consorzio.it" },
-            3: { nome: "Ing. Marco Verdi", specializzazione: "cybersecurity", email: "m.verdi@consorzio.it" },
-            4: { nome: "Dott.ssa Sofia Martinez", specializzazione: "marketing", email: "s.martinez@consorzio.it" },
-            5: { nome: "Dott.ssa Elena Ferrari", specializzazione: "hr", email: "e.ferrari@consorzio.it" },
-            6: { nome: "Dott. Andrea Romano", specializzazione: "fiscale", email: "a.romano@consorzio.it" },
-            7: { nome: "Dott. Luca Moretti", specializzazione: "export", email: "l.moretti@consorzio.it" },
-            8: { nome: "Dott.ssa Chiara Conti", specializzazione: "innovazione", email: "c.conti@consorzio.it" },
-            9: { nome: "Arch. Roberto Santini", specializzazione: "immobiliare", email: "r.santini@consorzio.it" },
-            10: { nome: "Dott.ssa Francesca Ricci", specializzazione: "finanza", email: "f.ricci@consorzio.it" }
         };
 
         // Funzione cambio tab login
@@ -1783,93 +1361,6 @@
                                currentUser.role === 'member' ? 'Membro' : 'Consulente';
                 el.innerHTML = `👤 ${currentUser.name} (${roleText})`;
             });
-        }
-
-        // NUOVE FUNZIONI CONSULENTI
-
-        // Filtri Consulenti
-        function filtraConsulenti() {
-            const filtro = document.getElementById('filtroSpecializzazione').value;
-            const cards = document.querySelectorAll('.consulente-card');
-            
-            cards.forEach(card => {
-                const specializzazione = card.getAttribute('data-specializzazione');
-                if (filtro === 'tutti' || specializzazione === filtro) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            showNotification(`🔍 Filtro applicato: ${filtro}`, 'info');
-        }
-
-        function mostraTuttiConsulenti() {
-            document.getElementById('filtroSpecializzazione').value = 'tutti';
-            filtraConsulenti();
-        }
-
-        // Messaggistica
-        function apriMessaggio(consulenteId) {
-            if (!currentUser || currentUser.role !== 'member') {
-                showNotification('⚠️ Solo i membri possono inviare messaggi ai consulenti', 'warning');
-                return;
-            }
-            
-            consulenteSelezionato = consulenteId;
-            const consulente = consulenti[consulenteId];
-            
-            if (consulente) {
-                document.getElementById('modalTitolo').innerHTML = '💬 Invia Messaggio';
-                document.getElementById('modalSottotitolo').innerHTML = `A: ${consulente.nome}`;
-                document.getElementById('modalMessaggio').classList.add('active');
-                
-                // Reset form
-                document.getElementById('oggetto').value = '';
-                document.getElementById('testoMessaggio').value = '';
-                document.getElementById('contattoPreferenza').value = 'email';
-            }
-        }
-
-        function chiudiModalMessaggio() {
-            document.getElementById('modalMessaggio').classList.remove('active');
-            consulenteSelezionato = null;
-        }
-
-        function inviaMessaggio(event) {
-            event.preventDefault();
-            
-            if (!consulenteSelezionato) return;
-            
-            const oggetto = document.getElementById('oggetto').value;
-            const messaggio = document.getElementById('testoMessaggio').value;
-            const preferenza = document.getElementById('contattoPreferenza').value;
-            
-            if (!oggetto.trim() || !messaggio.trim()) {
-                showNotification('⚠️ Compila tutti i campi obbligatori', 'warning');
-                return;
-            }
-            
-            // Simula invio messaggio
-            const nuovoMessaggio = {
-                id: Date.now(),
-                consulenteId: consulenteSelezionato,
-                mittente: currentUser.name,
-                oggetto: oggetto,
-                messaggio: messaggio,
-                preferenza: preferenza,
-                data: new Date().toLocaleString('it-IT'),
-                stato: 'inviato'
-            };
-            
-            messaggiInviati.push(nuovoMessaggio);
-            
-            showNotification(`✅ Messaggio inviato a ${consulenti[consulenteSelezionato].nome}!`, 'success');
-            chiudiModalMessaggio();
-        }
-
-        function caricaAltriConsulenti() {
-            showNotification('📋 Funzione in sviluppo - Presto disponibili altri 10 consulenti specializzati!', 'info');
         }
 
         // Funzioni Tab Bacheca
@@ -2016,13 +1507,6 @@
             // Imposta tab admin come attivo di default
             switchLoginTab('admin');
             
-            // Chiudi modal cliccando fuori
-            document.getElementById('modalMessaggio').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    chiudiModalMessaggio();
-                }
-            });
-            
             // Aggiungi animazioni CSS
             const style = document.createElement('style');
             style.textContent = `
@@ -2038,8 +1522,6 @@
             document.head.appendChild(style);
             
             console.log('✅ Sistema inizializzato correttamente');
-            console.log('📋 20 consulenti caricati');
-            console.log('💬 Sistema messaggistica attivo');
         };
     </script>
 </body>
