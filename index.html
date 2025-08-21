@@ -73,7 +73,6 @@
         #login:checked ~ .pages #loginPage,
         #admin-dashboard:checked ~ .pages #adminDashboardPage,
         #member-dashboard:checked ~ .pages #memberDashboardPage,
-        #consulente-dashboard:checked ~ .pages #consulenteDashboardPage,
         #bacheca:checked ~ .pages #bachecaPage,
         #agenda-eventi:checked ~ .pages #agendaEventiPage,
         #consulenti:checked ~ .pages #consulentiPage {
@@ -106,10 +105,6 @@
             background: linear-gradient(135deg, #27ae60, #229954);
         }
 
-        .nav-btn.consulente {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-        }
-
         .notification-dot {
             position: absolute;
             top: 10px;
@@ -125,13 +120,6 @@
             font-size: 11px;
             font-weight: bold;
             border: 2px solid white;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
         }
 
         .card-icon {
@@ -184,53 +172,11 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .action-btn {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            margin: 5px;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
-        }
-
-        .action-btn.blue {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-        }
-
-        .action-btn.red {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-        }
-
-        .action-btn.purple {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-        }
-
-        .action-btn.orange {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-        }
-
-        .action-btn.green {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
         }
 
         .main-content {
@@ -241,54 +187,9 @@
             padding: 25px;
         }
 
-        .notification-item {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .stats-box {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .admin-stats-box {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .member-stats-box {
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .consulente-stats-box {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         .login-container {
             max-width: 500px;
-            margin: 0 auto;
+            margin: 50px auto;
             background: white;
             padding: 30px;
             border-radius: 15px;
@@ -339,131 +240,6 @@
             display: block;
         }
 
-        .sezione-bacheca {
-            display: none;
-            min-height: 400px;
-        }
-
-        .sezione-bacheca.active {
-            display: block !important;
-        }
-
-        .filter-bar {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .filter-btn {
-            padding: 8px 15px;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 13px;
-        }
-
-        .filter-btn.active {
-            background: #3498db;
-            color: white;
-            border-color: #3498db;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-right: 5px;
-        }
-
-        .badge.green {
-            background: #27ae60;
-            color: white;
-        }
-
-        .badge.blue {
-            background: #3498db;
-            color: white;
-        }
-
-        .badge.purple {
-            background: #9b59b6;
-            color: white;
-        }
-
-        .badge.orange {
-            background: #f39c12;
-            color: white;
-        }
-
-        .badge.red {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .tab-navigation {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 10px;
-        }
-
-        .tab-btn {
-            padding: 10px 20px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            color: #7f8c8d;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .tab-btn.active {
-            color: #3498db;
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #3498db;
-        }
-
-        .annuncio-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #ecf0f1;
-            transition: all 0.3s;
-        }
-
-        .annuncio-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .form-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-
         .back-btn {
             position: absolute;
             top: 15px;
@@ -478,366 +254,27 @@
             transition: all 0.3s;
         }
 
-        .annuncio-foto {
-            width: 100px;
-            height: 80px;
-            border-radius: 10px;
-            object-fit: cover;
-            border: 2px solid #ecf0f1;
-        }
-
-        .annuncio-foto-container {
-            position: relative;
-            width: 100px;
-            height: 80px;
-        }
-
-        .remove-foto-btn {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-        }
-
-        .foto-upload-container {
-            border: 3px dashed #3498db;
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            margin: 20px 0;
-            background: linear-gradient(135deg, #f8f9ff, #e8f4fd);
-            position: relative;
-        }
-
-        .foto-upload-container label {
-            display: block;
-            font-size: 16px;
-            font-weight: bold;
-            color: #3498db;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-
-        .foto-upload-container input[type="file"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #3498db;
-            border-radius: 10px;
-            background: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .foto-upload-container::before {
-            content: "📸";
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-        }
-
         .back-btn:hover {
             background: rgba(255,255,255,0.3);
             transform: translateX(-3px);
         }
 
-        /* Stili Agenda Eventi */
-        .evento-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 2px solid #ecf0f1;
-            transition: all 0.3s;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .evento-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-color: #3498db;
-        }
-
-        .evento-header {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .evento-data {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            min-width: 80px;
-        }
-
-        .evento-giorno {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .evento-mese {
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-
-        .evento-info {
-            flex: 1;
-        }
-
-        .evento-titolo {
-            font-size: 20px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-
-        .evento-dettagli {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-
-        .evento-dettaglio {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .partecipanti-box {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-
-        .partecipanti-avatar {
-            display: inline-block;
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 35px;
-            color: white;
-            font-weight: bold;
-            margin-right: -10px;
-            border: 2px solid white;
-            font-size: 12px;
-        }
-
-        .btn-partecipa {
+        .member-stats-box {
             background: linear-gradient(135deg, #27ae60, #229954);
             color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-right: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .btn-partecipa:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
-        }
-
-        .btn-cancella {
+        .admin-stats-box {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-right: 10px;
-        }
-
-        .btn-cancella:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
-        }
-
-        .notifica-setting {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 13px;
-        }
-
-        .evento-status {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-
-        .status-confermato {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-in-attesa {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        /* Stili Pagina Consulenti */
-        .consulente-card {
-            background: white;
-            border-radius: 15px;
             padding: 20px;
-            margin-bottom: 20px;
-            border: 2px solid #ecf0f1;
-            transition: all 0.3s;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .consulente-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-color: #3498db;
-        }
-
-        .consulente-header {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .consulente-avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
-        }
-
-        .consulente-info {
-            flex: 1;
-        }
-
-        .consulente-nome {
-            font-size: 20px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-
-        .consulente-specializzazione {
-            color: #7f8c8d;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .disponibilita-badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .disponibilita-badge.disponibile {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .disponibilita-badge.occupato {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .btn-prenota {
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-prenota:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
-        }
-
-        .btn-prenota:disabled {
-            background: #95a5a6;
-            cursor: not-allowed;
-        }
-
-        .consulenze-counter {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 15px;
             border-radius: 10px;
             text-align: center;
             margin-bottom: 20px;
-        }
-
-        .form-consulenza {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .form-consulenza.active {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .annuncio-foto {
-                width: 80px;
-                height: 64px;
-            }
-            
-            .annuncio-foto-container {
-                width: 80px;
-                height: 64px;
-            }
-            
-            .foto-preview {
-                max-width: 150px;
-                max-height: 120px;
-            }
-            
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -847,7 +284,6 @@
         <input type="radio" name="nav" id="login" class="nav-input" checked>
         <input type="radio" name="nav" id="admin-dashboard" class="nav-input">
         <input type="radio" name="nav" id="member-dashboard" class="nav-input">
-        <input type="radio" name="nav" id="consulente-dashboard" class="nav-input">
         <input type="radio" name="nav" id="bacheca" class="nav-input">
         <input type="radio" name="nav" id="agenda-eventi" class="nav-input">
         <input type="radio" name="nav" id="consulenti" class="nav-input">
@@ -865,7 +301,7 @@
                     <h2 style="text-align: center; margin-bottom: 25px; color: #2c3e50;">Accedi al Consorzio</h2>
                     
                     <div class="login-tabs">
-                        <div class="login-tab admin" onclick="switchLoginTab('admin')">
+                        <div class="login-tab admin active" onclick="switchLoginTab('admin')">
                             🔐 ADMIN
                         </div>
                         <div class="login-tab member" onclick="switchLoginTab('member')">
@@ -877,7 +313,7 @@
                     </div>
 
                     <!-- Admin Login Form -->
-                    <div id="adminForm" class="login-form">
+                    <div id="adminForm" class="login-form active">
                         <div class="form-group">
                             <label>Email Amministratore</label>
                             <input type="email" id="adminEmail" value="admin@consorzio.it">
@@ -888,7 +324,9 @@
                             <input type="password" id="adminPassword" value="admin123">
                         </div>
                         
-                        <button class="btn" onclick="login('admin')" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">🔑 ACCESSO AMMINISTRATORE</button>
+                        <button class="btn" onclick="login('admin')" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                            🔑 ACCESSO AMMINISTRATORE
+                        </button>
                     </div>
 
                     <!-- Member Login Form -->
@@ -903,7 +341,9 @@
                             <input type="password" id="memberPassword" value="member123">
                         </div>
                         
-                        <button class="btn" onclick="login('member')" style="background: linear-gradient(135deg, #27ae60, #229954);">🔑 ACCESSO MEMBRO</button>
+                        <button class="btn" onclick="login('member')" style="background: linear-gradient(135deg, #27ae60, #229954);">
+                            🔑 ACCESSO MEMBRO
+                        </button>
                     </div>
 
                     <!-- Consulente Login Form -->
@@ -918,7 +358,9 @@
                             <input type="password" id="consulentePassword" value="cons123">
                         </div>
                         
-                        <button class="btn" onclick="login('consulente')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">🔑 ACCESSO CONSULENTE</button>
+                        <button class="btn" onclick="login('consulente')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                            🔑 ACCESSO CONSULENTE
+                        </button>
                     </div>
                 </div>
             </div>
@@ -935,51 +377,28 @@
 
                 <div class="main-content">
                     <div class="admin-stats-box">
-                        <h2 style="margin-bottom: 10px;">🔐 Controllo Totale Consorzio</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Membri Attivi</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Consulenti</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">48</div><div style="font-size: 11px;">Annunci Bacheca</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Eventi Mese</div></div>
-                        </div>
+                        <h2>🔐 Controllo Totale Consorzio</h2>
+                        <p>15 Membri | 20 Consulenti | 48 Annunci | 8 Eventi</p>
                     </div>
                     
                     <div class="dashboard-grid">
-                        <label for="bacheca" class="nav-btn admin" onclick="entraNellaBacheca()">
+                        <label for="bacheca" class="nav-btn admin">
                             <div class="notification-dot">48</div>
                             <div class="card-icon">📌</div>
                             <div class="card-title">BACHECA MARKETPLACE</div>
                         </label>
 
-                        <div class="nav-btn admin" onclick="showNotification('👥 Gestione Membri - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">15</div>
-                            <div class="card-icon">👥</div>
-                            <div class="card-title">GESTIONE MEMBRI</div>
-                        </div>
+                        <label for="agenda-eventi" class="nav-btn admin">
+                            <div class="notification-dot">8</div>
+                            <div class="card-icon">📅</div>
+                            <div class="card-title">AGENDA EVENTI</div>
+                        </label>
 
-                        <div class="nav-btn admin" onclick="showNotification('💼 Gestione Consulenti - Funzione Attiva!', 'success')">
+                        <label for="consulenti" class="nav-btn admin">
                             <div class="notification-dot">20</div>
                             <div class="card-icon">💼</div>
-                            <div class="card-title">GESTIONE CONSULENTI</div>
-                        </div>
-
-                        <div class="nav-btn admin" onclick="showNotification('📅 Gestione Agenda - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">5</div>
-                            <div class="card-icon">📅</div>
-                            <div class="card-title">GESTIONE AGENDA</div>
-                        </div>
-
-                        <div class="nav-btn admin" onclick="showNotification('📋 Consulenze - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">12</div>
-                            <div class="card-icon">📋</div>
-                            <div class="card-title">CONSULENZE</div>
-                        </div>
-
-                        <div class="nav-btn admin" onclick="showNotification('🤝 Convenzioni - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">8</div>
-                            <div class="card-icon">🤝</div>
-                            <div class="card-title">CONVENZIONI</div>
-                        </div>
+                            <div class="card-title">CONSULENTI</div>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -996,17 +415,12 @@
 
                 <div class="main-content">
                     <div class="member-stats-box">
-                        <h2 style="margin-bottom: 10px;">👥 Area Riservata Membri</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Consulenti</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">48</div><div style="font-size: 11px;">Annunci</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">10</div><div style="font-size: 11px;">Consulenze Incluse</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">5</div><div style="font-size: 11px;">Eventi Mese</div></div>
-                        </div>
+                        <h2>👥 Area Riservata Membri</h2>
+                        <p>20 Consulenti | 48 Annunci | 10 Consulenze Incluse | 5 Eventi</p>
                     </div>
                     
                     <div class="dashboard-grid">
-                        <label for="bacheca" class="nav-btn member" onclick="entraNellaBacheca()">
+                        <label for="bacheca" class="nav-btn member">
                             <div class="notification-dot">48</div>
                             <div class="card-icon">📌</div>
                             <div class="card-title">BACHECA MARKETPLACE</div>
@@ -1023,71 +437,11 @@
                             <div class="card-icon">💼</div>
                             <div class="card-title">CONSULENTI</div>
                         </label>
-
-                        <div class="nav-btn member" onclick="showNotification('📋 Albo Membri - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">15</div>
-                            <div class="card-icon">📋</div>
-                            <div class="card-title">ALBO MEMBRI</div>
-                        </div>
-
-                        <div class="nav-btn member" onclick="showNotification('📹 Video - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">12</div>
-                            <div class="card-icon">📹</div>
-                            <div class="card-title">VIDEO</div>
-                        </div>
-
-                        <div class="nav-btn member" onclick="showNotification('🤝 Convenzioni - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">8</div>
-                            <div class="card-icon">🤝</div>
-                            <div class="card-title">CONVENZIONI</div>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Consulente Dashboard Page -->
-            <div id="consulenteDashboardPage" class="page">
-                <div class="header">
-                    <button onclick="logout()" class="back-btn">🔙 Esci</button>
-                    <div class="user-info">👤 Consulente</div>
-                    <div class="logo">💼</div>
-                    <h1>Dashboard Consulenti</h1>
-                    <p>Gestisci le tue consulenze e appuntamenti</p>
-                </div>
-
-                <div class="main-content">
-                    <div class="consulente-stats-box">
-                        <h2 style="margin-bottom: 10px;">💼 Area Riservata Consulenti</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Richieste Pending</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Confermate</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Membri Attivi</div></div>
-                        </div>
-                    </div>
-                    
-                    <div class="dashboard-grid">
-                        <label for="bacheca" class="nav-btn consulente" onclick="entraNellaBacheca()">
-                            <div class="notification-dot">48</div>
-                            <div class="card-icon">📌</div>
-                            <div class="card-title">BACHECA</div>
-                        </label>
-
-                        <div class="nav-btn consulente" onclick="showNotification('📋 Le Mie Consulenze - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">3</div>
-                            <div class="card-icon">📋</div>
-                            <div class="card-title">LE MIE CONSULENZE</div>
-                        </div>
-
-                        <div class="nav-btn consulente" onclick="showNotification('👥 Membri Consorzio - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">15</div>
-                            <div class="card-icon">👥</div>
-                            <div class="card-title">MEMBRI CONSORZIO</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bacheca Page COMPLETA -->
+            <!-- Bacheca Page -->
             <div id="bachecaPage" class="page">
                 <div class="header">
                     <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
@@ -1096,363 +450,8 @@
                     <h1>Bacheca del Consorzio</h1>
                 </div>
                 <div class="page-content">
-                    <div class="stats-box">
-                        <h2 style="margin-bottom: 10px;">📌 Marketplace & Collaborazioni</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;" id="countVendita">1</div><div style="font-size: 11px;">Vendo/Compro</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="countPersonale">1</div><div style="font-size: 11px;">Ricerche Personale</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="countSpazi">1</div><div style="font-size: 11px;">Spazi</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="countCollab">1</div><div style="font-size: 11px;">Collaborazioni</div></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Tab Navigation -->
-                    <div class="tab-navigation">
-                        <button class="tab-btn active" onclick="switchTab('vendoCompro', this)">🛒 Vendo/Compro</button>
-                        <button class="tab-btn" onclick="switchTab('ricercaPersonale', this)">👔 Personale</button>
-                        <button class="tab-btn" onclick="switchTab('spaziCondivisi', this)">🏢 Spazi</button>
-                        <button class="tab-btn" onclick="switchTab('collaborazioni', this)">🤝 Collaborazioni</button>
-                    </div>
-
-                    <!-- SEZIONE VENDO/COMPRO -->
-                    <div id="sezioneVendoCompro" class="sezione-bacheca active">
-                        <div class="filter-bar">
-                            <button class="filter-btn active" onclick="filterAnnunci('tutti', this)">Tutti</button>
-                            <button class="filter-btn" onclick="filterAnnunci('vendo', this)">🛒 Vendo</button>
-                            <button class="filter-btn" onclick="filterAnnunci('compro', this)">💰 Compro</button>
-                            <button class="action-btn" onclick="toggleForm('formVendoCompro')">➕ Nuovo Annuncio</button>
-                        </div>
-
-                        <!-- Container annunci Vendo/Compro -->
-                        <div id="annunciVenditaContainer">
-                            <div class="annuncio-card" id="annuncio_esempio_1" data-autore="rossi@rossisrl.it">
-                                <div style="display: flex; gap: 15px; align-items: center;">
-                                    <div style="width: 100px; height: 80px; background: linear-gradient(135deg, #27ae60, #229954); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">🔧</div>
-                                    <div style="flex: 1;">
-                                        <div style="margin-bottom: 8px;">
-                                            <span class="badge green">VENDO</span>
-                                            <span class="badge blue">ATTREZZATURE</span>
-                                        </div>
-                                        <h4 style="color: #2c3e50; margin-bottom: 5px;">Stampante HP LaserJet Pro</h4>
-                                        <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">Stampante professionale in ottime condizioni</p>
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="color: #27ae60; font-weight: bold; font-size: 20px;">€1.200</span>
-                                            <span style="color: #95a5a6; font-size: 11px;">Marco Rossi - 2 ore fa</span>
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                                        <button class="action-btn green" style="padding: 6px 12px; font-size: 11px;" onclick="aggiungiFotoAnnuncio('annuncio_esempio_1')" title="Aggiungi foto">📸➕ Foto</button>
-                                        <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('annuncio_esempio_1', 'vendita')">🗑️ Cancella</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Form Vendo/Compro -->
-                        <div id="formVendoCompro" class="form-section" style="display: none;">
-                            <h3 style="color: #2c3e50; margin-bottom: 20px;">🛒 Pubblica Nuovo Annuncio</h3>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div class="form-group">
-                                    <label>Tipo Annuncio</label>
-                                    <select id="tipoAnnuncioVendita">
-                                        <option value="VENDO">🛒 VENDO</option>
-                                        <option value="COMPRO">💰 COMPRO</option>
-                                        <option value="SCAMBIO">🔄 SCAMBIO</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Categoria</label>
-                                    <select id="categoriaVendita">
-                                        <option value="ATTREZZATURE">🔧 Attrezzature</option>
-                                        <option value="MOBILI">🪑 Mobili</option>
-                                        <option value="TECNOLOGIA">💻 Tecnologia</option>
-                                        <option value="VEICOLI">🚗 Veicoli</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Titolo</label>
-                                <input type="text" id="titoloVendita" placeholder="Es: Stampante HP LaserJet">
-                            </div>
-                            <div class="form-group">
-                                <label>Descrizione</label>
-                                <textarea id="descrizioneVendita" placeholder="Descrivi l'articolo..." style="min-height: 80px;"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Prezzo/Budget (€)</label>
-                                <input type="text" id="prezzoVendita" placeholder="1200 o 'Scambio alla pari'">
-                            </div>
-                            <div class="foto-upload-container">
-                                <label for="fotoVendita">📸 AGGIUNGI FOTO AL TUO ANNUNCIO</label>
-                                <input type="file" id="fotoVendita" accept="image/*" onchange="previewFoto(this, 'previewVendita')">
-                                <div id="previewVendita"></div>
-                                <p style="font-size: 12px; color: #666; margin-top: 10px;">Formati supportati: JPG, PNG, GIF - Max 5MB</p>
-                            </div>
-                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-                                <button class="action-btn green" onclick="pubblicaAnnuncioVendita()">✅ Pubblica</button>
-                                <button class="action-btn red" onclick="toggleForm('formVendoCompro')">❌ Annulla</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SEZIONE RICERCA PERSONALE -->
-                    <div id="sezioneRicercaPersonale" class="sezione-bacheca">
-                        <div class="filter-bar">
-                            <button class="filter-btn active" onclick="filterPersonale('tutti', this)">Tutti</button>
-                            <button class="filter-btn" onclick="filterPersonale('offro', this)">💼 Offro Lavoro</button>
-                            <button class="filter-btn" onclick="filterPersonale('cerco', this)">🔍 Cerco Lavoro</button>
-                            <button class="action-btn blue" onclick="toggleForm('formPersonale')">➕ Pubblica Offerta</button>
-                        </div>
-
-                        <!-- Container annunci Personale -->
-                        <div id="annunciPersonaleContainer">
-                            <div class="annuncio-card" id="annuncio_esempio_2" data-autore="rossi@rossisrl.it">
-                                <div style="display: flex; gap: 15px; align-items: center;">
-                                    <div style="width: 100px; height: 80px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">👨‍💻</div>
-                                    <div style="flex: 1;">
-                                        <div style="margin-bottom: 8px;">
-                                            <span class="badge blue">OFFRO LAVORO</span>
-                                            <span class="badge green">FULL-TIME</span>
-                                        </div>
-                                        <h4 style="color: #2c3e50; margin-bottom: 5px;">Sviluppatore Full Stack</h4>
-                                        <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">Cerchiamo developer con esperienza React/Node</p>
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="color: #3498db; font-weight: bold;">€45-55K/anno</span>
-                                            <span style="color: #95a5a6; font-size: 11px;">Marco Rossi - Oggi</span>
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                                        <button class="action-btn green" style="padding: 6px 12px; font-size: 11px;" onclick="aggiungiFotoAnnuncio('annuncio_esempio_2')" title="Aggiungi foto">📸➕ Foto</button>
-                                        <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('annuncio_esempio_2', 'personale')">🗑️ Cancella</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Form Personale -->
-                        <div id="formPersonale" class="form-section" style="display: none;">
-                            <h3 style="color: #3498db; margin-bottom: 20px;">👔 Pubblica Offerta/Ricerca Lavoro</h3>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div class="form-group">
-                                    <label>Tipo</label>
-                                    <select id="tipoPersonale">
-                                        <option value="OFFRO LAVORO">💼 Offro Lavoro</option>
-                                        <option value="CERCO LAVORO">🔍 Cerco Lavoro</option>
-                                        <option value="STAGE">🎓 Stage/Tirocinio</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Contratto</label>
-                                    <select id="contrattoPersonale">
-                                        <option value="FULL-TIME">Full-time</option>
-                                        <option value="PART-TIME">Part-time</option>
-                                        <option value="FREELANCE">Freelance</option>
-                                        <option value="STAGE">Stage</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Posizione</label>
-                                <input type="text" id="posizionePersonale" placeholder="Es: Sviluppatore Full Stack">
-                            </div>
-                            <div class="form-group">
-                                <label>Descrizione</label>
-                                <textarea id="descrizionePersonale" placeholder="Descrivi la posizione..." style="min-height: 80px;"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Retribuzione</label>
-                                <input type="text" id="retribuzionePersonale" placeholder="Es: €45-55K/anno">
-                            </div>
-                            <div class="foto-upload-container">
-                                <label for="fotoPersonale">📸 AGGIUNGI FOTO AL TUO ANNUNCIO</label>
-                                <input type="file" id="fotoPersonale" accept="image/*" onchange="previewFoto(this, 'previewPersonale')">
-                                <div id="previewPersonale"></div>
-                                <p style="font-size: 12px; color: #666; margin-top: 10px;">Formati supportati: JPG, PNG, GIF - Max 5MB</p>
-                            </div>
-                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-                                <button class="action-btn blue" onclick="pubblicaAnnuncioPersonale()">✅ Pubblica</button>
-                                <button class="action-btn red" onclick="toggleForm('formPersonale')">❌ Annulla</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SEZIONE SPAZI CONDIVISI -->
-                    <div id="sezioneSpaziCondivisi" class="sezione-bacheca">
-                        <div class="filter-bar">
-                            <button class="filter-btn active" onclick="filterSpazi('tutti', this)">Tutti</button>
-                            <button class="filter-btn" onclick="filterSpazi('uffici', this)">🏢 Uffici</button>
-                            <button class="filter-btn" onclick="filterSpazi('coworking', this)">👥 Coworking</button>
-                            <button class="filter-btn" onclick="filterSpazi('magazzini', this)">📦 Magazzini</button>
-                            <button class="action-btn purple" onclick="toggleForm('formSpazi')">➕ Aggiungi Spazio</button>
-                        </div>
-
-                        <!-- Container annunci Spazi -->
-                        <div id="annunciSpaziContainer">
-                            <div class="annuncio-card" id="annuncio_esempio_3" data-autore="rossi@rossisrl.it">
-                                <div style="display: flex; gap: 15px; align-items: center;">
-                                    <div style="width: 100px; height: 80px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">🏢</div>
-                                    <div style="flex: 1;">
-                                        <div style="margin-bottom: 8px;">
-                                            <span class="badge purple">UFFICIO</span>
-                                            <span class="badge green">150 MQ</span>
-                                        </div>
-                                        <h4 style="color: #2c3e50; margin-bottom: 5px;">Ufficio Open Space EUR</h4>
-                                        <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">15 postazioni, 2 sale riunioni, parcheggio</p>
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="color: #9b59b6; font-weight: bold;">€2.500/mese</span>
-                                            <span style="color: #95a5a6; font-size: 11px;">Marco Rossi - Disponibile</span>
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                                        <button class="action-btn green" style="padding: 6px 12px; font-size: 11px;" onclick="aggiungiFotoAnnuncio('annuncio_esempio_3')" title="Aggiungi foto">📸➕ Foto</button>
-                                        <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('annuncio_esempio_3', 'spazi')">🗑️ Cancella</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Form Spazi -->
-                        <div id="formSpazi" class="form-section" style="display: none;">
-                            <h3 style="color: #9b59b6; margin-bottom: 20px;">🏢 Offri Spazio in Condivisione</h3>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div class="form-group">
-                                    <label>Tipo Spazio</label>
-                                    <select id="tipoSpazio">
-                                        <option value="UFFICIO">🏢 Ufficio</option>
-                                        <option value="COWORKING">👥 Coworking</option>
-                                        <option value="MAGAZZINO">📦 Magazzino</option>
-                                        <option value="SALA">🏛️ Sala Riunioni</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Metratura</label>
-                                    <input type="text" id="metratura" placeholder="Es: 150 MQ">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Titolo</label>
-                                <input type="text" id="titoloSpazio" placeholder="Es: Ufficio Open Space EUR">
-                            </div>
-                            <div class="form-group">
-                                <label>Descrizione</label>
-                                <textarea id="descrizioneSpazio" placeholder="Descrivi lo spazio..." style="min-height: 80px;"></textarea>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div class="form-group">
-                                    <label>Prezzo (€/mese)</label>
-                                    <input type="text" id="prezzoSpazio" placeholder="2500/mese">
-                                </div>
-                                <div class="form-group">
-                                    <label>Località</label>
-                                    <input type="text" id="localitaSpazio" placeholder="Roma EUR">
-                                </div>
-                            </div>
-                            <div class="foto-upload-container">
-                                <label for="fotoSpazio">📸 AGGIUNGI FOTO AL TUO ANNUNCIO</label>
-                                <input type="file" id="fotoSpazio" accept="image/*" onchange="previewFoto(this, 'previewSpazio')">
-                                <div id="previewSpazio"></div>
-                                <p style="font-size: 12px; color: #666; margin-top: 10px;">Formati supportati: JPG, PNG, GIF - Max 5MB</p>
-                            </div>
-                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-                                <button class="action-btn purple" onclick="pubblicaAnnuncioSpazio()">✅ Pubblica</button>
-                                <button class="action-btn red" onclick="toggleForm('formSpazi')">❌ Annulla</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SEZIONE COLLABORAZIONI -->
-                    <div id="sezioneCollaborazioni" class="sezione-bacheca">
-                        <div class="filter-bar">
-                            <button class="filter-btn active" onclick="filterCollab('tutti', this)">Tutti</button>
-                            <button class="filter-btn" onclick="filterCollab('partnership', this)">🤝 Partnership</button>
-                            <button class="filter-btn" onclick="filterCollab('progetti', this)">🚀 Progetti</button>
-                            <button class="filter-btn" onclick="filterCollab('fornitori', this)">📦 Fornitori</button>
-                            <button class="action-btn orange" onclick="toggleForm('formCollab')">➕ Proponi Collaborazione</button>
-                        </div>
-
-                        <!-- Container annunci Collaborazioni -->
-                        <div id="annunciCollabContainer">
-                            <div class="annuncio-card" id="annuncio_esempio_4" data-autore="rossi@rossisrl.it">
-                                <div style="display: flex; gap: 15px; align-items: center;">
-                                    <div style="width: 100px; height: 80px; background: linear-gradient(135deg, #f39c12, #e67e22); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">🤝</div>
-                                    <div style="flex: 1;">
-                                        <div style="margin-bottom: 8px;">
-                                            <span class="badge orange">PARTNERSHIP</span>
-                                            <span class="badge green">AGROALIMENTARE</span>
-                                        </div>
-                                        <h4 style="color: #2c3e50; margin-bottom: 5px;">Partner Campagna Marketing Food</h4>
-                                        <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">Cerco partner per campagna nazionale settore alimentare</p>
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="color: #f39c12; font-weight: bold;">Budget: €50K condiviso</span>
-                                            <span style="color: #95a5a6; font-size: 11px;">Marco Rossi - 1 giorno fa</span>
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                                        <button class="action-btn green" style="padding: 6px 12px; font-size: 11px;" onclick="aggiungiFotoAnnuncio('annuncio_esempio_4')" title="Aggiungi foto">📸➕ Foto</button>
-                                        <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('annuncio_esempio_4', 'collab')">🗑️ Cancella</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Form Collaborazioni -->
-                        <div id="formCollab" class="form-section" style="display: none;">
-                            <h3 style="color: #f39c12; margin-bottom: 20px;">🤝 Proponi Collaborazione</h3>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div class="form-group">
-                                    <label>Tipo Collaborazione</label>
-                                    <select id="tipoCollab">
-                                        <option value="PARTNERSHIP">🤝 Partnership</option>
-                                        <option value="PROGETTO">🚀 Progetto</option>
-                                        <option value="GRUPPO ACQUISTO">📦 Gruppo Acquisto</option>
-                                        <option value="RETE">🌐 Rete d'Impresa</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Settore</label>
-                                    <select id="settoreCollab">
-                                        <option value="AGROALIMENTARE">🌾 Agroalimentare & Food</option>
-                                        <option value="MODA-DESIGN">👗 Moda, Design & Arredamento</option>
-                                        <option value="INDUSTRIA">🏭 Industria & Manifattura</option>
-                                        <option value="AUTOMOTIVE">🚗 Automotive & Trasporti</option>
-                                        <option value="TECH-ICT">💻 Tech, ICT & Telecomunicazioni</option>
-                                        <option value="ENERGIA">⚡ Energia & Utilities</option>
-                                        <option value="EDILIZIA">🏗️ Edilizia & Costruzioni</option>
-                                        <option value="SANITA">🏥 Sanità & Farmaceutica</option>
-                                        <option value="COMMERCIO">🛍️ Commercio & Distribuzione</option>
-                                        <option value="TURISMO">🏨 Turismo & Ristorazione</option>
-                                        <option value="FINANZA">💰 Finanza & Assicurazioni</option>
-                                        <option value="SERVIZI">💼 Servizi & Consulenza</option>
-                                        <option value="LOGISTICA">📦 Logistica & Supply Chain</option>
-                                        <option value="MEDIA">🎬 Media, Cultura & Entertainment</option>
-                                        <option value="FORMAZIONE">🎓 Istruzione & Formazione</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Titolo</label>
-                                <input type="text" id="titoloCollab" placeholder="Es: Partner Campagna Marketing">
-                            </div>
-                            <div class="form-group">
-                                <label>Descrizione</label>
-                                <textarea id="descrizioneCollab" placeholder="Descrivi la collaborazione..." style="min-height: 80px;"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Budget/Investimento</label>
-                                <input type="text" id="budgetCollab" placeholder="Es: €50K condiviso o Equity 20%">
-                            </div>
-                            <div class="foto-upload-container">
-                                <label for="fotoCollab">📸 AGGIUNGI FOTO AL TUO ANNUNCIO</label>
-                                <input type="file" id="fotoCollab" accept="image/*" onchange="previewFoto(this, 'previewCollab')">
-                                <div id="previewCollab"></div>
-                                <p style="font-size: 12px; color: #666; margin-top: 10px;">Formati supportati: JPG, PNG, GIF - Max 5MB</p>
-                            </div>
-                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-                                <button class="action-btn orange" onclick="pubblicaAnnuncioCollab()">✅ Pubblica</button>
-                                <button class="action-btn red" onclick="toggleForm('formCollab')">❌ Annulla</button>
-                            </div>
-                        </div>
-                    </div>
+                    <h2>📌 Marketplace & Collaborazioni</h2>
+                    <p>Sezione Bacheca - Vendo/Compro, Personale, Spazi, Collaborazioni</p>
                 </div>
             </div>
 
@@ -1463,1753 +462,126 @@
                     <div class="user-info">👤 User</div>
                     <div class="logo">📅</div>
                     <h1>Agenda Eventi del Consorzio</h1>
-                    <p>Partecipa agli eventi e ricevi notifiche automatiche</p>
                 </div>
-                
                 <div class="page-content">
-                    <!-- Stats Box Eventi -->
-                    <div class="member-stats-box">
-                        <h2 style="margin-bottom: 10px;">📅 I Tuoi Eventi</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiTotali">8</div><div style="font-size: 11px;">Eventi Totali</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiConfermati">2</div><div style="font-size: 11px;">Confermati</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiQuestoMese">5</div><div style="font-size: 11px;">Questo Mese</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="notificheAttive">2</div><div style="font-size: 11px;">Notifiche Attive</div></div>
-                        </div>
-                    </div>
-
-                    <!-- Impostazioni Notifiche -->
-                    <div class="notifica-setting">
-                        <h4 style="margin-bottom: 10px;">⚙️ Impostazioni Notifiche</h4>
-                        <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
-                            <label style="display: flex; align-items: center; gap: 8px;">
-                                <input type="checkbox" id="notificaWhatsapp" checked>
-                                <span>📱 WhatsApp</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px;">
-                                <input type="checkbox" id="notificaApp" checked>
-                                <span>🔔 Notifica App</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px;">
-                                <input type="checkbox" id="notificaEmail">
-                                <span>📧 Email</span>
-                            </label>
-                            <span style="color: #666; font-size: 12px;">
-                                ⏰ Riceverai: 1° avviso il giorno prima | 2° avviso alle 8:00 del giorno dell'evento
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Filtri Eventi -->
-                    <div class="filter-bar" style="margin-top: 20px;">
-                        <button class="filter-btn active" onclick="filterEventi('tutti', this)">Tutti gli Eventi</button>
-                        <button class="filter-btn" onclick="filterEventi('confermati', this)">✅ Confermati</button>
-                        <button class="filter-btn" onclick="filterEventi('questo-mese', this)">📅 Questo Mese</button>
-                        <button class="filter-btn" onclick="filterEventi('prossimi', this)">⏳ Prossimi 7 giorni</button>
-                    </div>
-
-                    <!-- Lista Eventi -->
-                    <div id="listaEventi" style="margin-top: 20px;">
-                        
-                        <!-- Evento 1 - Networking -->
-                        <div class="evento-card" data-evento-id="1" data-status="disponibile">
-                            <div class="evento-header">
-                                <div class="evento-data">
-                                    <div class="evento-giorno">28</div>
-                                    <div class="evento-mese">GEN</div>
-                                </div>
-                                <div class="evento-info">
-                                    <div class="evento-titolo">
-                                        🤝 Networking Imprenditori Roma
-                                        <span class="badge green">NETWORKING</span>
-                                    </div>
-                                    <div class="evento-dettagli">
-                                        <div class="evento-dettaglio">📍 Hotel Hilton Roma EUR</div>
-                                        <div class="evento-dettaglio">⏰ 18:30 - 21:00</div>
-                                        <div class="evento-dettaglio">👥 45 partecipanti</div>
-                                        <div class="evento-dettaglio">💰 Gratuito per membri</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p style="color: #666; margin: 10px 0;">
-                                Serata di networking dedicata agli imprenditori del consorzio. Aperitivo incluso, 
-                                presentazione nuovi membri e opportunità di business.
-                            </p>
-                            <div class="partecipanti-box">
-                                <strong>Partecipanti confermati:</strong>
-                                <div style="margin-top: 10px;">
-                                    <span class="partecipanti-avatar">MR</span>
-                                    <span class="partecipanti-avatar" style="background: linear-gradient(135deg, #27ae60, #229954);">GB</span>
-                                    <span class="partecipanti-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">LP</span>
-                                    <span class="partecipanti-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">AT</span>
-                                    <span style="margin-left: 15px; color: #666;">+41 altri</span>
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px;">
-                                <button class="btn-partecipa" onclick="confermaPartecipazione(1)">
-                                    ✅ Conferma Partecipazione
-                                </button>
-                                <span style="color: #666; font-size: 13px;">📅 Tra 7 giorni</span>
-                            </div>
-                        </div>
-
-                        <!-- Evento 2 - Workshop (Già confermato) -->
-                        <div class="evento-card" data-evento-id="2" data-status="confermato" style="border-color: #27ae60;">
-                            <div class="evento-header">
-                                <div class="evento-data" style="background: linear-gradient(135deg, #27ae60, #229954);">
-                                    <div class="evento-giorno">05</div>
-                                    <div class="evento-mese">FEB</div>
-                                </div>
-                                <div class="evento-info">
-                                    <div class="evento-titolo">
-                                        💻 Workshop Digital Marketing 2025
-                                        <span class="badge blue">FORMAZIONE</span>
-                                        <span class="evento-status status-confermato">✅ CONFERMATO</span>
-                                    </div>
-                                    <div class="evento-dettagli">
-                                        <div class="evento-dettaglio">📍 Sede Consorzio - Sala Conferenze</div>
-                                        <div class="evento-dettaglio">⏰ 09:00 - 13:00</div>
-                                        <div class="evento-dettaglio">👥 25/30 posti</div>
-                                        <div class="evento-dettaglio">💰 Incluso nella quota</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p style="color: #666; margin: 10px 0;">
-                                Workshop intensivo sulle strategie di digital marketing per il 2025. 
-                                Relatore: Dott. Giovanni Russo, esperto Google Ads e Social Media.
-                            </p>
-                            <div class="partecipanti-box" style="background: #d4edda;">
-                                <strong>✅ Sei iscritto a questo evento!</strong>
-                                <div style="margin-top: 8px; color: #155724;">
-                                    🔔 Riceverai notifica il 04/02 e il 05/02 alle 8:00
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px;">
-                                <button class="btn-cancella" onclick="cancellaPartecipazione(2)">
-                                    ❌ Cancella Partecipazione
-                                </button>
-                                <button class="action-btn blue" style="padding: 12px 20px;" onclick="aggiungiAlCalendario(2)">
-                                    📅 Aggiungi al Calendario
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Evento 3 - Assemblea -->
-                        <div class="evento-card" data-evento-id="3" data-status="disponibile">
-                            <div class="evento-header">
-                                <div class="evento-data" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
-                                    <div class="evento-giorno">15</div>
-                                    <div class="evento-mese">FEB</div>
-                                </div>
-                                <div class="evento-info">
-                                    <div class="evento-titolo">
-                                        🏛️ Assemblea Generale Soci
-                                        <span class="badge red">IMPORTANTE</span>
-                                        <span class="badge orange">OBBLIGATORIO</span>
-                                    </div>
-                                    <div class="evento-dettagli">
-                                        <div class="evento-dettaglio">📍 Auditorium Consorzio</div>
-                                        <div class="evento-dettaglio">⏰ 15:00 - 18:00</div>
-                                        <div class="evento-dettaglio">👥 Tutti i membri</div>
-                                        <div class="evento-dettaglio">📋 Ordine del giorno disponibile</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p style="color: #666; margin: 10px 0;">
-                                Assemblea generale obbligatoria per tutti i soci. Approvazione bilancio, 
-                                elezione nuovo consiglio, presentazione progetti 2025.
-                            </p>
-                            <div style="margin-top: 15px;">
-                                <button class="btn-partecipa" onclick="confermaPartecipazione(3)">
-                                    ✅ Conferma Presenza
-                                </button>
-                                <button class="action-btn purple" style="padding: 12px 20px;" onclick="scaricaOrdineGiorno(3)">
-                                    📄 Scarica Ordine del Giorno
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Evento 4 - Cena di Gala (Confermato) -->
-                        <div class="evento-card" data-evento-id="4" data-status="confermato" style="border-color: #27ae60;">
-                            <div class="evento-header">
-                                <div class="evento-data" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
-                                    <div class="evento-giorno">22</div>
-                                    <div class="evento-mese">FEB</div>
-                                </div>
-                                <div class="evento-info">
-                                    <div class="evento-titolo">
-                                        🍷 Cena di Gala Annuale
-                                        <span class="badge purple">SOCIALE</span>
-                                        <span class="evento-status status-confermato">✅ CONFERMATO</span>
-                                    </div>
-                                    <div class="evento-dettagli">
-                                        <div class="evento-dettaglio">📍 Villa Miani - Roma</div>
-                                        <div class="evento-dettaglio">⏰ 20:00 - 24:00</div>
-                                        <div class="evento-dettaglio">👥 120 partecipanti</div>
-                                        <div class="evento-dettaglio">💰 €50 per persona</div>
-                                        <div class="evento-dettaglio">👔 Dress code: Elegante</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p style="color: #666; margin: 10px 0;">
-                                Cena di gala annuale con premiazione imprenditori dell'anno. 
-                                Menu gourmet, musica dal vivo, possibilità di invitare un accompagnatore.
-                            </p>
-                            <div class="partecipanti-box" style="background: #d4edda;">
-                                <strong>✅ Partecipazione confermata per 2 persone</strong>
-                                <div style="margin-top: 8px; color: #155724;">
-                                    💳 Pagamento effettuato: €100 | 🔔 Notifiche programmate
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px;">
-                                <button class="btn-cancella" onclick="cancellaPartecipazione(4)">
-                                    ❌ Cancella Prenotazione
-                                </button>
-                                <button class="action-btn orange" style="padding: 12px 20px;" onclick="invitaOspite(4)">
-                                    ➕ Modifica Accompagnatore
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Evento 5 - Visita Aziendale -->
-                        <div class="evento-card" data-evento-id="5" data-status="disponibile">
-                            <div class="evento-header">
-                                <div class="evento-data" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
-                                    <div class="evento-giorno">10</div>
-                                    <div class="evento-mese">MAR</div>
-                                </div>
-                                <div class="evento-info">
-                                    <div class="evento-titolo">
-                                        🏭 Visita Stabilimento Ferrari
-                                        <span class="badge orange">ESCLUSIVO</span>
-                                        <span class="badge green">POSTI LIMITATI</span>
-                                    </div>
-                                    <div class="evento-dettagli">
-                                        <div class="evento-dettaglio">📍 Maranello (MO)</div>
-                                        <div class="evento-dettaglio">⏰ Partenza bus ore 7:00</div>
-                                        <div class="evento-dettaglio">👥 20/20 posti (Lista d'attesa)</div>
-                                        <div class="evento-dettaglio">💰 €120 (trasporto + pranzo)</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p style="color: #666; margin: 10px 0;">
-                                Visita esclusiva allo stabilimento Ferrari con tour guidato, 
-                                museo e test drive su pista. Pranzo presso ristorante aziendale.
-                            </p>
-                            <div class="partecipanti-box" style="background: #fff3cd;">
-                                <strong>⚠️ Evento al completo</strong>
-                                <div style="margin-top: 8px; color: #856404;">
-                                    Puoi iscriverti alla lista d'attesa
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px;">
-                                <button class="action-btn orange" onclick="listaAttesa(5)">
-                                    📋 Iscriviti alla Lista d'Attesa
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
+                    <h2>📅 I Tuoi Eventi</h2>
+                    <p>8 Eventi Totali | 2 Confermati | 5 Questo Mese</p>
                 </div>
             </div>
 
-            <!-- Pagina Consulenti -->
+            <!-- Consulenti Page -->
             <div id="consulentiPage" class="page">
                 <div class="header">
                     <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
                     <div class="user-info">👤 User</div>
                     <div class="logo">💼</div>
                     <h1>Consulenti del Consorzio</h1>
-                    <p>Richiedi consulenze gratuite con i nostri esperti</p>
                 </div>
-                
                 <div class="page-content">
-                    <!-- Contatore Consulenze -->
-                    <div class="consulenze-counter">
-                        <h2 style="margin-bottom: 10px;">💼 Le Tue Consulenze</h2>
-                        <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
-                            <div>
-                                <div style="font-size: 28px; font-weight: bold;" id="consulenzeUsate">0</div>
-                                <div style="font-size: 14px;">Utilizzate</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 28px; font-weight: bold;" id="consulenzeRimanenti">10</div>
-                                <div style="font-size: 14px;">Rimanenti</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 28px; font-weight: bold;">10</div>
-                                <div style="font-size: 14px;">Totali Incluse</div>
-                            </div>
-                        </div>
-                        <p style="margin-top: 15px; font-size: 13px;">
-                            ⏱️ Ogni consulenza dura 30 minuti | 📋 Max 1 consulenza per consulente
-                        </p>
-                    </div>
-
-                    <!-- Filtri -->
-                    <div class="filter-bar">
-                        <button class="filter-btn active" onclick="filterConsulenti('tutti', this)">Tutti i Consulenti</button>
-                        <button class="filter-btn" onclick="filterConsulenti('disponibili', this)">🟢 Disponibili</button>
-                        <button class="filter-btn" onclick="filterConsulenti('prenotati', this)">📅 Già Prenotati</button>
-                        <select class="filter-btn" style="background: white; border: 2px solid #ddd;" onchange="filterBySpecializzazione(this.value)">
-                            <option value="">Tutte le Specializzazioni</option>
-                            <option value="finanza">💰 Finanza agevolata</option>
-                            <option value="legale">⚖️ Consulenza legale</option>
-                            <option value="cyber">🔒 Cyber sicurezza</option>
-                            <option value="erp">💻 ERP e gestionali</option>
-                            <option value="app">📱 App e siti</option>
-                            <option value="export">🌍 Export manager</option>
-                            <option value="controllo">📊 Controllo gestione</option>
-                            <option value="energia">⚡ Efficientamento energetico</option>
-                            <option value="noleggio">🖨️ Noleggio</option>
-                            <option value="assicurazioni">🛡️ Assicurazioni</option>
-                            <option value="contabile">📋 Gestione contabile</option>
-                            <option value="sicurezza">🦺 Sicurezza lavoro</option>
-                            <option value="comunicazione">📢 Comunicazione</option>
-                        </select>
-                    </div>
-
-                    <!-- Lista Consulenti -->
-                    <div id="listaConsulenti" style="margin-top: 20px;">
-                        
-                        <!-- Consulente 1 - Finanza agevolata -->
-                        <div class="consulente-card" data-consulente-id="1" data-specializzazione="finanza">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">GB</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Giovanni Bianchi
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        💰 <strong>Finanza agevolata</strong> - Esperto in bandi, contributi e finanziamenti europei
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 20+ anni esperienza</span>
-                                        <span>⭐ 4.9/5 rating</span>
-                                        <span>📍 Roma/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(1, 'Giovanni Bianchi', 'Finanza agevolata')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 2 - Consulenza legale -->
-                        <div class="consulente-card" data-consulente-id="2" data-specializzazione="legale">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">LR</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Avv. Laura Rossi
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        ⚖️ <strong>Consulenza legale d'impresa</strong> - Contrattualistica, società, recupero crediti
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 15+ anni esperienza</span>
-                                        <span>⭐ 5.0/5 rating</span>
-                                        <span>📍 Milano/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(2, 'Laura Rossi', 'Consulenza legale')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 3 - Cyber sicurezza -->
-                        <div class="consulente-card" data-consulente-id="3" data-specializzazione="cyber">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">MV</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Ing. Marco Verdi
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🔒 <strong>Cyber sicurezza</strong> - Protezione dati, GDPR, audit di sicurezza
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 12+ anni esperienza</span>
-                                        <span>⭐ 4.8/5 rating</span>
-                                        <span>📍 Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(3, 'Marco Verdi', 'Cyber sicurezza')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 4 - ERP e gestionali -->
-                        <div class="consulente-card" data-consulente-id="4" data-specializzazione="erp">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">SC</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Stefano Colombo
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        💻 <strong>E.R.P e gestionali aziendali</strong> - SAP, Microsoft Dynamics, Odoo
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 18+ anni esperienza</span>
-                                        <span>⭐ 4.7/5 rating</span>
-                                        <span>📍 Torino/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(4, 'Stefano Colombo', 'ERP e gestionali')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 5 - Creazione app e siti -->
-                        <div class="consulente-card" data-consulente-id="5" data-specializzazione="app">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #27ae60, #229954);">AF</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Ing. Alessandro Ferrari
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        📱 <strong>Creazione app e siti</strong> - Sviluppo web, mobile app, e-commerce
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 10+ anni esperienza</span>
-                                        <span>⭐ 4.9/5 rating</span>
-                                        <span>📍 Bologna/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(5, 'Alessandro Ferrari', 'Creazione app e siti')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 6 - Export manager -->
-                        <div class="consulente-card" data-consulente-id="6" data-specializzazione="export">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #1abc9c, #16a085);">CM</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott.ssa Chiara Martini
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🌍 <strong>Export manager</strong> - Internazionalizzazione, dogane, mercati esteri
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 14+ anni esperienza</span>
-                                        <span>⭐ 4.8/5 rating</span>
-                                        <span>📍 Venezia/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(6, 'Chiara Martini', 'Export manager')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 7 - Controllo di gestione -->
-                        <div class="consulente-card" data-consulente-id="7" data-specializzazione="controllo">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">PR</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Paolo Romano
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        📊 <strong>Controllo di gestione</strong> - Budget, reporting, KPI aziendali
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 16+ anni esperienza</span>
-                                        <span>⭐ 4.9/5 rating</span>
-                                        <span>📍 Napoli/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(7, 'Paolo Romano', 'Controllo di gestione')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 8 - Efficientamento energetico -->
-                        <div class="consulente-card" data-consulente-id="8" data-specializzazione="energia">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #e67e22, #d35400);">RG</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Ing. Roberto Gallo
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        ⚡ <strong>Efficientamento energetico</strong> - Audit energetici, fotovoltaico, risparmio
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 11+ anni esperienza</span>
-                                        <span>⭐ 4.7/5 rating</span>
-                                        <span>📍 Firenze/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(8, 'Roberto Gallo', 'Efficientamento energetico')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 9 - Noleggio stampanti -->
-                        <div class="consulente-card" data-consulente-id="9" data-specializzazione="noleggio">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d);">FL</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Francesco Leone
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🖨️ <strong>Noleggio stampanti</strong> - Soluzioni printing, costi copia, gestione documentale
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 8+ anni esperienza</span>
-                                        <span>⭐ 4.6/5 rating</span>
-                                        <span>📍 Genova/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(9, 'Francesco Leone', 'Noleggio stampanti')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 10 - Noleggio mezzi -->
-                        <div class="consulente-card" data-consulente-id="10" data-specializzazione="noleggio">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #34495e, #2c3e50);">GC</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Giulio Costa
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🚗 <strong>Noleggio mezzi e auto a lungo termine</strong> - Fleet management, TCO
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 13+ anni esperienza</span>
-                                        <span>⭐ 4.8/5 rating</span>
-                                        <span>📍 Padova/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(10, 'Giulio Costa', 'Noleggio auto lungo termine')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 11 - Polizze assicurative -->
-                        <div class="consulente-card" data-consulente-id="11" data-specializzazione="assicurazioni">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #8e44ad, #9b59b6);">SB</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott.ssa Silvia Bruno
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🛡️ <strong>Polizze assicurative aziendali</strong> - RC, All risks, Cyber risk, D&O
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 17+ anni esperienza</span>
-                                        <span>⭐ 4.9/5 rating</span>
-                                        <span>📍 Bari/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(11, 'Silvia Bruno', 'Polizze assicurative')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 12 - Gestione contabile -->
-                        <div class="consulente-card" data-consulente-id="12" data-specializzazione="contabile">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #2980b9, #3498db);">MR</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Matteo Ricci
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        📋 <strong>Gestione contabile e tributaria</strong> - Bilanci, dichiarazioni, pianificazione fiscale
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 22+ anni esperienza</span>
-                                        <span>⭐ 5.0/5 rating</span>
-                                        <span>📍 Brescia/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(12, 'Matteo Ricci', 'Gestione contabile')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 13 - Fiscalità energetica -->
-                        <div class="consulente-card" data-consulente-id="13" data-specializzazione="energia">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #16a085, #1abc9c);">EP</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott.ssa Elena Parisi
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        ⚡ <strong>Fiscalità energetica</strong> - Accise, carbon tax, certificati bianchi
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 9+ anni esperienza</span>
-                                        <span>⭐ 4.7/5 rating</span>
-                                        <span>📍 Verona/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(13, 'Elena Parisi', 'Fiscalità energetica')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 14 - Antincendio e sicurezza -->
-                        <div class="consulente-card" data-consulente-id="14" data-specializzazione="sicurezza">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #c0392b, #e74c3c);">LM</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Ing. Luca Moretti
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🚨 <strong>Antincendio e segnaletica aziendale</strong> - CPI, piani emergenza, test elettrici
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 15+ anni esperienza</span>
-                                        <span>⭐ 4.8/5 rating</span>
-                                        <span>📍 Palermo/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(14, 'Luca Moretti', 'Antincendio e sicurezza')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 15 - Medicina del lavoro -->
-                        <div class="consulente-card" data-consulente-id="15" data-specializzazione="sicurezza">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #27ae60, #229954);">AB</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Andrea Barbieri
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🏥 <strong>Medicina del lavoro</strong> - Sorveglianza sanitaria, DVR, visite mediche
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 20+ anni esperienza</span>
-                                        <span>⭐ 4.9/5 rating</span>
-                                        <span>📍 Catania/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(15, 'Andrea Barbieri', 'Medicina del lavoro')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 16 - Igiene e sicurezza -->
-                        <div class="consulente-card" data-consulente-id="16" data-specializzazione="sicurezza">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">VF</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Ing. Valentina Fontana
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🦺 <strong>Igiene e sicurezza luoghi di lavoro</strong> - RSPP, DVR, formazione 81/08
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 13+ anni esperienza</span>
-                                        <span>⭐ 5.0/5 rating</span>
-                                        <span>📍 Trieste/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(16, 'Valentina Fontana', 'Sicurezza sul lavoro')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 17 - SEO e posizionamento (Maria Bianchi già nel DB) -->
-                        <div class="consulente-card" data-consulente-id="17" data-specializzazione="comunicazione">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">MB</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott.ssa Maria Bianchi
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🔍 <strong>SEO e posizionamento siti</strong> - Google Ads, Analytics, Search Console
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 10+ anni esperienza</span>
-                                        <span>⭐ 4.8/5 rating</span>
-                                        <span>📍 Roma/Online</span>
-                                        <span>📞 072 1840410</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(17, 'Maria Bianchi', 'SEO e posizionamento')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 18 - Stampa digitale -->
-                        <div class="consulente-card" data-consulente-id="18" data-specializzazione="comunicazione">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">DT</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Davide Testa
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🖨️ <strong>Stampa digitale</strong> - Cataloghi, brochure, packaging personalizzato
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 7+ anni esperienza</span>
-                                        <span>⭐ 4.6/5 rating</span>
-                                        <span>📍 Bergamo/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(18, 'Davide Testa', 'Stampa digitale')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 19 - Agenzia di comunicazione -->
-                        <div class="consulente-card" data-consulente-id="19" data-specializzazione="comunicazione">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">FC</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott.ssa Francesca Conti
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        📢 <strong>Agenzia di comunicazione</strong> - Brand identity, social media, campagne ADV
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 12+ anni esperienza</span>
-                                        <span>⭐ 4.9/5 rating</span>
-                                        <span>📍 Torino/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(19, 'Francesca Conti', 'Comunicazione aziendale')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Consulente 20 - Creazione eventi -->
-                        <div class="consulente-card" data-consulente-id="20" data-specializzazione="comunicazione">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">RS</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Roberto Santini
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🎉 <strong>Creazione eventi aziendali</strong> - Convention, team building, fiere
-                                    </div>
-                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
-                                        <span>📅 16+ anni esperienza</span>
-                                        <span>⭐ 5.0/5 rating</span>
-                                        <span>📍 Rimini/Online</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="apriFormConsulenza(20, 'Roberto Santini', 'Eventi aziendali')">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Form Prenotazione Consulenza (nascosto di default) -->
-                    <div id="formConsulenza" class="form-consulenza">
-                        <h3 style="color: #2c3e50; margin-bottom: 20px;">📅 Prenota Consulenza</h3>
-                        <div style="background: #e8f4fd; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                            <strong>Consulente:</strong> <span id="nomeConsulenteForm"></span><br>
-                            <strong>Specializzazione:</strong> <span id="specializzazioneForm"></span><br>
-                            <strong>Durata:</strong> 30 minuti
-                        </div>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                            <div class="form-group">
-                                <label>Modalità Consulenza</label>
-                                <select id="modalitaConsulenza">
-                                    <option value="online">💻 Online (Videochiamata)</option>
-                                    <option value="presenza">🤝 In Presenza (Durante evento)</option>
-                                    <option value="telefono">📞 Telefonica</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Data Preferita</label>
-                                <input type="date" id="dataConsulenza" min="2025-01-22">
-                            </div>
-                        </div>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                            <div class="form-group">
-                                <label>Ora Preferita</label>
-                                <select id="oraConsulenza">
-                                    <option value="09:00">09:00</option>
-                                    <option value="09:30">09:30</option>
-                                    <option value="10:00">10:00</option>
-                                    <option value="10:30">10:30</option>
-                                    <option value="11:00">11:00</option>
-                                    <option value="11:30">11:30</option>
-                                    <option value="14:00">14:00</option>
-                                    <option value="14:30">14:30</option>
-                                    <option value="15:00">15:00</option>
-                                    <option value="15:30">15:30</option>
-                                    <option value="16:00">16:00</option>
-                                    <option value="16:30">16:30</option>
-                                    <option value="17:00">17:00</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Telefono/Email Contatto</label>
-                                <input type="text" id="contattoConsulenza" placeholder="Es: 333 1234567">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Argomento da Trattare</label>
-                            <textarea id="argomentoConsulenza" placeholder="Descrivi brevemente l'argomento che vorresti trattare..." style="min-height: 80px;"></textarea>
-                        </div>
-                        
-                        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-                            <button class="action-btn green" onclick="inviaRichiestaConsulenza()">✅ Invia Richiesta</button>
-                            <button class="action-btn red" onclick="chiudiFormConsulenza()">❌ Annulla</button>
-                        </div>
-                    </div>
-                    
+                    <h2>💼 20 Consulenti Disponibili</h2>
+                    <p>10 Consulenze gratuite incluse - Max 1 per consulente</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // ===========================================
-        // VARIABILI GLOBALI IMPORTANTI
-        // ===========================================
-        let currentUser = null;  // Utente corrente loggato
-        let annuncioIdCounter = 100;  // Contatore per ID univoci annunci
-        let currentFotoData = {};  // Storage per le foto
-        
-        // Database Eventi e Partecipazioni
-        let eventiPartecipazioni = {
-            2: true,  // Workshop già confermato
-            4: true   // Cena di gala già confermata
-        };
-        
-        let notificheEventi = {};
-
-        // Database Consulenze
-        let consulenzePrenotate = {};  // {consulenteId: {data, ora, modalita, status}}
-        let contatoreConsulenze = 0;
-
-        // ===========================================
-        // FUNZIONI FOTO
-        // ===========================================
-        
-        // Funzione per preview foto
-        function previewFoto(input, previewId) {
-            const preview = document.getElementById(previewId);
-            preview.innerHTML = '';
-            
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'foto-preview';
-                    img.style.maxWidth = '200px';
-                    img.style.maxHeight = '150px';
-                    img.style.borderRadius = '8px';
-                    img.style.objectFit = 'cover';
-                    
-                    const removeBtn = document.createElement('button');
-                    removeBtn.innerHTML = '❌ Rimuovi';
-                    removeBtn.className = 'action-btn red';
-                    removeBtn.style.marginTop = '10px';
-                    removeBtn.style.padding = '5px 10px';
-                    removeBtn.style.fontSize = '12px';
-                    removeBtn.onclick = function() {
-                        preview.innerHTML = '';
-                        input.value = '';
-                    };
-                    
-                    preview.appendChild(img);
-                    preview.appendChild(document.createElement('br'));
-                    preview.appendChild(removeBtn);
-                };
-                
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        // Funzione per aggiungere foto a annuncio esistente
-        function aggiungiFotoAnnuncio(annuncioId) {
-            console.log('📸 Aggiunta foto annuncio:', annuncioId);
-            
-            const annuncio = document.getElementById(annuncioId);
-            if (!annuncio) {
-                showNotification('❌ Annuncio non trovato', 'error');
-                return;
-            }
-            
-            const autoreAnnuncio = annuncio.getAttribute('data-autore');
-            
-            // Verifica permessi
-            if (!currentUser) {
-                showNotification('⚠️ Devi essere loggato', 'warning');
-                return;
-            }
-            
-            const puo_aggiungere = (currentUser.email === autoreAnnuncio) || (currentUser.role === 'admin');
-            if (!puo_aggiungere) {
-                showNotification('⚠️ Puoi aggiungere foto solo ai tuoi annunci', 'warning');
-                return;
-            }
-            
-            // Crea input file temporaneo
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.accept = 'image/*';
-            fileInput.style.display = 'none';
-            
-            fileInput.onchange = function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        // Trova il contenitore dell'icona e sostituiscilo con la foto
-                        const iconContainer = annuncio.querySelector('div[style*="width: 100px"][style*="height: 80px"]');
-                        if (iconContainer) {
-                            const fotoContainer = document.createElement('div');
-                            fotoContainer.className = 'annuncio-foto-container';
-                            fotoContainer.innerHTML = `
-                                <img src="${event.target.result}" alt="Foto annuncio" class="annuncio-foto">
-                                <button class="remove-foto-btn" onclick="rimuoviFotoAnnuncio('${annuncioId}')" title="Rimuovi foto">❌</button>
-                            `;
-                            
-                            iconContainer.parentNode.replaceChild(fotoContainer, iconContainer);
-                            
-                            // Aggiorna i pulsanti per mostrare "Rimuovi foto" invece di "Aggiungi foto"
-                            setTimeout(() => {
-                                window.updateDeleteButtons();
-                            }, 100);
-                            
-                            showNotification('📸 Foto aggiunta con successo!', 'success');
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                }
-                
-                // Rimuovi l'input temporaneo
-                document.body.removeChild(fileInput);
-            };
-            
-            // Aggiungi al DOM e clicca
-            document.body.appendChild(fileInput);
-            fileInput.click();
-        }
-
-        // FUNZIONE CORRETTA per rimuovere foto
-        function rimuoviFotoAnnuncio(annuncioId) {
-            console.log('🗑️ Rimozione foto annuncio:', annuncioId);
-            
-            const annuncio = document.getElementById(annuncioId);
-            if (!annuncio) {
-                showNotification('❌ Annuncio non trovato', 'error');
-                return;
-            }
-            
-            const autoreAnnuncio = annuncio.getAttribute('data-autore');
-            
-            // Verifica permessi (stesso del cancella annuncio)
-            if (!currentUser) {
-                showNotification('⚠️ Devi essere loggato', 'warning');
-                return;
-            }
-            
-            const puo_rimuovere = (currentUser.email === autoreAnnuncio) || (currentUser.role === 'admin');
-            if (!puo_rimuovere) {
-                showNotification('⚠️ Puoi rimuovere solo le tue foto', 'warning');
-                return;
-            }
-            
-            const fotoContainer = annuncio.querySelector('.annuncio-foto-container');
-            if (fotoContainer) {
-                fotoContainer.style.transition = 'all 0.3s ease';
-                fotoContainer.style.opacity = '0';
-                
-                setTimeout(() => {
-                    // Sostituisci con icona generica
-                    const iconContainer = document.createElement('div');
-                    iconContainer.style.cssText = `
-                        width: 100px; 
-                        height: 80px; 
-                        background: linear-gradient(135deg, #27ae60, #229954); 
-                        border-radius: 10px; 
-                        display: flex; 
-                        align-items: center; 
-                        justify-content: center; 
-                        color: white; 
-                        font-size: 30px;
-                    `;
-                    
-                    // Determina icona basandosi sul tipo
-                    const categoria = annuncio.querySelector('.badge.purple')?.textContent || 
-                                    annuncio.querySelector('.badge.blue')?.textContent || 'GENERICO';
-                    
-                    const icone = {
-                        'ATTREZZATURE': '🔧', 'MOBILI': '🪑', 'TECNOLOGIA': '💻', 'VEICOLI': '🚗',
-                        'OFFRO LAVORO': '💼', 'CERCO LAVORO': '🔍', 'STAGE': '🎓',
-                        'UFFICIO': '🏢', 'COWORKING': '👥', 'MAGAZZINO': '📦', 'SALA': '🏛️',
-                        'PARTNERSHIP': '🤝', 'PROGETTO': '🚀', 'GRUPPO ACQUISTO': '📦', 'RETE': '🌐'
-                    };
-                    
-                    iconContainer.innerHTML = icone[categoria] || '📋';
-                    
-                    fotoContainer.parentNode.replaceChild(iconContainer, fotoContainer);
-                    
-                    // Aggiorna i pulsanti per mostrare "Aggiungi foto" invece di "Rimuovi foto"
-                    setTimeout(() => {
-                        window.updateDeleteButtons();
-                    }, 100);
-                    
-                    showNotification('📸 Foto rimossa con successo', 'success');
-                }, 300);
-            }
-        }
-
-        // ===========================================
-        // DATABASE UTENTI
-        // ===========================================
+        // Database utenti
         const users = {
             admin: {
                 email: 'admin@consorzio.it',
                 password: 'admin123',
                 role: 'admin',
-                name: 'Amministratore Consorzio',
-                company: 'Direzione Generale'
+                name: 'Amministratore'
             },
-            member1: {
+            member: {
                 email: 'rossi@rossisrl.it',
                 password: 'member123',
                 role: 'member',
-                name: 'Marco Rossi',
-                company: 'Rossi SRL',
-                phone: '+39 348 1234567'
+                name: 'Marco Rossi'
             },
-            cons1: {
+            consulente: {
                 email: 'maria.bianchi@consorzio.it',
                 password: 'cons123',
                 role: 'consulente',
-                name: 'Dott.ssa Maria Bianchi',
-                specializzazione: 'SEO e posizionamento siti',
-                phone: '+39 072 1840410'
+                name: 'Maria Bianchi'
             }
         };
-        
-        // ===========================================
-        // FUNZIONI PRINCIPALI
-        // ===========================================
-        
-        // Funzione per cancellare annuncio
-        window.cancellaAnnuncio = function(annuncioId, tipo) {
-            console.log('🗑️ CANCELLAZIONE RICHIESTA:', {
-                annuncioId: annuncioId,
-                tipo: tipo,
-                currentUser: currentUser ? currentUser.email : 'nessuno'
-            });
-            
-            try {
-                const annuncio = document.getElementById(annuncioId);
-                if (!annuncio) {
-                    console.error('❌ Annuncio non trovato nel DOM:', annuncioId);
-                    showNotification('❌ Errore: annuncio non trovato', 'error');
-                    return;
-                }
-                
-                console.log('✅ Annuncio trovato nel DOM:', annuncio);
-                
-                // Verifica permessi
-                const autoreAnnuncio = annuncio.getAttribute('data-autore');
-                console.log('👤 Controllo permessi:', {
-                    autoreAnnuncio: autoreAnnuncio,
-                    currentUserEmail: currentUser ? currentUser.email : 'nessuno',
-                    currentUserRole: currentUser ? currentUser.role : 'nessuno',
-                    emailMatch: currentUser ? (currentUser.email === autoreAnnuncio) : false,
-                    isAdmin: currentUser ? (currentUser.role === 'admin') : false
-                });
-                
-                if (!currentUser) {
-                    console.log('⚠️ Utente non loggato');
-                    showNotification('⚠️ Devi essere loggato per cancellare annunci', 'warning');
-                    return;
-                }
-                
-                // Solo l'autore o l'admin possono cancellare
-                const puo_cancellare = (currentUser.email === autoreAnnuncio) || (currentUser.role === 'admin');
-                console.log('🔑 Può cancellare?', puo_cancellare);
-                
-                if (!puo_cancellare) {
-                    console.log('❌ Permessi insufficienti');
-                    showNotification('⚠️ Puoi cancellare solo i tuoi annunci', 'warning');
-                    return;
-                }
-                
-                console.log('✅ Permessi OK, richiedendo conferma...');
-                
-                // Conferma con debug
-                const conferma = confirm('Sei sicuro di voler cancellare questo annuncio?');
-                console.log('❓ Risposta conferma:', conferma);
-                
-                if (!conferma) {
-                    console.log('❌ Cancellazione ANNULLATA dall\'utente (ha cliccato Annulla)');
-                    return;
-                }
-                
-                console.log('✅ Conferma RICEVUTA, procedendo con la cancellazione...');
-                
-                // Animazione fade out
-                annuncio.style.transition = 'all 0.5s ease';
-                annuncio.style.opacity = '0';
-                annuncio.style.transform = 'translateX(-100%)';
-                
-                setTimeout(() => {
-                    console.log('🗑️ Rimuovendo annuncio dal DOM...');
-                    annuncio.remove();
-                    console.log('✅ Annuncio rimosso dal DOM');
-                    
-                    // Aggiorna contatore
-                    let counter;
-                    if (tipo === 'vendita') {
-                        counter = document.getElementById('countVendita');
-                    } else if (tipo === 'personale') {
-                        counter = document.getElementById('countPersonale');
-                    } else if (tipo === 'spazi') {
-                        counter = document.getElementById('countSpazi');
-                    } else if (tipo === 'collab') {
-                        counter = document.getElementById('countCollab');
-                    }
-                    
-                    if (counter) {
-                        const currentCount = parseInt(counter.innerText);
-                        const newCount = Math.max(0, currentCount - 1);
-                        counter.innerText = newCount;
-                        console.log('📊 Contatore aggiornato:', {
-                            tipo: tipo,
-                            oldValue: currentCount,
-                            newValue: newCount
-                        });
-                    } else {
-                        console.log('⚠️ Counter non trovato per tipo:', tipo);
-                    }
-                    
-                    showNotification('🗑️ Annuncio cancellato con successo', 'success');
-                }, 500);
-                
-            } catch (error) {
-                console.error('💥 ERRORE durante la cancellazione:', error);
-                showNotification('❌ Errore durante la cancellazione', 'error');
-            }
-        }
-        
-        // Funzione per aggiornare la visibilità dei pulsanti cancella
-        window.updateDeleteButtons = function() {
-            console.log('🔄 ========== AGGIORNAMENTO PULSANTI CANCELLA ==========');
-            console.log('Current user:', currentUser ? currentUser.email : 'nessuno');
-            
-            const allAnnunci = document.querySelectorAll('.annuncio-card');
-            console.log('📋 Annunci trovati totali:', allAnnunci.length);
-            
-            allAnnunci.forEach((annuncio, index) => {
-                const autoreAnnuncio = annuncio.getAttribute('data-autore');
-                const deleteContainer = annuncio.querySelector('.delete-btn-container');
-                const parentContainer = annuncio.parentElement;
-                
-                console.log(`📌 Annuncio ${index + 1}:`, {
-                    id: annuncio.id,
-                    autore: autoreAnnuncio,
-                    containerPresente: !!deleteContainer,
-                    parentId: parentContainer ? parentContainer.id : 'nessuno',
-                    visibile: annuncio.offsetParent !== null
-                });
-                
-                if (deleteContainer) {
-                    // Pulisci il container
-                    deleteContainer.innerHTML = '';
-                    
-                    // Mostra il pulsante solo se l'utente può cancellare
-                    if (currentUser) {
-                        const puo_cancellare = currentUser.email === autoreAnnuncio || currentUser.role === 'admin';
-                        console.log(`🔑 Può cancellare ${annuncio.id}:`, puo_cancellare);
-                        
-                        if (puo_cancellare) {
-                            // Determina il tipo basandosi sul container padre
-                            let tipo = 'vendita'; // default
-                            
-                            if (parentContainer) {
-                                if (parentContainer.id === 'annunciVenditaContainer') {
-                                    tipo = 'vendita';
-                                } else if (parentContainer.id === 'annunciPersonaleContainer') {
-                                    tipo = 'personale';
-                                } else if (parentContainer.id === 'annunciSpaziContainer') {
-                                    tipo = 'spazi';
-                                } else if (parentContainer.id === 'annunciCollabContainer') {
-                                    tipo = 'collab';
-                                }
-                            }
-                            
-                            console.log(`✅ Aggiungendo pulsanti per ${annuncio.id} (tipo: ${tipo})`);
-                            
-                            // Controlla se ha già una foto
-                            const hasFoto = annuncio.querySelector('.annuncio-foto');
-                            const hasIcon = annuncio.querySelector('div[style*="width: 100px"][style*="height: 80px"]');
-                            
-                            let fotoPulsanti = '';
-                            if (hasFoto) {
-                                // Ha già una foto, mostra solo rimuovi
-                                fotoPulsanti = `<button class="action-btn blue" style="padding: 6px 12px; font-size: 11px; margin-bottom: 5px;" onclick="rimuoviFotoAnnuncio('${annuncio.id}')" title="Rimuovi foto">📸❌</button>`;
-                            } else if (hasIcon) {
-                                // Ha solo icona, mostra aggiungi foto
-                                fotoPulsanti = `<button class="action-btn green" style="padding: 6px 12px; font-size: 11px; margin-bottom: 5px;" onclick="aggiungiFotoAnnuncio('${annuncio.id}')" title="Aggiungi foto">📸➕</button>`;
-                            }
-                            
-                            deleteContainer.innerHTML = `
-                                ${fotoPulsanti}
-                                <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" 
-                                        onclick="window.cancellaAnnuncio('${annuncio.id}', '${tipo}')">
-                                    🗑️ Cancella
-                                </button>
-                            `;
-                        }
-                    }
-                } else {
-                    console.log(`❌ Container delete-btn-container mancante per ${annuncio.id}`);
-                }
-            });
-            
-            console.log('✅ ========== AGGIORNAMENTO COMPLETATO ==========');
-        }
 
-        // ===========================================
-        // FUNZIONI DI NAVIGAZIONE
-        // ===========================================
+        let currentUser = null;
+
+        // Funzione per cambiare tab login
         function switchLoginTab(tab) {
+            // Rimuovi active da tutti
             document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
             
+            // Aggiungi active al selezionato
             document.querySelector(`.login-tab.${tab}`).classList.add('active');
             document.querySelector(`#${tab}Form`).classList.add('active');
         }
 
+        // Funzione di login
         function login(role) {
             const email = document.getElementById(`${role}Email`).value;
             const password = document.getElementById(`${role}Password`).value;
             
-            const user = Object.values(users).find(u => u.email === email && u.password === password && u.role === role);
+            // Trova utente
+            const user = Object.values(users).find(u => 
+                u.email === email && u.password === password && u.role === role
+            );
             
             if (user) {
                 currentUser = user;
-                console.log('🔑 Login effettuato:', currentUser);
                 
+                // Vai alla dashboard corretta
                 if (role === 'admin') {
                     document.getElementById('admin-dashboard').checked = true;
                 } else if (role === 'member') {
                     document.getElementById('member-dashboard').checked = true;
-                } else if (role === 'consulente') {
-                    document.getElementById('consulente-dashboard').checked = true;
                 }
                 
+                // Aggiorna info utente
                 updateUserInfo();
                 
-                // Aggiorna immediatamente i pulsanti
-                console.log('🔄 Chiamando updateDeleteButtons dopo login...');
-                setTimeout(() => {
-                    window.updateDeleteButtons();
-                }, 500);
-                
-                showNotification(`✅ Accesso effettuato come ${user.name}`, 'success');
+                alert(`✅ Accesso effettuato come ${user.name}`);
             } else {
-                showNotification('❌ Credenziali non valide', 'error');
+                alert('❌ Credenziali non valide');
             }
         }
 
+        // Funzione logout
         function logout() {
             currentUser = null;
             document.getElementById('login').checked = true;
-            window.updateDeleteButtons(); // Aggiorna i pulsanti cancella
-            showNotification('👋 Disconnesso con successo', 'success');
+            alert('👋 Disconnesso con successo');
         }
 
+        // Torna al dashboard
         function tornaAlDashboard() {
             if (currentUser) {
                 if (currentUser.role === 'admin') {
                     document.getElementById('admin-dashboard').checked = true;
                 } else if (currentUser.role === 'member') {
                     document.getElementById('member-dashboard').checked = true;
-                } else if (currentUser.role === 'consulente') {
-                    document.getElementById('consulente-dashboard').checked = true;
                 }
             } else {
                 document.getElementById('login').checked = true;
             }
         }
 
-        // Funzione che viene chiamata quando si entra nella bacheca
-        function entraNellaBacheca() {
-            console.log('📌 Entrato nella bacheca!');
-            setTimeout(() => {
-                console.log('🔄 Aggiornando pulsanti dalla bacheca...');
-                window.updateDeleteButtons();
-            }, 300);
-        }
-
+        // Aggiorna info utente
         function updateUserInfo() {
             const userInfoElements = document.querySelectorAll('.user-info');
             userInfoElements.forEach(el => {
-                const roleText = currentUser.role === 'admin' ? 'Admin' : 
-                               currentUser.role === 'member' ? 'Membro' : 'Consulente';
-                el.innerHTML = `👤 ${currentUser.name} (${roleText})`;
+                el.innerHTML = `👤 ${currentUser.name}`;
             });
         }
 
-        // ===========================================
-        // FUNZIONI TAB BACHECA
-        // ===========================================
-        function switchTab(tab, btnElement) {
-            console.log('🔄 Switching to tab:', tab);
-            
-            const clickedBtn = btnElement || (window.event ? window.event.target : null);
-            
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.sezione-bacheca').forEach(section => {
-                section.classList.remove('active');
-                section.style.display = 'none';
-            });
-            
-            if (clickedBtn) {
-                clickedBtn.classList.add('active');
-            }
-            
-            let sectionToShow = null;
-            if (tab === 'vendoCompro') {
-                sectionToShow = document.getElementById('sezioneVendoCompro');
-            } else if (tab === 'ricercaPersonale') {
-                sectionToShow = document.getElementById('sezioneRicercaPersonale');
-            } else if (tab === 'spaziCondivisi') {
-                sectionToShow = document.getElementById('sezioneSpaziCondivisi');
-            } else if (tab === 'collaborazioni') {
-                sectionToShow = document.getElementById('sezioneCollaborazioni');
-            }
-            
-            if (sectionToShow) {
-                sectionToShow.classList.add('active');
-                sectionToShow.style.display = 'block';
-                console.log('✅ Sezione attivata:', sectionToShow.id);
-                
-                // IMPORTANTE: Aggiorna i pulsanti cancella quando si cambia tab
-                setTimeout(() => {
-                    console.log('🔄 Aggiornando pulsanti cancella per la nuova sezione...');
-                    window.updateDeleteButtons();
-                }, 200);
-            }
-        }
-
-        // ===========================================
-        // FUNZIONI FORM TOGGLE
-        // ===========================================
-        function toggleForm(formId) {
-            const form = document.getElementById(formId);
-            if (!form) {
-                console.error('Form non trovato:', formId);
-                showNotification('❌ Errore: form non trovato', 'error');
-                return;
-            }
-            
-            if (form.style.display === 'none' || form.style.display === '') {
-                form.style.display = 'block';
-                form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                showNotification('📝 Compila il form sottostante', 'info');
-            } else {
-                form.style.display = 'none';
-                
-                // Reset completo del form
-                form.querySelectorAll('input, textarea, select').forEach(field => {
-                    if (field.type !== 'button' && field.type !== 'submit') {
-                        field.value = field.tagName === 'SELECT' ? field.options[0].value : '';
-                    }
-                });
-                
-                // Reset preview foto
-                const previewContainers = form.querySelectorAll('[id*="preview"]');
-                previewContainers.forEach(container => {
-                    container.innerHTML = '';
-                });
-                
-                // Reset input file
-                const fileInputs = form.querySelectorAll('input[type="file"]');
-                fileInputs.forEach(input => {
-                    input.value = '';
-                });
-            }
-        }
-
-        // ===========================================
-        // FUNZIONI PUBBLICAZIONE ANNUNCI
-        // ===========================================
-        function pubblicaAnnuncioVendita() {
-            if (!currentUser) {
-                showNotification('⚠️ Devi essere loggato per pubblicare', 'warning');
-                return;
-            }
-            
-            const tipo = document.getElementById('tipoAnnuncioVendita').value;
-            const categoria = document.getElementById('categoriaVendita').value;
-            const titolo = document.getElementById('titoloVendita').value;
-            const descrizione = document.getElementById('descrizioneVendita').value;
-            const prezzo = document.getElementById('prezzoVendita').value;
-            const fotoInput = document.getElementById('fotoVendita');
-            
-            if (!titolo || !descrizione || !prezzo) {
-                showNotification('⚠️ Compila tutti i campi!', 'warning');
-                return;
-            }
-            
-            const container = document.getElementById('annunciVenditaContainer');
-            const nuovoAnnuncio = document.createElement('div');
-            const annuncioId = 'annuncio_' + (++annuncioIdCounter);
-            nuovoAnnuncio.id = annuncioId;
-            nuovoAnnuncio.className = 'annuncio-card';
-            nuovoAnnuncio.setAttribute('data-autore', currentUser.email);
-            
-            const colori = {
-                'VENDO': 'linear-gradient(135deg, #27ae60, #229954)',
-                'COMPRO': 'linear-gradient(135deg, #e74c3c, #c0392b)', 
-                'SCAMBIO': 'linear-gradient(135deg, #3498db, #2980b9)'
-            };
-            
-            const badgeColors = {
-                'VENDO': 'green',
-                'COMPRO': 'red',
-                'SCAMBIO': 'blue'
-            };
-            
-            const icone = {
-                'ATTREZZATURE': '🔧',
-                'MOBILI': '🪑',
-                'TECNOLOGIA': '💻',
-                'VEICOLI': '🚗'
-            };
-            
-            // Gestione foto
-            let fotoHtml = '';
-            if (fotoInput.files && fotoInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const fotoSrc = e.target.result;
-                    
-                    fotoHtml = `
-                        <div class="annuncio-foto-container">
-                            <img src="${fotoSrc}" alt="${titolo}" class="annuncio-foto">
-                            <button class="remove-foto-btn" onclick="rimuoviFotoAnnuncio('${annuncioId}')" title="Rimuovi foto">❌</button>
-                        </div>
-                    `;
-                    
-                    aggiungiAnnuncioVendita();
-                };
-                reader.readAsDataURL(fotoInput.files[0]);
-            } else {
-                fotoHtml = `<div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[categoria]}</div>`;
-                aggiungiAnnuncioVendita();
-            }
-            
-            function aggiungiAnnuncioVendita() {
-                nuovoAnnuncio.innerHTML = `
-                    <div style="display: flex; gap: 15px; align-items: center;">
-                        ${fotoHtml}
-                        <div style="flex: 1;">
-                            <div style="margin-bottom: 8px;">
-                                <span class="badge ${badgeColors[tipo]}">${tipo}</span>
-                                <span class="badge purple">${categoria}</span>
-                                <span class="badge orange">NUOVO</span>
-                            </div>
-                            <h4 style="color: #2c3e50; margin-bottom: 5px;">${titolo}</h4>
-                            <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="color: ${tipo === 'COMPRO' ? '#e74c3c' : tipo === 'SCAMBIO' ? '#3498db' : '#27ae60'}; font-weight: bold; font-size: 20px;">${tipo === 'SCAMBIO' ? prezzo : '€' + prezzo}</span>
-                                <span style="color: #95a5a6; font-size: 11px;">${currentUser.name} - Adesso</span>
-                            </div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                            <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'vendita')">🗑️ Cancella</button>
-                        </div>
-                    </div>
-                `;
-                
-                container.insertBefore(nuovoAnnuncio, container.firstChild);
-                
-                const counter = document.getElementById('countVendita');
-                counter.innerText = parseInt(counter.innerText) + 1;
-                
-                // Reset form
-                document.getElementById('titoloVendita').value = '';
-                document.getElementById('descrizioneVendita').value = '';
-                document.getElementById('prezzoVendita').value = '';
-                document.getElementById('fotoVendita').value = '';
-                document.getElementById('previewVendita').innerHTML = '';
-                
-                toggleForm('formVendoCompro');
-                showNotification(`✅ Annuncio "${titolo}" pubblicato con successo!`, 'success');
-                
-                // Aggiorna pulsanti
-                setTimeout(() => {
-                    window.updateDeleteButtons();
-                }, 200);
-            }
-        }
-        
-        function pubblicaAnnuncioPersonale() {
-            if (!currentUser) {
-                showNotification('⚠️ Devi essere loggato per pubblicare', 'warning');
-                return;
-            }
-            
-            const tipo = document.getElementById('tipoPersonale').value;
-            const contratto = document.getElementById('contrattoPersonale').value;
-            const posizione = document.getElementById('posizionePersonale').value;
-            const descrizione = document.getElementById('descrizionePersonale').value;
-            const retribuzione = document.getElementById('retribuzionePersonale').value;
-            const fotoInput = document.getElementById('fotoPersonale');
-            
-            if (!posizione || !descrizione || !retribuzione) {
-                showNotification('⚠️ Compila tutti i campi!', 'warning');
-                return;
-            }
-            
-            const container = document.getElementById('annunciPersonaleContainer');
-            const nuovoAnnuncio = document.createElement('div');
-            const annuncioId = 'annuncio_' + (++annuncioIdCounter);
-            nuovoAnnuncio.id = annuncioId;
-            nuovoAnnuncio.className = 'annuncio-card';
-            nuovoAnnuncio.setAttribute('data-autore', currentUser.email);
-            
-            const colori = {
-                'OFFRO LAVORO': 'linear-gradient(135deg, #3498db, #2980b9)',
-                'CERCO LAVORO': 'linear-gradient(135deg, #27ae60, #229954)',
-                'STAGE': 'linear-gradient(135deg, #f39c12, #e67e22)'
-            };
-            
-            const icone = {
-                'OFFRO LAVORO': '💼',
-                'CERCO LAVORO': '🔍',
-                'STAGE': '🎓'
-            };
-            
-            // Gestione foto
-            let fotoHtml = '';
-            if (fotoInput.files && fotoInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    fotoHtml = `
-                        <div class="annuncio-foto-container">
-                            <img src="${e.target.result}" alt="${posizione}" class="annuncio-foto">
-                            <button class="remove-foto-btn" onclick="rimuoviFotoAnnuncio('${annuncioId}')" title="Rimuovi foto">❌</button>
-                        </div>
-                    `;
-                    aggiungiAnnuncioPersonale();
-                };
-                reader.readAsDataURL(fotoInput.files[0]);
-            } else {
-                fotoHtml = `<div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[tipo]}</div>`;
-                aggiungiAnnuncioPersonale();
-            }
-            
-            function aggiungiAnnuncioPersonale() {
-                nuovoAnnuncio.innerHTML = `
-                    <div style="display: flex; gap: 15px; align-items: center;">
-                        ${fotoHtml}
-                        <div style="flex: 1;">
-                            <div style="margin-bottom: 8px;">
-                                <span class="badge blue">${tipo}</span>
-                                <span class="badge green">${contratto}</span>
-                                <span class="badge orange">NUOVO</span>
-                            </div>
-                            <h4 style="color: #2c3e50; margin-bottom: 5px;">${posizione}</h4>
-                            <p style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">${descrizione}</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="color: #3498db; font-weight: bold;">${retribuzione}</span>
-                                <span style="color: #95a5a6; font-size: 11px;">${currentUser.company || currentUser.name} - Adesso</span>
-                            </div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 5px;" class="delete-btn-container">
-                            <button class="action-btn red" style="padding: 8px 15px; font-size: 12px;" onclick="window.cancellaAnnuncio('${annuncioId}', 'personale')">🗑️ Cancella</button>
-                        </div>
-                    </div>
-                `;
-                
-                container.insertBefore(nuovoAnnuncio, container.firstChild);
-                
-                const counter = document.getElementById('countPersonale');
-                counter.innerText = parseInt(counter.innerText) + 1;
-                
-                // Reset form
-                document.getElementById('posizionePersonale').value = '';
-                document.getElementById('descrizionePersonale').value = '';
-                document.getElementById('retribuzionePersonale').value = '';
-                document.getElementById('fotoPersonale').value = '';
-                document.getElementById('previewPersonale').innerHTML = '';
-                
-                toggleForm('formPersonale');
-                showNotification(`✅ Offerta "${posizione}" pubblicata!`, 'success');
-                
-                // Aggiorna pulsanti
-                setTimeout(() => {
-                    window.updateDeleteButtons();
-                }, 200);
-            }
-        }
-        
-        function pubblicaAnnuncioSpazio() {
-            if (!currentUser) {
-                showNotification('⚠️ Devi essere loggato per pubblicare', 'warning');
-                return;
-            }
-            
-            const tipo = document.getElementById('tipoSpazio').value;
-            const metratura = document.getElementById('metratura').value;
-            const titolo = document.getElementById('titoloSpazio').value;
-            const descrizione = document.getElementById('descrizioneSpazio').value;
-            const prezzo = document.getElementById('prezzoSpazio').value;
-            const localita = document.getElementById('localitaSpazio').value;
-            const fotoInput = document.getElementById('fotoSpazio');
-            
-            if (!titolo || !descrizione || !prezzo || !localita) {
-                showNotification('⚠️ Compila tutti i campi!', 'warning');
-                return;
-            }
-            
-            const container = document.getElementById('annunciSpaziContainer');
-            const nuovoAnnuncio = document.createElement('div');
-            const annuncioId = 'annuncio_' + (++annuncioIdCounter);
-            nuovoAnnuncio.id = annuncioId;
-            nuovoAnnuncio.className = 'annuncio-card';
-            nuovoAnnuncio.setAttribute('data-autore', currentUser.email);
-            
-            const colori = {
-                'UFFICIO': 'linear-gradient(135deg, #9b59b6, #8e44ad)',
-                'COWORKING': 'linear-gradient(135deg, #3498db, #2980b9)',
-                'MAGAZZINO': 'linear-gradient(135deg, #e67e22, #d35400)',
-                'SALA': 'linear-gradient(135deg, #27ae60, #229954)'
-            };
-            
-            const icone = {
-                'UFFICIO': '🏢',
-                'COWORKING': '👥',
-                'MAGAZZINO': '📦',
-                'SALA': '🏛️'
-            };
-            
-            // Gestione foto
-            let fotoHtml = '';
-            if (fotoInput.files && fotoInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    fotoHtml = `
-                        <div class="annuncio-foto-container">
-                            <img src="${e.target.result}" alt="${titolo}" class="annuncio-foto">
-                            <button class="remove-foto-btn" onclick="rimuoviFotoAnnuncio('${annuncioId}')" title="Rimuovi foto">❌</button>
-                        </div>
-                    `;
-                    aggiungiAnnuncioSpazio();
-                };
-                reader.readAsDataURL(fotoInput.files[0]);
-            } else {
-                fotoHtml = `<div style="width: 100px; height: 80px; background: ${colori[tipo]}; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">${icone[tipo]}</div>`;
-                aggiungiAnnuncioSpazio();
-            }
-            
-            function aggiungiAnnuncioSpazio() {
-                nuovoAnnuncio.innerHTML = `
-                    <div style="display: flex; gap: 15px; align-items: center;">
-                        ${fotoHtml}
-                        <div style="flex: 1;">
-                            <div style="margin-bottom: 8px;">
-                                <span class="badge purple">${tipo}</span>
+        // Inizializzazione
+        window.onload = function() {
+            console.log('✅ Sistema inizializzato');
+        };
+    </script>
+</body>
+</html>
