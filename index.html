@@ -1,4 +1,1275 @@
-<!-- Pagina Consulenti -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consorzio Imprenditori - Sistema Completo con Messaggistica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 95%;
+            max-width: 1400px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            min-height: 90vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c3e50;
+            font-size: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .user-info {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .nav-input {
+            display: none;
+        }
+
+        .page {
+            display: none;
+        }
+
+        #login:checked ~ .pages #loginPage,
+        #admin-dashboard:checked ~ .pages #adminDashboardPage,
+        #member-dashboard:checked ~ .pages #memberDashboardPage,
+        #consulente-dashboard:checked ~ .pages #consulenteDashboardPage,
+        #bacheca:checked ~ .pages #bachecaPage,
+        #agenda-eventi:checked ~ .pages #agendaEventiPage,
+        #consulenti:checked ~ .pages #consulentiPage {
+            display: block;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #555, #666);
+            color: white;
+            padding: 25px 15px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn.admin {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .nav-btn.member {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+
+        .nav-btn.consulente {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            min-width: 18px;
+            height: 18px;
+            background: #e74c3c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .card-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .action-btn.blue {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .action-btn.red {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .action-btn.purple {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .action-btn.orange {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .action-btn.green {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .main-content {
+            padding: 25px;
+        }
+
+        .page-content {
+            padding: 25px;
+        }
+
+        .stats-box {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .admin-stats-box {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .member-stats-box {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .consulente-stats-box {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .login-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .login-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .login-tab.admin {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .login-tab.member {
+            background: #27ae60;
+            color: white;
+        }
+
+        .login-tab.consulente {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .login-tab.active {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+        }
+
+        .sezione-bacheca {
+            display: none;
+            min-height: 400px;
+        }
+
+        .sezione-bacheca.active {
+            display: block !important;
+        }
+
+        .filter-bar {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .filter-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-right: 5px;
+        }
+
+        .badge.green {
+            background: #27ae60;
+            color: white;
+        }
+
+        .badge.blue {
+            background: #3498db;
+            color: white;
+        }
+
+        .badge.purple {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .badge.orange {
+            background: #f39c12;
+            color: white;
+        }
+
+        .badge.red {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .tab-navigation {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #7f8c8d;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: #3498db;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #3498db;
+        }
+
+        .annuncio-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ecf0f1;
+            transition: all 0.3s;
+        }
+
+        .annuncio-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-3px);
+        }
+
+        /* Stili Agenda Eventi */
+        .evento-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #ecf0f1;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .evento-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+
+        .evento-header {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .evento-data {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .evento-giorno {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .evento-mese {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .evento-info {
+            flex: 1;
+        }
+
+        .evento-titolo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .evento-dettagli {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .evento-dettaglio {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .partecipanti-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .partecipanti-avatar {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            color: white;
+            font-weight: bold;
+            margin-right: -10px;
+            border: 2px solid white;
+            font-size: 12px;
+        }
+
+        .btn-partecipa {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn-partecipa:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-cancella {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn-cancella:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .notifica-setting {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .evento-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .status-confermato {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* Stili Pagina Consulenti */
+        .consulente-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #ecf0f1;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .consulente-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+
+        .consulente-header {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .consulente-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .consulente-photo {
+            margin-right: 20px;
+        }
+
+        .consulente-info {
+            flex: 1;
+        }
+
+        .consulente-nome {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .consulente-specializzazione {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .consulente-esperienza {
+            color: #7f8c8d;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .consulente-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .disponibilita-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .disponibilita-badge.disponibile {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .disponibilita-badge.occupato {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-prenota {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-prenota:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-prenota:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .btn-messaggio {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+
+        .btn-messaggio:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
+        }
+
+        .consulenze-counter {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-consulenza {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .form-consulenza.active {
+            display: block;
+        }
+
+        /* Modal Messaggistica */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .messaggio-form textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .messaggio-form textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .messaggio-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Inputs -->
+        <input type="radio" name="nav" id="login" class="nav-input" checked>
+        <input type="radio" name="nav" id="admin-dashboard" class="nav-input">
+        <input type="radio" name="nav" id="member-dashboard" class="nav-input">
+        <input type="radio" name="nav" id="consulente-dashboard" class="nav-input">
+        <input type="radio" name="nav" id="bacheca" class="nav-input">
+        <input type="radio" name="nav" id="agenda-eventi" class="nav-input">
+        <input type="radio" name="nav" id="consulenti" class="nav-input">
+
+        <div class="pages">
+            <!-- Login Page -->
+            <div id="loginPage" class="page">
+                <div class="header">
+                    <div class="logo">🏢</div>
+                    <h1>Consorzio Imprenditori</h1>
+                    <p>Riuniamo imprenditori allo scopo di collaborare e crescere insieme</p>
+                </div>
+                
+                <div class="login-container">
+                    <h2 style="text-align: center; margin-bottom: 25px; color: #2c3e50;">Accedi al Consorzio</h2>
+                    
+                    <div class="login-tabs">
+                        <div class="login-tab admin" onclick="switchLoginTab('admin')">
+                            🔐 ADMIN
+                        </div>
+                        <div class="login-tab member" onclick="switchLoginTab('member')">
+                            👥 MEMBRI
+                        </div>
+                        <div class="login-tab consulente" onclick="switchLoginTab('consulente')">
+                            💼 CONSULENTI
+                        </div>
+                    </div>
+
+                    <!-- Admin Login Form -->
+                    <div id="adminForm" class="login-form">
+                        <div class="form-group">
+                            <label>Email Amministratore</label>
+                            <input type="email" id="adminEmail" value="admin@consorzio.it">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="adminPassword" value="admin123">
+                        </div>
+                        
+                        <button class="btn" onclick="login('admin')" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">🔑 ACCESSO AMMINISTRATORE</button>
+                    </div>
+
+                    <!-- Member Login Form -->
+                    <div id="memberForm" class="login-form">
+                        <div class="form-group">
+                            <label>Email Membro</label>
+                            <input type="email" id="memberEmail" value="rossi@rossisrl.it">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="memberPassword" value="member123">
+                        </div>
+                        
+                        <button class="btn" onclick="login('member')" style="background: linear-gradient(135deg, #27ae60, #229954);">🔑 ACCESSO MEMBRO</button>
+                    </div>
+
+                    <!-- Consulente Login Form -->
+                    <div id="consulenteForm" class="login-form">
+                        <div class="form-group">
+                            <label>Email Consulente</label>
+                            <input type="email" id="consulenteEmail" value="maria.bianchi@consorzio.it">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="consulentePassword" value="cons123">
+                        </div>
+                        
+                        <button class="btn" onclick="login('consulente')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">🔑 ACCESSO CONSULENTE</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Dashboard Page -->
+            <div id="adminDashboardPage" class="page">
+                <div class="header">
+                    <button onclick="logout()" class="back-btn">🔙 Logout</button>
+                    <div class="user-info">👤 Amministratore</div>
+                    <div class="logo">🔐</div>
+                    <h1>Dashboard Amministratori</h1>
+                    <p>Pannello di controllo completo del Consorzio</p>
+                </div>
+
+                <div class="main-content">
+                    <div class="admin-stats-box">
+                        <h2 style="margin-bottom: 10px;">🔐 Controllo Totale Consorzio</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Membri Attivi</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Consulenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">48</div><div style="font-size: 11px;">Annunci Bacheca</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Eventi Mese</div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <label for="bacheca" class="nav-btn admin">
+                            <div class="notification-dot">48</div>
+                            <div class="card-icon">📌</div>
+                            <div class="card-title">BACHECA MARKETPLACE</div>
+                        </label>
+
+                        <label for="agenda-eventi" class="nav-btn admin">
+                            <div class="notification-dot">8</div>
+                            <div class="card-icon">📅</div>
+                            <div class="card-title">AGENDA EVENTI</div>
+                        </label>
+
+                        <label for="consulenti" class="nav-btn admin">
+                            <div class="notification-dot">20</div>
+                            <div class="card-icon">💼</div>
+                            <div class="card-title">GESTIONE CONSULENTI</div>
+                        </label>
+
+                        <div class="nav-btn admin" onclick="showNotification('👥 Gestione Membri - Funzione Attiva!', 'success')">
+                            <div class="notification-dot">15</div>
+                            <div class="card-icon">👥</div>
+                            <div class="card-title">GESTIONE MEMBRI</div>
+                        </div>
+
+                        <div class="nav-btn admin" onclick="showNotification('📋 Consulenze - Funzione Attiva!', 'success')">
+                            <div class="notification-dot">12</div>
+                            <div class="card-icon">📋</div>
+                            <div class="card-title">CONSULENZE</div>
+                        </div>
+
+                        <div class="nav-btn admin" onclick="showNotification('🤝 Convenzioni - Funzione Attiva!', 'success')">
+                            <div class="notification-dot">8</div>
+                            <div class="card-icon">🤝</div>
+                            <div class="card-title">CONVENZIONI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member Dashboard Page -->
+            <div id="memberDashboardPage" class="page">
+                <div class="header">
+                    <button onclick="logout()" class="back-btn">🔙 Esci</button>
+                    <div class="user-info">👤 Membro</div>
+                    <div class="logo">👥</div>
+                    <h1>Dashboard Membri</h1>
+                    <p>Benvenuto nella piattaforma riservata ai membri</p>
+                </div>
+
+                <div class="main-content">
+                    <div class="member-stats-box">
+                        <h2 style="margin-bottom: 10px;">👥 Area Riservata Membri</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Consulenti</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">48</div><div style="font-size: 11px;">Annunci</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">10</div><div style="font-size: 11px;">Consulenze Incluse</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">5</div><div style="font-size: 11px;">Eventi Mese</div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <label for="bacheca" class="nav-btn member">
+                            <div class="notification-dot">48</div>
+                            <div class="card-icon">📌</div>
+                            <div class="card-title">BACHECA MARKETPLACE</div>
+                        </label>
+
+                        <label for="agenda-eventi" class="nav-btn member">
+                            <div class="notification-dot">5</div>
+                            <div class="card-icon">📅</div>
+                            <div class="card-title">AGENDA EVENTI</div>
+                        </label>
+
+                        <label for="consulenti" class="nav-btn member">
+                            <div class="notification-dot">20</div>
+                            <div class="card-icon">💼</div>
+                            <div class="card-title">CONSULENTI</div>
+                        </label>
+
+                        <div class="nav-btn member" onclick="showNotification('📋 Albo Membri - Funzione Attiva!', 'success')">
+                            <div class="notification-dot">15</div>
+                            <div class="card-icon">📋</div>
+                            <div class="card-title">ALBO MEMBRI</div>
+                        </div>
+
+                        <div class="nav-btn member" onclick="showNotification('📹 Video - Funzione Attiva!', 'success')">
+                            <div class="notification-dot">12</div>
+                            <div class="card-icon">📹</div>
+                            <div class="card-title">VIDEO</div>
+                        </div>
+
+                        <div class="nav-btn member" onclick="showNotification('🤝 Convenzioni - Funzione Attiva!', 'success')">
+                            <div class="notification-dot">8</div>
+                            <div class="card-icon">🤝</div>
+                            <div class="card-title">CONVENZIONI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consulente Dashboard Page -->
+            <div id="consulenteDashboardPage" class="page">
+                <div class="header">
+                    <button onclick="logout()" class="back-btn">🔙 Esci</button>
+                    <div class="user-info">👤 Consulente</div>
+                    <div class="logo">💼</div>
+                    <h1>Dashboard Consulenti</h1>
+                    <p>Gestisci le tue consulenze e appuntamenti</p>
+                </div>
+
+                <div class="main-content">
+                    <div class="consulente-stats-box">
+                        <h2 style="margin-bottom: 10px;">💼 Area Riservata Consulenti</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Richieste Pending</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Confermate</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Membri Attivi</div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <label for="bacheca" class="nav-btn consulente">
+                            <div class="notification-dot">48</div>
+                            <div class="card-icon">📌</div>
+                            <div class="card-title">BACHECA</div>
+                        </label>
+
+                        <div class="nav-btn consulente" onclick="showNotification('📋 Le Mie Consulenze - Funzione Attiva!', 'success')">
+                            <div class="notification-dot">3</div>
+                            <div class="card-icon">📋</div>
+                            <div class="card-title">LE MIE CONSULENZE</div>
+                        </div>
+
+                        <div class="nav-btn consulente" onclick="showNotification('👥 Membri Consorzio - Funzione Attiva!', 'success')">
+                            <div class="notification-dot">15</div>
+                            <div class="card-icon">👥</div>
+                            <div class="card-title">MEMBRI CONSORZIO</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bacheca Page -->
+            <div id="bachecaPage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 User</div>
+                    <div class="logo">📌</div>
+                    <h1>Bacheca del Consorzio</h1>
+                </div>
+                <div class="page-content">
+                    <div class="stats-box">
+                        <h2 style="margin-bottom: 10px;">📌 Marketplace & Collaborazioni</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;" id="countVendita">4</div><div style="font-size: 11px;">Vendo/Compro</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="countPersonale">3</div><div style="font-size: 11px;">Ricerche Personale</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="countSpazi">2</div><div style="font-size: 11px;">Spazi</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="countCollab">3</div><div style="font-size: 11px;">Collaborazioni</div></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-btn active" onclick="switchTab('vendoCompro', this)">🛒 Vendo/Compro</button>
+                        <button class="tab-btn" onclick="switchTab('ricercaPersonale', this)">👔 Personale</button>
+                        <button class="tab-btn" onclick="switchTab('spaziCondivisi', this)">🏢 Spazi</button>
+                        <button class="tab-btn" onclick="switchTab('collaborazioni', this)">🤝 Collaborazioni</button>
+                    </div>
+
+                    <!-- SEZIONE VENDO/COMPRO -->
+                    <div id="sezioneVendoCompro" class="sezione-bacheca active">
+                        <div class="filter-bar">
+                            <button class="filter-btn active" onclick="filterAnnunci('tutti', this)">Tutti</button>
+                            <button class="filter-btn" onclick="filterAnnunci('vendo', this)">🛒 Vendo</button>
+                            <button class="filter-btn" onclick="filterAnnunci('compro', this)">💰 Compro</button>
+                            <button class="action-btn" onclick="showNotification('📝 Form pubblicazione disponibile', 'info')">➕ Nuovo Annuncio</button>
+                        </div>
+
+                        <div id="annunciVenditaContainer">
+                            <div class="annuncio-card">
+                                <h4>🔧 Stampante HP LaserJet Pro</h4>
+                                <p>Stampante professionale in ottime condizioni - €1.200</p>
+                                <small>Marco Rossi - 2 ore fa</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SEZIONE RICERCA PERSONALE -->
+                    <div id="sezioneRicercaPersonale" class="sezione-bacheca">
+                        <div class="filter-bar">
+                            <button class="filter-btn active">Tutti</button>
+                            <button class="filter-btn">💼 Offro Lavoro</button>
+                            <button class="filter-btn">🔍 Cerco Lavoro</button>
+                        </div>
+                        <div class="annuncio-card">
+                            <h4>👨‍💻 Sviluppatore Full Stack</h4>
+                            <p>Cerchiamo developer con esperienza React/Node - €45-55K/anno</p>
+                        </div>
+                    </div>
+
+                    <!-- SEZIONE SPAZI CONDIVISI -->
+                    <div id="sezioneSpaziCondivisi" class="sezione-bacheca">
+                        <div class="filter-bar">
+                            <button class="filter-btn active">Tutti</button>
+                            <button class="filter-btn">🏢 Uffici</button>
+                            <button class="filter-btn">📦 Magazzini</button>
+                        </div>
+                        <div class="annuncio-card">
+                            <h4>🏢 Ufficio Open Space EUR</h4>
+                            <p>150mq, 15 postazioni - €2.500/mese</p>
+                        </div>
+                    </div>
+
+                    <!-- SEZIONE COLLABORAZIONI -->
+                    <div id="sezioneCollaborazioni" class="sezione-bacheca">
+                        <div class="filter-bar">
+                            <button class="filter-btn active">Tutti</button>
+                            <button class="filter-btn">🤝 Partnership</button>
+                            <button class="filter-btn">🚀 Progetti</button>
+                        </div>
+                        <div class="annuncio-card">
+                            <h4>🤝 Partner Campagna Marketing</h4>
+                            <p>Cerco partner per campagna nazionale - Budget €50K condiviso</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agenda Eventi Page -->
+            <div id="agendaEventiPage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 User</div>
+                    <div class="logo">📅</div>
+                    <h1>Agenda Eventi del Consorzio</h1>
+                    <p>Partecipa agli eventi e ricevi notifiche automatiche</p>
+                </div>
+                
+                <div class="page-content">
+                    <div class="member-stats-box">
+                        <h2 style="margin-bottom: 10px;">📅 I Tuoi Eventi</h2>
+                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
+                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiTotali">8</div><div style="font-size: 11px;">Eventi Totali</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiConfermati">2</div><div style="font-size: 11px;">Confermati</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiQuestoMese">5</div><div style="font-size: 11px;">Questo Mese</div></div>
+                            <div><div style="font-size: 20px; font-weight: bold;" id="notificheAttive">2</div><div style="font-size: 11px;">Notifiche Attive</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Eventi -->
+                    <div id="listaEventi" style="margin-top: 20px;">
+                        
+                        <!-- Evento 1 -->
+                        <div class="evento-card" data-evento-id="1">
+                            <div class="evento-header">
+                                <div class="evento-data">
+                                    <div class="evento-giorno">28</div>
+                                    <div class="evento-mese">GEN</div>
+                                </div>
+                                <div class="evento-info">
+                                    <div class="evento-titolo">
+                                        🤝 Networking Imprenditori Roma
+                                        <span class="badge green">NETWORKING</span>
+                                    </div>
+                                    <div class="evento-dettagli">
+                                        <div class="evento-dettaglio">📍 Hotel Hilton Roma EUR</div>
+                                        <div class="evento-dettaglio">⏰ 18:30 - 21:00</div>
+                                        <div class="evento-dettaglio">👥 45 partecipanti</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <button class="btn-partecipa" onclick="confermaPartecipazione(1)">
+                                    ✅ Conferma Partecipazione
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Evento 2 -->
+                        <div class="evento-card" data-evento-id="2" style="border-color: #27ae60;">
+                            <div class="evento-header">
+                                <div class="evento-data" style="background: linear-gradient(135deg, #27ae60, #229954);">
+                                    <div class="evento-giorno">05</div>
+                                    <div class="evento-mese">FEB</div>
+                                </div>
+                                <div class="evento-info">
+                                    <div class="evento-titolo">
+                                        💻 Workshop Digital Marketing 2025
+                                        <span class="badge blue">FORMAZIONE</span>
+                                        <span class="evento-status status-confermato">✅ CONFERMATO</span>
+                                    </div>
+                                    <div class="evento-dettagli">
+                                        <div class="evento-dettaglio">📍 Sede Consorzio</div>
+                                        <div class="evento-dettaglio">⏰ 09:00 - 13:00</div>
+                                        <div class="evento-dettaglio">💰 Incluso nella quota</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <button class="btn-cancella" onclick="cancellaPartecipazione(2)">
+                                    ❌ Cancella Partecipazione
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagina Consulenti MIGLIORATA -->
             <div id="consulentiPage" class="page">
                 <div class="header">
                     <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
@@ -352,3 +1623,424 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Messaggistica -->
+    <div id="modalMessaggio" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="chiudiModalMessaggio()">×</button>
+            <div class="modal-header">
+                <h3 id="modalTitolo">💬 Invia Messaggio</h3>
+                <p id="modalSottotitolo">Consulente selezionato</p>
+            </div>
+            
+            <div class="messaggio-info">
+                ℹ️ <strong>Nota:</strong> Il messaggio sarà inviato direttamente al consulente che riceverà una notifica nella sua dashboard. Ti risponderà tramite la messaggistica interna del Consorzio.
+            </div>
+
+            <form class="messaggio-form" onsubmit="inviaMessaggio(event)">
+                <div class="form-group">
+                    <label>🏢 La tua azienda</label>
+                    <input type="text" id="mittente" value="Rossi S.r.l." readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label>📝 Oggetto del messaggio</label>
+                    <input type="text" id="oggetto" placeholder="es. Richiesta informazioni bando industria 4.0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>💬 Il tuo messaggio</label>
+                    <textarea id="testoMessaggio" placeholder="Scrivi qui il tuo messaggio per il consulente..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>📞 Preferisco essere contattato via</label>
+                    <select id="contattoPreferenza">
+                        <option value="email">📧 Email</option>
+                        <option value="telefono">📞 Telefono</option>
+                        <option value="entrambi">📧📞 Email e Telefono</option>
+                        <option value="msg-interna">💬 Solo messaggistica interna</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                    📨 Invia Messaggio
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Variabili globali
+        let currentUser = null;
+        let eventiPartecipazioni = {2: true, 4: true};
+        let consulenzePrenotate = {};
+        let contatoreConsulenze = 0;
+        let messaggiInviati = [];
+        let consulenteSelezionato = null;
+
+        // Database utenti
+        const users = {
+            admin: {
+                email: 'admin@consorzio.it',
+                password: 'admin123',
+                role: 'admin',
+                name: 'Amministratore Consorzio'
+            },
+            member1: {
+                email: 'rossi@rossisrl.it',
+                password: 'member123',
+                role: 'member',
+                name: 'Marco Rossi'
+            },
+            cons1: {
+                email: 'maria.bianchi@consorzio.it',
+                password: 'cons123',
+                role: 'consulente',
+                name: 'Dott.ssa Maria Bianchi'
+            }
+        };
+
+        // Database consulenti
+        const consulenti = {
+            1: { nome: "Dott. Giovanni Bianchi", specializzazione: "finanza", email: "g.bianchi@consorzio.it" },
+            2: { nome: "Avv. Laura Rossi", specializzazione: "legale", email: "l.rossi@consorzio.it" },
+            3: { nome: "Ing. Marco Verdi", specializzazione: "cybersecurity", email: "m.verdi@consorzio.it" },
+            4: { nome: "Dott.ssa Sofia Martinez", specializzazione: "marketing", email: "s.martinez@consorzio.it" },
+            5: { nome: "Dott.ssa Elena Ferrari", specializzazione: "hr", email: "e.ferrari@consorzio.it" },
+            6: { nome: "Dott. Andrea Romano", specializzazione: "fiscale", email: "a.romano@consorzio.it" },
+            7: { nome: "Dott. Luca Moretti", specializzazione: "export", email: "l.moretti@consorzio.it" },
+            8: { nome: "Dott.ssa Chiara Conti", specializzazione: "innovazione", email: "c.conti@consorzio.it" },
+            9: { nome: "Arch. Roberto Santini", specializzazione: "immobiliare", email: "r.santini@consorzio.it" },
+            10: { nome: "Dott.ssa Francesca Ricci", specializzazione: "finanza", email: "f.ricci@consorzio.it" }
+        };
+
+        // Funzione cambio tab login
+        function switchLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
+            
+            document.querySelector(`.login-tab.${tab}`).classList.add('active');
+            document.querySelector(`#${tab}Form`).classList.add('active');
+        }
+
+        // Funzione login
+        function login(role) {
+            const email = document.getElementById(`${role}Email`).value;
+            const password = document.getElementById(`${role}Password`).value;
+            
+            const user = Object.values(users).find(u => 
+                u.email === email && u.password === password && u.role === role
+            );
+            
+            if (user) {
+                currentUser = user;
+                
+                if (role === 'admin') {
+                    document.getElementById('admin-dashboard').checked = true;
+                } else if (role === 'member') {
+                    document.getElementById('member-dashboard').checked = true;
+                } else if (role === 'consulente') {
+                    document.getElementById('consulente-dashboard').checked = true;
+                }
+                
+                updateUserInfo();
+                showNotification(`✅ Accesso effettuato come ${user.name}`, 'success');
+            } else {
+                showNotification('❌ Credenziali non valide', 'error');
+            }
+        }
+
+        // Funzione logout
+        function logout() {
+            currentUser = null;
+            document.getElementById('login').checked = true;
+            showNotification('👋 Disconnesso con successo', 'success');
+        }
+
+        // Torna al dashboard
+        function tornaAlDashboard() {
+            if (currentUser) {
+                if (currentUser.role === 'admin') {
+                    document.getElementById('admin-dashboard').checked = true;
+                } else if (currentUser.role === 'member') {
+                    document.getElementById('member-dashboard').checked = true;
+                } else if (currentUser.role === 'consulente') {
+                    document.getElementById('consulente-dashboard').checked = true;
+                }
+            } else {
+                document.getElementById('login').checked = true;
+            }
+        }
+
+        // Aggiorna info utente
+        function updateUserInfo() {
+            const userInfoElements = document.querySelectorAll('.user-info');
+            userInfoElements.forEach(el => {
+                const roleText = currentUser.role === 'admin' ? 'Admin' : 
+                               currentUser.role === 'member' ? 'Membro' : 'Consulente';
+                el.innerHTML = `👤 ${currentUser.name} (${roleText})`;
+            });
+        }
+
+        // NUOVE FUNZIONI CONSULENTI
+
+        // Filtri Consulenti
+        function filtraConsulenti() {
+            const filtro = document.getElementById('filtroSpecializzazione').value;
+            const cards = document.querySelectorAll('.consulente-card');
+            
+            cards.forEach(card => {
+                const specializzazione = card.getAttribute('data-specializzazione');
+                if (filtro === 'tutti' || specializzazione === filtro) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            showNotification(`🔍 Filtro applicato: ${filtro}`, 'info');
+        }
+
+        function mostraTuttiConsulenti() {
+            document.getElementById('filtroSpecializzazione').value = 'tutti';
+            filtraConsulenti();
+        }
+
+        // Messaggistica
+        function apriMessaggio(consulenteId) {
+            if (!currentUser || currentUser.role !== 'member') {
+                showNotification('⚠️ Solo i membri possono inviare messaggi ai consulenti', 'warning');
+                return;
+            }
+            
+            consulenteSelezionato = consulenteId;
+            const consulente = consulenti[consulenteId];
+            
+            if (consulente) {
+                document.getElementById('modalTitolo').innerHTML = '💬 Invia Messaggio';
+                document.getElementById('modalSottotitolo').innerHTML = `A: ${consulente.nome}`;
+                document.getElementById('modalMessaggio').classList.add('active');
+                
+                // Reset form
+                document.getElementById('oggetto').value = '';
+                document.getElementById('testoMessaggio').value = '';
+                document.getElementById('contattoPreferenza').value = 'email';
+            }
+        }
+
+        function chiudiModalMessaggio() {
+            document.getElementById('modalMessaggio').classList.remove('active');
+            consulenteSelezionato = null;
+        }
+
+        function inviaMessaggio(event) {
+            event.preventDefault();
+            
+            if (!consulenteSelezionato) return;
+            
+            const oggetto = document.getElementById('oggetto').value;
+            const messaggio = document.getElementById('testoMessaggio').value;
+            const preferenza = document.getElementById('contattoPreferenza').value;
+            
+            if (!oggetto.trim() || !messaggio.trim()) {
+                showNotification('⚠️ Compila tutti i campi obbligatori', 'warning');
+                return;
+            }
+            
+            // Simula invio messaggio
+            const nuovoMessaggio = {
+                id: Date.now(),
+                consulenteId: consulenteSelezionato,
+                mittente: currentUser.name,
+                oggetto: oggetto,
+                messaggio: messaggio,
+                preferenza: preferenza,
+                data: new Date().toLocaleString('it-IT'),
+                stato: 'inviato'
+            };
+            
+            messaggiInviati.push(nuovoMessaggio);
+            
+            showNotification(`✅ Messaggio inviato a ${consulenti[consulenteSelezionato].nome}!`, 'success');
+            chiudiModalMessaggio();
+        }
+
+        function caricaAltriConsulenti() {
+            showNotification('📋 Funzione in sviluppo - Presto disponibili altri 10 consulenti specializzati!', 'info');
+        }
+
+        // Funzioni Tab Bacheca
+        function switchTab(tab, btnElement) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.sezione-bacheca').forEach(section => {
+                section.classList.remove('active');
+                section.style.display = 'none';
+            });
+            
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            
+            if (tab === 'vendoCompro') {
+                document.getElementById('sezioneVendoCompro').style.display = 'block';
+                document.getElementById('sezioneVendoCompro').classList.add('active');
+            } else if (tab === 'ricercaPersonale') {
+                document.getElementById('sezioneRicercaPersonale').style.display = 'block';
+                document.getElementById('sezioneRicercaPersonale').classList.add('active');
+            } else if (tab === 'spaziCondivisi') {
+                document.getElementById('sezioneSpaziCondivisi').style.display = 'block';
+                document.getElementById('sezioneSpaziCondivisi').classList.add('active');
+            } else if (tab === 'collaborazioni') {
+                document.getElementById('sezioneCollaborazioni').style.display = 'block';
+                document.getElementById('sezioneCollaborazioni').classList.add('active');
+            }
+        }
+
+        // Funzioni Eventi
+        function confermaPartecipazione(eventoId) {
+            if (!currentUser || currentUser.role !== 'member') {
+                showNotification('⚠️ Solo i membri possono partecipare agli eventi', 'warning');
+                return;
+            }
+            
+            eventiPartecipazioni[eventoId] = true;
+            showNotification('✅ Partecipazione confermata!', 'success');
+            
+            // Aggiorna UI
+            const card = document.querySelector(`[data-evento-id="${eventoId}"]`);
+            if (card) {
+                card.style.borderColor = '#27ae60';
+                const btn = card.querySelector('.btn-partecipa');
+                if (btn) {
+                    btn.outerHTML = '<button class="btn-cancella" onclick="cancellaPartecipazione(' + eventoId + ')">❌ Cancella Partecipazione</button>';
+                }
+            }
+        }
+
+        function cancellaPartecipazione(eventoId) {
+            if (confirm('Sei sicuro di voler cancellare la partecipazione?')) {
+                delete eventiPartecipazioni[eventoId];
+                showNotification('❌ Partecipazione cancellata', 'info');
+                
+                // Aggiorna UI
+                const card = document.querySelector(`[data-evento-id="${eventoId}"]`);
+                if (card) {
+                    card.style.borderColor = '#ecf0f1';
+                    const btn = card.querySelector('.btn-cancella');
+                    if (btn) {
+                        btn.outerHTML = '<button class="btn-partecipa" onclick="confermaPartecipazione(' + eventoId + ')">✅ Conferma Partecipazione</button>';
+                    }
+                }
+            }
+        }
+
+        // Funzioni Consulenti
+        function prenotaConsulenza(consulenteId) {
+            if (!currentUser || currentUser.role !== 'member') {
+                showNotification('⚠️ Solo i membri possono richiedere consulenze', 'warning');
+                return;
+            }
+            
+            if (consulenzePrenotate[consulenteId]) {
+                if (confirm('⚠️ Hai già utilizzato la tua consulenza gratuita con questo consulente.\n\nIl Consorzio cercherà comunque di soddisfare la tua richiesta.\n\nVuoi procedere?')) {
+                    showNotification('📨 Richiesta speciale inviata', 'info');
+                }
+                return;
+            }
+            
+            if (contatoreConsulenze >= 10) {
+                if (confirm('⚠️ Hai già utilizzato tutte le 10 consulenze gratuite.\n\nIl Consorzio cercherà comunque di soddisfare la tua richiesta.\n\nVuoi procedere?')) {
+                    showNotification('📨 Richiesta speciale inviata', 'info');
+                }
+                return;
+            }
+            
+            consulenzePrenotate[consulenteId] = true;
+            contatoreConsulenze++;
+            
+            // Aggiorna contatori
+            document.getElementById('consulenzeUsate').innerText = contatoreConsulenze;
+            document.getElementById('consulenzeRimanenti').innerText = Math.max(0, 10 - contatoreConsulenze);
+            
+            showNotification('✅ Consulenza prenotata con successo!', 'success');
+        }
+
+        // Funzioni Filtri
+        function filterAnnunci(tipo, btn) {
+            const container = btn.closest('.filter-bar');
+            if (container) {
+                container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            showNotification(`🔍 Filtro: ${tipo}`, 'info');
+        }
+
+        // Notifiche
+        function showNotification(message, type) {
+            const colors = {
+                success: '#27ae60',
+                error: '#e74c3c',
+                warning: '#f39c12',
+                info: '#3498db'
+            };
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; 
+                top: 20px; 
+                right: 20px; 
+                background: ${colors[type] || colors.info}; 
+                color: white; 
+                padding: 15px 20px; 
+                border-radius: 10px; 
+                z-index: 10000; 
+                max-width: 350px;
+                font-size: 14px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Inizializzazione
+        window.onload = function() {
+            // Imposta tab admin come attivo di default
+            switchLoginTab('admin');
+            
+            // Chiudi modal cliccando fuori
+            document.getElementById('modalMessaggio').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    chiudiModalMessaggio();
+                }
+            });
+            
+            // Aggiungi animazioni CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(400px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(400px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            console.log('✅ Sistema inizializzato correttamente');
+            console.log('📋 20 consulenti caricati');
+            console.log('💬 Sistema messaggistica attivo');
+        };
+    </script>
+</body>
+</html>
