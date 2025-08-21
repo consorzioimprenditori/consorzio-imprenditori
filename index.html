@@ -75,7 +75,8 @@
         #member-dashboard:checked ~ .pages #memberDashboardPage,
         #consulente-dashboard:checked ~ .pages #consulenteDashboardPage,
         #bacheca:checked ~ .pages #bachecaPage,
-        #agenda-eventi:checked ~ .pages #agendaEventiPage {
+        #agenda-eventi:checked ~ .pages #agendaEventiPage,
+        #consulenti:checked ~ .pages #consulentiPage {
             display: block;
         }
 
@@ -704,6 +705,120 @@
             color: #856404;
         }
 
+        /* Stili Pagina Consulenti */
+        .consulente-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #ecf0f1;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .consulente-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+
+        .consulente-header {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .consulente-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .consulente-info {
+            flex: 1;
+        }
+
+        .consulente-nome {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .consulente-specializzazione {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .disponibilita-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .disponibilita-badge.disponibile {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .disponibilita-badge.occupato {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-prenota {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-prenota:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-prenota:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .consulenze-counter {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-consulenza {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .form-consulenza.active {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .annuncio-foto {
                 width: 80px;
@@ -735,6 +850,7 @@
         <input type="radio" name="nav" id="consulente-dashboard" class="nav-input">
         <input type="radio" name="nav" id="bacheca" class="nav-input">
         <input type="radio" name="nav" id="agenda-eventi" class="nav-input">
+        <input type="radio" name="nav" id="consulenti" class="nav-input">
 
         <div class="pages">
             <!-- Login Page -->
@@ -902,11 +1018,11 @@
                             <div class="card-title">AGENDA EVENTI</div>
                         </label>
 
-                        <div class="nav-btn member" onclick="showNotification('💼 20 Consulenti Disponibili!', 'success')">
+                        <label for="consulenti" class="nav-btn member">
                             <div class="notification-dot">20</div>
                             <div class="card-icon">💼</div>
                             <div class="card-title">CONSULENTI</div>
-                        </div>
+                        </label>
 
                         <div class="nav-btn member" onclick="showNotification('📋 Albo Membri - Funzione Attiva!', 'success')">
                             <div class="notification-dot">15</div>
@@ -1596,6 +1712,651 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Pagina Consulenti -->
+            <div id="consulentiPage" class="page">
+                <div class="header">
+                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
+                    <div class="user-info">👤 User</div>
+                    <div class="logo">💼</div>
+                    <h1>Consulenti del Consorzio</h1>
+                    <p>Richiedi consulenze gratuite con i nostri esperti</p>
+                </div>
+                
+                <div class="page-content">
+                    <!-- Contatore Consulenze -->
+                    <div class="consulenze-counter">
+                        <h2 style="margin-bottom: 10px;">💼 Le Tue Consulenze</h2>
+                        <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                            <div>
+                                <div style="font-size: 28px; font-weight: bold;" id="consulenzeUsate">0</div>
+                                <div style="font-size: 14px;">Utilizzate</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 28px; font-weight: bold;" id="consulenzeRimanenti">10</div>
+                                <div style="font-size: 14px;">Rimanenti</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 28px; font-weight: bold;">10</div>
+                                <div style="font-size: 14px;">Totali Incluse</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 15px; font-size: 13px;">
+                            ⏱️ Ogni consulenza dura 30 minuti | 📋 Max 1 consulenza per consulente
+                        </p>
+                    </div>
+
+                    <!-- Filtri -->
+                    <div class="filter-bar">
+                        <button class="filter-btn active" onclick="filterConsulenti('tutti', this)">Tutti i Consulenti</button>
+                        <button class="filter-btn" onclick="filterConsulenti('disponibili', this)">🟢 Disponibili</button>
+                        <button class="filter-btn" onclick="filterConsulenti('prenotati', this)">📅 Già Prenotati</button>
+                        <select class="filter-btn" style="background: white; border: 2px solid #ddd;" onchange="filterBySpecializzazione(this.value)">
+                            <option value="">Tutte le Specializzazioni</option>
+                            <option value="finanza">💰 Finanza agevolata</option>
+                            <option value="legale">⚖️ Consulenza legale</option>
+                            <option value="cyber">🔒 Cyber sicurezza</option>
+                            <option value="erp">💻 ERP e gestionali</option>
+                            <option value="app">📱 App e siti</option>
+                            <option value="export">🌍 Export manager</option>
+                            <option value="controllo">📊 Controllo gestione</option>
+                            <option value="energia">⚡ Efficientamento energetico</option>
+                            <option value="noleggio">🖨️ Noleggio</option>
+                            <option value="assicurazioni">🛡️ Assicurazioni</option>
+                            <option value="contabile">📋 Gestione contabile</option>
+                            <option value="sicurezza">🦺 Sicurezza lavoro</option>
+                            <option value="comunicazione">📢 Comunicazione</option>
+                        </select>
+                    </div>
+
+                    <!-- Lista Consulenti -->
+                    <div id="listaConsulenti" style="margin-top: 20px;">
+                        
+                        <!-- Consulente 1 - Finanza agevolata -->
+                        <div class="consulente-card" data-consulente-id="1" data-specializzazione="finanza">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">GB</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott. Giovanni Bianchi
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        💰 <strong>Finanza agevolata</strong> - Esperto in bandi, contributi e finanziamenti europei
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 20+ anni esperienza</span>
+                                        <span>⭐ 4.9/5 rating</span>
+                                        <span>📍 Roma/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(1, 'Giovanni Bianchi', 'Finanza agevolata')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 2 - Consulenza legale -->
+                        <div class="consulente-card" data-consulente-id="2" data-specializzazione="legale">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">LR</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Avv. Laura Rossi
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        ⚖️ <strong>Consulenza legale d'impresa</strong> - Contrattualistica, società, recupero crediti
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 15+ anni esperienza</span>
+                                        <span>⭐ 5.0/5 rating</span>
+                                        <span>📍 Milano/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(2, 'Laura Rossi', 'Consulenza legale')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 3 - Cyber sicurezza -->
+                        <div class="consulente-card" data-consulente-id="3" data-specializzazione="cyber">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">MV</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Ing. Marco Verdi
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🔒 <strong>Cyber sicurezza</strong> - Protezione dati, GDPR, audit di sicurezza
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 12+ anni esperienza</span>
+                                        <span>⭐ 4.8/5 rating</span>
+                                        <span>📍 Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(3, 'Marco Verdi', 'Cyber sicurezza')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 4 - ERP e gestionali -->
+                        <div class="consulente-card" data-consulente-id="4" data-specializzazione="erp">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">SC</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott. Stefano Colombo
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        💻 <strong>E.R.P e gestionali aziendali</strong> - SAP, Microsoft Dynamics, Odoo
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 18+ anni esperienza</span>
+                                        <span>⭐ 4.7/5 rating</span>
+                                        <span>📍 Torino/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(4, 'Stefano Colombo', 'ERP e gestionali')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 5 - Creazione app e siti -->
+                        <div class="consulente-card" data-consulente-id="5" data-specializzazione="app">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #27ae60, #229954);">AF</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Ing. Alessandro Ferrari
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        📱 <strong>Creazione app e siti</strong> - Sviluppo web, mobile app, e-commerce
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 10+ anni esperienza</span>
+                                        <span>⭐ 4.9/5 rating</span>
+                                        <span>📍 Bologna/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(5, 'Alessandro Ferrari', 'Creazione app e siti')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 6 - Export manager -->
+                        <div class="consulente-card" data-consulente-id="6" data-specializzazione="export">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #1abc9c, #16a085);">CM</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott.ssa Chiara Martini
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🌍 <strong>Export manager</strong> - Internazionalizzazione, dogane, mercati esteri
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 14+ anni esperienza</span>
+                                        <span>⭐ 4.8/5 rating</span>
+                                        <span>📍 Venezia/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(6, 'Chiara Martini', 'Export manager')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 7 - Controllo di gestione -->
+                        <div class="consulente-card" data-consulente-id="7" data-specializzazione="controllo">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">PR</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott. Paolo Romano
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        📊 <strong>Controllo di gestione</strong> - Budget, reporting, KPI aziendali
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 16+ anni esperienza</span>
+                                        <span>⭐ 4.9/5 rating</span>
+                                        <span>📍 Napoli/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(7, 'Paolo Romano', 'Controllo di gestione')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 8 - Efficientamento energetico -->
+                        <div class="consulente-card" data-consulente-id="8" data-specializzazione="energia">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #e67e22, #d35400);">RG</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Ing. Roberto Gallo
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        ⚡ <strong>Efficientamento energetico</strong> - Audit energetici, fotovoltaico, risparmio
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 11+ anni esperienza</span>
+                                        <span>⭐ 4.7/5 rating</span>
+                                        <span>📍 Firenze/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(8, 'Roberto Gallo', 'Efficientamento energetico')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 9 - Noleggio stampanti -->
+                        <div class="consulente-card" data-consulente-id="9" data-specializzazione="noleggio">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d);">FL</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott. Francesco Leone
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🖨️ <strong>Noleggio stampanti</strong> - Soluzioni printing, costi copia, gestione documentale
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 8+ anni esperienza</span>
+                                        <span>⭐ 4.6/5 rating</span>
+                                        <span>📍 Genova/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(9, 'Francesco Leone', 'Noleggio stampanti')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 10 - Noleggio mezzi -->
+                        <div class="consulente-card" data-consulente-id="10" data-specializzazione="noleggio">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #34495e, #2c3e50);">GC</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott. Giulio Costa
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🚗 <strong>Noleggio mezzi e auto a lungo termine</strong> - Fleet management, TCO
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 13+ anni esperienza</span>
+                                        <span>⭐ 4.8/5 rating</span>
+                                        <span>📍 Padova/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(10, 'Giulio Costa', 'Noleggio auto lungo termine')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 11 - Polizze assicurative -->
+                        <div class="consulente-card" data-consulente-id="11" data-specializzazione="assicurazioni">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #8e44ad, #9b59b6);">SB</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott.ssa Silvia Bruno
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🛡️ <strong>Polizze assicurative aziendali</strong> - RC, All risks, Cyber risk, D&O
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 17+ anni esperienza</span>
+                                        <span>⭐ 4.9/5 rating</span>
+                                        <span>📍 Bari/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(11, 'Silvia Bruno', 'Polizze assicurative')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 12 - Gestione contabile -->
+                        <div class="consulente-card" data-consulente-id="12" data-specializzazione="contabile">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #2980b9, #3498db);">MR</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott. Matteo Ricci
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        📋 <strong>Gestione contabile e tributaria</strong> - Bilanci, dichiarazioni, pianificazione fiscale
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 22+ anni esperienza</span>
+                                        <span>⭐ 5.0/5 rating</span>
+                                        <span>📍 Brescia/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(12, 'Matteo Ricci', 'Gestione contabile')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 13 - Fiscalità energetica -->
+                        <div class="consulente-card" data-consulente-id="13" data-specializzazione="energia">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #16a085, #1abc9c);">EP</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott.ssa Elena Parisi
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        ⚡ <strong>Fiscalità energetica</strong> - Accise, carbon tax, certificati bianchi
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 9+ anni esperienza</span>
+                                        <span>⭐ 4.7/5 rating</span>
+                                        <span>📍 Verona/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(13, 'Elena Parisi', 'Fiscalità energetica')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 14 - Antincendio e sicurezza -->
+                        <div class="consulente-card" data-consulente-id="14" data-specializzazione="sicurezza">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #c0392b, #e74c3c);">LM</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Ing. Luca Moretti
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🚨 <strong>Antincendio e segnaletica aziendale</strong> - CPI, piani emergenza, test elettrici
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 15+ anni esperienza</span>
+                                        <span>⭐ 4.8/5 rating</span>
+                                        <span>📍 Palermo/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(14, 'Luca Moretti', 'Antincendio e sicurezza')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 15 - Medicina del lavoro -->
+                        <div class="consulente-card" data-consulente-id="15" data-specializzazione="sicurezza">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #27ae60, #229954);">AB</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott. Andrea Barbieri
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🏥 <strong>Medicina del lavoro</strong> - Sorveglianza sanitaria, DVR, visite mediche
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 20+ anni esperienza</span>
+                                        <span>⭐ 4.9/5 rating</span>
+                                        <span>📍 Catania/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(15, 'Andrea Barbieri', 'Medicina del lavoro')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 16 - Igiene e sicurezza -->
+                        <div class="consulente-card" data-consulente-id="16" data-specializzazione="sicurezza">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">VF</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Ing. Valentina Fontana
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🦺 <strong>Igiene e sicurezza luoghi di lavoro</strong> - RSPP, DVR, formazione 81/08
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 13+ anni esperienza</span>
+                                        <span>⭐ 5.0/5 rating</span>
+                                        <span>📍 Trieste/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(16, 'Valentina Fontana', 'Sicurezza sul lavoro')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 17 - SEO e posizionamento (Maria Bianchi già nel DB) -->
+                        <div class="consulente-card" data-consulente-id="17" data-specializzazione="comunicazione">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">MB</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott.ssa Maria Bianchi
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🔍 <strong>SEO e posizionamento siti</strong> - Google Ads, Analytics, Search Console
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 10+ anni esperienza</span>
+                                        <span>⭐ 4.8/5 rating</span>
+                                        <span>📍 Roma/Online</span>
+                                        <span>📞 072 1840410</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(17, 'Maria Bianchi', 'SEO e posizionamento')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 18 - Stampa digitale -->
+                        <div class="consulente-card" data-consulente-id="18" data-specializzazione="comunicazione">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">DT</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott. Davide Testa
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🖨️ <strong>Stampa digitale</strong> - Cataloghi, brochure, packaging personalizzato
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 7+ anni esperienza</span>
+                                        <span>⭐ 4.6/5 rating</span>
+                                        <span>📍 Bergamo/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(18, 'Davide Testa', 'Stampa digitale')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 19 - Agenzia di comunicazione -->
+                        <div class="consulente-card" data-consulente-id="19" data-specializzazione="comunicazione">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">FC</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott.ssa Francesca Conti
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        📢 <strong>Agenzia di comunicazione</strong> - Brand identity, social media, campagne ADV
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 12+ anni esperienza</span>
+                                        <span>⭐ 4.9/5 rating</span>
+                                        <span>📍 Torino/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(19, 'Francesca Conti', 'Comunicazione aziendale')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Consulente 20 - Creazione eventi -->
+                        <div class="consulente-card" data-consulente-id="20" data-specializzazione="comunicazione">
+                            <div class="consulente-header">
+                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f1c40f, #f39c12);">RS</div>
+                                <div class="consulente-info">
+                                    <div class="consulente-nome">
+                                        Dott. Roberto Santini
+                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
+                                    </div>
+                                    <div class="consulente-specializzazione">
+                                        🎉 <strong>Creazione eventi aziendali</strong> - Convention, team building, fiere
+                                    </div>
+                                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 13px; color: #7f8c8d;">
+                                        <span>📅 16+ anni esperienza</span>
+                                        <span>⭐ 5.0/5 rating</span>
+                                        <span>📍 Rimini/Online</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn-prenota" onclick="apriFormConsulenza(20, 'Roberto Santini', 'Eventi aziendali')">
+                                        📅 Prenota Consulenza
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Form Prenotazione Consulenza (nascosto di default) -->
+                    <div id="formConsulenza" class="form-consulenza">
+                        <h3 style="color: #2c3e50; margin-bottom: 20px;">📅 Prenota Consulenza</h3>
+                        <div style="background: #e8f4fd; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                            <strong>Consulente:</strong> <span id="nomeConsulenteForm"></span><br>
+                            <strong>Specializzazione:</strong> <span id="specializzazioneForm"></span><br>
+                            <strong>Durata:</strong> 30 minuti
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label>Modalità Consulenza</label>
+                                <select id="modalitaConsulenza">
+                                    <option value="online">💻 Online (Videochiamata)</option>
+                                    <option value="presenza">🤝 In Presenza (Durante evento)</option>
+                                    <option value="telefono">📞 Telefonica</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Data Preferita</label>
+                                <input type="date" id="dataConsulenza" min="2025-01-22">
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label>Ora Preferita</label>
+                                <select id="oraConsulenza">
+                                    <option value="09:00">09:00</option>
+                                    <option value="09:30">09:30</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="10:30">10:30</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="11:30">11:30</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="14:30">14:30</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="15:30">15:30</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="16:30">16:30</option>
+                                    <option value="17:00">17:00</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Telefono/Email Contatto</label>
+                                <input type="text" id="contattoConsulenza" placeholder="Es: 333 1234567">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Argomento da Trattare</label>
+                            <textarea id="argomentoConsulenza" placeholder="Descrivi brevemente l'argomento che vorresti trattare..." style="min-height: 80px;"></textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                            <button class="action-btn green" onclick="inviaRichiestaConsulenza()">✅ Invia Richiesta</button>
+                            <button class="action-btn red" onclick="chiudiFormConsulenza()">❌ Annulla</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1614,6 +2375,10 @@
         };
         
         let notificheEventi = {};
+
+        // Database Consulenze
+        let consulenzePrenotate = {};  // {consulenteId: {data, ora, modalita, status}}
+        let contatoreConsulenze = 0;
 
         // ===========================================
         // FUNZIONI FOTO
