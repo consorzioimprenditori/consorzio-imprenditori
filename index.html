@@ -2,1266 +2,1195 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consorzio Imprenditori - Sistema Completo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Consorzio App - Premium</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --lime: #ddfc1b;
+            --lime-dark: #c5e000;
+            --dark: #1a1a1a;
+            --gray: #2d2d2d;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --success: #00d084;
+            --danger: #ff3b3b;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        /* Mobile Container */
+        .mobile-container {
+            max-width: 100%;
             min-height: 100vh;
+            background: var(--dark);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: linear-gradient(135deg, var(--gray) 0%, var(--dark) 100%);
+            padding: 15px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
+            border-bottom: 2px solid var(--lime);
         }
 
-        .app-container {
-            width: 95%;
-            max-width: 1400px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-            min-height: 90vh;
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        .header {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
+        .user-badge {
+            background: var(--lime);
+            color: var(--dark);
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(221, 252, 27, 0.3);
         }
 
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: white;
-            border-radius: 15px;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #2c3e50;
-            font-size: 40px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        /* Page Content */
+        .page-content {
+            padding: 20px 15px;
+            min-height: calc(100vh - 140px);
         }
 
-        .user-info {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-        }
-
-        .nav-input {
-            display: none;
-        }
-
+        /* Pages */
         .page {
             display: none;
         }
 
-        #login:checked ~ .pages #loginPage,
-        #admin-dashboard:checked ~ .pages #adminDashboardPage,
-        #member-dashboard:checked ~ .pages #memberDashboardPage,
-        #consulente-dashboard:checked ~ .pages #consulenteDashboardPage,
-        #bacheca:checked ~ .pages #bachecaPage,
-        #agenda-eventi:checked ~ .pages #agendaEventiPage,
-        #consulenti:checked ~ .pages #consulentiPage {
+        .page.active {
             display: block;
         }
 
-        .nav-btn {
-            background: linear-gradient(135deg, #555, #666);
-            color: white;
-            padding: 25px 15px;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            text-decoration: none;
-            display: block;
+        /* Login Page */
+        .login-container {
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--gray) 100%);
         }
 
-        .nav-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
-
-        .nav-btn.admin {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-        }
-
-        .nav-btn.member {
-            background: linear-gradient(135deg, #27ae60, #229954);
-        }
-
-        .nav-btn.consulente {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-        }
-
-        .notification-dot {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            min-width: 18px;
-            height: 18px;
-            background: #e74c3c;
-            border-radius: 50%;
+        .login-logo {
+            width: 120px;
+            height: 120px;
+            background: var(--lime);
+            border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 11px;
-            font-weight: bold;
-            border: 2px solid white;
+            font-size: 60px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(221, 252, 27, 0.4);
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
-        .card-icon {
-            font-size: 24px;
+        .login-box {
+            background: var(--gray);
+            border-radius: 25px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(221, 252, 27, 0.2);
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
             margin-bottom: 10px;
-            display: block;
+            color: var(--white);
         }
 
-        .card-title {
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .login-subtitle {
+            font-size: 16px;
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 25px;
         }
 
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+        .role-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            background: rgba(0,0,0,0.3);
+            padding: 4px;
+            border-radius: 15px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-btn.active {
+            background: var(--lime);
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(221, 252, 27, 0.4);
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #2c3e50;
+            font-size: 15px;
+            color: #aaa;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-input {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
+            padding: 16px;
+            border: 2px solid rgba(221, 252, 27, 0.2);
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            font-size: 18px;
+            color: var(--white);
+            transition: all 0.3s;
         }
 
-        .btn {
+        .form-input:focus {
+            outline: none;
+            border-color: var(--lime);
+            background: rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(221, 252, 27, 0.2);
+        }
+
+        .btn-login {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dark) 100%);
+            color: var(--dark);
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            box-shadow: 0 5px 20px rgba(221, 252, 27, 0.3);
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        .btn-login:active {
+            transform: scale(0.98);
         }
 
-        .action-btn {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-            border: none;
-            padding: 10px 20px;
+        /* Dashboard Stats */
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--gray) 0%, rgba(45,45,45,0.7) 100%);
+            padding: 20px;
             border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(221, 252, 27, 0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .stat-icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--lime);
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(221, 252, 27, 0.5);
+        }
+
+        .stat-label {
+            font-size: 15px;
+            color: #aaa;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .menu-card {
+            background: linear-gradient(135deg, var(--gray) 0%, rgba(45,45,45,0.8) 100%);
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(221, 252, 27, 0.2);
             cursor: pointer;
-            font-weight: bold;
-            margin: 5px;
             transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
-        }
-
-        .action-btn.blue {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-        }
-
-        .action-btn.red {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-        }
-
-        .action-btn.purple {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-        }
-
-        .action-btn.orange {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-        }
-
-        .action-btn.green {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-        }
-
-        .main-content {
-            padding: 25px;
-        }
-
-        .page-content {
-            padding: 25px;
-        }
-
-        .stats-box {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .admin-stats-box {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .member-stats-box {
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .consulente-stats-box {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .login-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        }
-
-        .login-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-radius: 10px;
+            position: relative;
             overflow: hidden;
         }
 
-        .login-tab {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .login-tab.admin {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .login-tab.member {
-            background: #27ae60;
-            color: white;
-        }
-
-        .login-tab.consulente {
-            background: #9b59b6;
-            color: white;
-        }
-
-        .login-tab.active {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .login-form {
-            display: none;
-        }
-
-        .login-form.active {
-            display: block;
-        }
-
-        .sezione-bacheca {
-            display: none;
-            min-height: 400px;
-        }
-
-        .sezione-bacheca.active {
-            display: block !important;
-        }
-
-        .filter-bar {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .filter-btn {
-            padding: 8px 15px;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 13px;
-        }
-
-        .filter-btn.active {
-            background: #3498db;
-            color: white;
-            border-color: #3498db;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-right: 5px;
-        }
-
-        .badge.green {
-            background: #27ae60;
-            color: white;
-        }
-
-        .badge.blue {
-            background: #3498db;
-            color: white;
-        }
-
-        .badge.purple {
-            background: #9b59b6;
-            color: white;
-        }
-
-        .badge.orange {
-            background: #f39c12;
-            color: white;
-        }
-
-        .badge.red {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .tab-navigation {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 10px;
-        }
-
-        .tab-btn {
-            padding: 10px 20px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            color: #7f8c8d;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .tab-btn.active {
-            color: #3498db;
-        }
-
-        .tab-btn.active::after {
+        .menu-card::before {
             content: '';
             position: absolute;
-            bottom: -12px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #3498db;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(221, 252, 27, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .annuncio-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #ecf0f1;
-            transition: all 0.3s;
+        .menu-card:active {
+            transform: scale(0.95);
         }
 
-        .annuncio-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        .menu-card:active::before {
+            opacity: 1;
         }
 
-        .form-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
+        .menu-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
         }
 
-        .back-btn {
+        .menu-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .menu-badge {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
+            top: 12px;
+            right: 12px;
+            background: var(--lime);
+            color: var(--dark);
             font-size: 13px;
-            transition: all 0.3s;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(221, 252, 27, 0.4);
         }
 
-        .back-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateX(-3px);
-        }
-
-        /* Stili Agenda Eventi */
+        /* Eventi Cards */
         .evento-card {
-            background: white;
-            border-radius: 15px;
+            background: linear-gradient(135deg, var(--gray) 0%, rgba(45,45,45,0.8) 100%);
+            border-radius: 20px;
             padding: 20px;
-            margin-bottom: 20px;
-            border: 2px solid #ecf0f1;
+            margin-bottom: 15px;
+            border: 1px solid rgba(221, 252, 27, 0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: all 0.3s;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .evento-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-color: #3498db;
+        .evento-card.confirmed {
+            border-color: var(--lime);
+            box-shadow: 0 5px 20px rgba(221, 252, 27, 0.2);
         }
 
-        .evento-header {
+        .evento-date {
             display: flex;
-            gap: 20px;
             align-items: center;
+            gap: 15px;
             margin-bottom: 15px;
         }
 
-        .evento-data {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
+        .date-box {
+            background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dark) 100%);
+            color: var(--dark);
+            padding: 12px;
+            border-radius: 15px;
             text-align: center;
-            min-width: 80px;
+            min-width: 65px;
+            box-shadow: 0 4px 10px rgba(221, 252, 27, 0.3);
         }
 
-        .evento-giorno {
-            font-size: 24px;
-            font-weight: bold;
+        .date-box.confirmed {
+            background: linear-gradient(135deg, var(--success) 0%, #00b371 100%);
+            color: var(--white);
         }
 
-        .evento-mese {
-            font-size: 12px;
+        .date-day {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .date-month {
+            font-size: 11px;
             text-transform: uppercase;
+            margin-top: 3px;
+            font-weight: 600;
+        }
+
+        .evento-title {
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 5px;
         }
 
         .evento-info {
-            flex: 1;
+            margin-top: 12px;
+            font-size: 16px;
+            color: #aaa;
+            line-height: 1.8;
         }
 
-        .evento-titolo {
-            font-size: 20px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
+        .evento-participants {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(221, 252, 27, 0.1);
+            font-size: 16px;
+            color: var(--lime);
         }
 
-        .evento-dettagli {
+        .btn-action {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dark) 100%);
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(221, 252, 27, 0.3);
+        }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, var(--danger) 0%, #d63333 100%);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(255, 59, 59, 0.3);
+        }
+
+        .btn-action:active {
+            transform: scale(0.98);
+        }
+
+        /* Bottom Navigation - 6 items */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, var(--gray) 0%, var(--dark) 100%);
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            padding: 10px 5px 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            z-index: 100;
+            border-top: 2px solid var(--lime);
+        }
+
+        .nav-item {
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-
-        .evento-dettaglio {
-            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 5px;
-        }
-
-        .partecipanti-box {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-
-        .partecipanti-avatar {
-            display: inline-block;
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 35px;
-            color: white;
-            font-weight: bold;
-            margin-right: -10px;
-            border: 2px solid white;
-            font-size: 12px;
-        }
-
-        .btn-partecipa {
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
+            padding: 5px;
             cursor: pointer;
             transition: all 0.3s;
-            margin-right: 10px;
+            color: #666;
+            position: relative;
         }
 
-        .btn-partecipa:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        .nav-item.active {
+            color: var(--lime);
         }
 
-        .btn-cancella {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: var(--lime);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(221, 252, 27, 0.5);
+        }
+
+        .nav-icon {
+            font-size: 26px;
+            margin-bottom: 4px;
             transition: all 0.3s;
-            margin-right: 10px;
         }
 
-        .btn-cancella:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        .nav-item.active .nav-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 2px 5px rgba(221, 252, 27, 0.5));
         }
 
-        .notifica-setting {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 13px;
-        }
-
-        .evento-status {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
+        .nav-label {
             font-size: 12px;
-            font-weight: bold;
-            margin-left: 10px;
+            font-weight: 600;
         }
 
-        .status-confermato {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        /* Stili Pagina Consulenti */
-        .consulente-card {
-            background: white;
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gray);
+            padding: 15px 25px;
             border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 2px solid #ecf0f1;
-            transition: all 0.3s;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .consulente-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-color: #3498db;
-        }
-
-        .consulente-header {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
             display: flex;
-            gap: 20px;
             align-items: center;
-            margin-bottom: 15px;
+            gap: 10px;
+            z-index: 1000;
+            animation: slideDown 0.3s ease;
+            border: 1px solid rgba(221, 252, 27, 0.3);
         }
 
-        .consulente-avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
+        .toast.success {
+            border-color: var(--success);
+            box-shadow: 0 5px 20px rgba(0, 208, 132, 0.2);
+        }
+
+        .toast.error {
+            border-color: var(--danger);
+            box-shadow: 0 5px 20px rgba(255, 59, 59, 0.2);
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translate(-50%, -100px);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+            to {
+                transform: translate(-50%, -100px);
+                opacity: 0;
+            }
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--white);
+            margin: 25px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--lime) 0%, transparent 100%);
+        }
+
+        /* Member Card */
+        .member-card {
+            background: linear-gradient(135deg, var(--gray) 0%, rgba(45,45,45,0.8) 100%);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(221, 252, 27, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dark) 100%);
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
         }
 
-        .consulente-info {
+        .member-info {
             flex: 1;
         }
 
-        .consulente-nome {
-            font-size: 20px;
-            font-weight: bold;
-            color: #2c3e50;
+        .member-name {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 3px;
+        }
+
+        .member-company {
+            font-size: 15px;
+            color: #aaa;
+        }
+
+        /* Video Card */
+        .video-card {
+            background: linear-gradient(135deg, var(--gray) 0%, rgba(45,45,45,0.8) 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid rgba(221, 252, 27, 0.2);
+        }
+
+        .video-thumb {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, rgba(221, 252, 27, 0.2) 0%, rgba(221, 252, 27, 0.05) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--white);
             margin-bottom: 5px;
         }
 
-        .consulente-specializzazione {
-            color: #7f8c8d;
-            font-size: 14px;
-            margin-bottom: 10px;
+        .video-meta {
+            font-size: 15px;
+            color: #aaa;
         }
 
-        .disponibilita-badge {
-            display: inline-block;
-            padding: 5px 12px;
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        .empty-text {
+            font-size: 17px;
+            color: #aaa;
+        }
+
+        /* Logout Button in Header */
+        .logout-btn {
+            background: rgba(255, 59, 59, 0.2);
+            border: 1px solid rgba(255, 59, 59, 0.3);
+            color: #ff6b6b;
+            padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: bold;
-        }
-
-        .disponibilita-badge.disponibile {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .disponibilita-badge.occupato {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .btn-prenota {
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
 
-        .btn-prenota:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        .logout-btn:active {
+            transform: scale(0.95);
         }
 
-        .btn-prenota:disabled {
-            background: #95a5a6;
-            cursor: not-allowed;
-        }
-
-        .consulenze-counter {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .form-consulenza {
-            background: #f8f9fa;
-            padding: 20px;
+        /* Annuncio Form */
+        .add-annuncio-btn {
+            background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dark) 100%);
+            color: var(--dark);
+            padding: 14px 24px;
             border-radius: 15px;
-            margin-top: 20px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(221, 252, 27, 0.3);
+        }
+
+        .add-annuncio-btn:active {
+            transform: scale(0.98);
+        }
+
+        .annuncio-form {
+            background: linear-gradient(135deg, var(--gray) 0%, rgba(45,45,45,0.8) 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid var(--lime);
             display: none;
         }
 
-        .form-consulenza.active {
+        .annuncio-form.active {
             display: block;
         }
 
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
+        .form-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(221, 252, 27, 0.2);
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            font-size: 18px;
+            color: var(--white);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--lime);
+            background: rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(221, 252, 27, 0.2);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(221, 252, 27, 0.2);
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            font-size: 18px;
+            color: var(--white);
+            transition: all 0.3s;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--lime);
+            background: rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(221, 252, 27, 0.2);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dark) 100%);
+            color: var(--dark);
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel-form {
+            flex: 1;
+            padding: 16px;
+            background: rgba(255, 59, 59, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 59, 59, 0.3);
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .annuncio-delete-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 59, 59, 0.2);
+            border: 1px solid rgba(255, 59, 59, 0.3);
+            color: #ff6b6b;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .annuncio-delete-btn:hover {
+            background: rgba(255, 59, 59, 0.3);
+            transform: scale(1.1);
+        }
+
+        .annuncio-card {
+            position: relative;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Navigation Inputs -->
-        <input type="radio" name="nav" id="login" class="nav-input" checked>
-        <input type="radio" name="nav" id="admin-dashboard" class="nav-input">
-        <input type="radio" name="nav" id="member-dashboard" class="nav-input">
-        <input type="radio" name="nav" id="consulente-dashboard" class="nav-input">
-        <input type="radio" name="nav" id="bacheca" class="nav-input">
-        <input type="radio" name="nav" id="agenda-eventi" class="nav-input">
-        <input type="radio" name="nav" id="consulenti" class="nav-input">
-
-        <div class="pages">
-            <!-- Login Page -->
-            <div id="loginPage" class="page">
-                <div class="header">
-                    <div class="logo">🏢</div>
-                    <h1>Consorzio Imprenditori</h1>
-                    <p>Riuniamo imprenditori allo scopo di collaborare e crescere insieme</p>
-                </div>
+    <div class="mobile-container">
+        <!-- Login Page -->
+        <div id="loginPage" class="page active">
+            <div class="login-container">
+                <div class="login-logo">🏢</div>
                 
-                <div class="login-container">
-                    <h2 style="text-align: center; margin-bottom: 25px; color: #2c3e50;">Accedi al Consorzio</h2>
+                <div class="login-box">
+                    <h1 class="login-title">Consorzio Imprenditori</h1>
+                    <p class="login-subtitle">Accedi alla piattaforma premium</p>
                     
-                    <div class="login-tabs">
-                        <div class="login-tab admin" onclick="switchLoginTab('admin')">
-                            🔐 ADMIN
-                        </div>
-                        <div class="login-tab member" onclick="switchLoginTab('member')">
-                            👥 MEMBRI
-                        </div>
-                        <div class="login-tab consulente" onclick="switchLoginTab('consulente')">
-                            💼 CONSULENTI
-                        </div>
+                    <div class="role-selector">
+                        <button class="role-btn active" onclick="selectRole('admin', this)">Admin</button>
+                        <button class="role-btn" onclick="selectRole('member', this)">Membro</button>
+                        <button class="role-btn" onclick="selectRole('consulente', this)">Consulente</button>
                     </div>
 
-                    <!-- Admin Login Form -->
-                    <div id="adminForm" class="login-form">
+                    <div id="loginForm">
                         <div class="form-group">
-                            <label>Email Amministratore</label>
-                            <input type="email" id="adminEmail" value="admin@consorzio.it">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="loginEmail" value="admin@consorzio.it" placeholder="Inserisci email">
                         </div>
                         
                         <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" id="adminPassword" value="admin123">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" id="loginPassword" value="admin123" placeholder="Inserisci password">
                         </div>
                         
-                        <button class="btn" onclick="login('admin')" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">🔑 ACCESSO AMMINISTRATORE</button>
-                    </div>
-
-                    <!-- Member Login Form -->
-                    <div id="memberForm" class="login-form">
-                        <div class="form-group">
-                            <label>Email Membro</label>
-                            <input type="email" id="memberEmail" value="rossi@rossisrl.it">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" id="memberPassword" value="member123">
-                        </div>
-                        
-                        <button class="btn" onclick="login('member')" style="background: linear-gradient(135deg, #27ae60, #229954);">🔑 ACCESSO MEMBRO</button>
-                    </div>
-
-                    <!-- Consulente Login Form -->
-                    <div id="consulenteForm" class="login-form">
-                        <div class="form-group">
-                            <label>Email Consulente</label>
-                            <input type="email" id="consulenteEmail" value="maria.bianchi@consorzio.it">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" id="consulentePassword" value="cons123">
-                        </div>
-                        
-                        <button class="btn" onclick="login('consulente')" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">🔑 ACCESSO CONSULENTE</button>
+                        <button class="btn-login" onclick="doLogin()">ACCEDI</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Admin Dashboard Page -->
-            <div id="adminDashboardPage" class="page">
-                <div class="header">
-                    <button onclick="logout()" class="back-btn">🔙 Logout</button>
-                    <div class="user-info">👤 Amministratore</div>
-                    <div class="logo">🔐</div>
-                    <h1>Dashboard Amministratori</h1>
-                    <p>Pannello di controllo completo del Consorzio</p>
-                </div>
-
-                <div class="main-content">
-                    <div class="admin-stats-box">
-                        <h2 style="margin-bottom: 10px;">🔐 Controllo Totale Consorzio</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Membri Attivi</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Consulenti</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">48</div><div style="font-size: 11px;">Annunci Bacheca</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Eventi Mese</div></div>
-                        </div>
-                    </div>
-                    
-                    <div class="dashboard-grid">
-                        <label for="bacheca" class="nav-btn admin">
-                            <div class="notification-dot">48</div>
-                            <div class="card-icon">📌</div>
-                            <div class="card-title">BACHECA MARKETPLACE</div>
-                        </label>
-
-                        <label for="agenda-eventi" class="nav-btn admin">
-                            <div class="notification-dot">8</div>
-                            <div class="card-icon">📅</div>
-                            <div class="card-title">AGENDA EVENTI</div>
-                        </label>
-
-                        <label for="consulenti" class="nav-btn admin">
-                            <div class="notification-dot">20</div>
-                            <div class="card-icon">💼</div>
-                            <div class="card-title">GESTIONE CONSULENTI</div>
-                        </label>
-
-                        <div class="nav-btn admin" onclick="showNotification('👥 Gestione Membri - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">15</div>
-                            <div class="card-icon">👥</div>
-                            <div class="card-title">GESTIONE MEMBRI</div>
-                        </div>
-
-                        <div class="nav-btn admin" onclick="showNotification('📋 Consulenze - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">12</div>
-                            <div class="card-icon">📋</div>
-                            <div class="card-title">CONSULENZE</div>
-                        </div>
-
-                        <div class="nav-btn admin" onclick="showNotification('🤝 Convenzioni - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">8</div>
-                            <div class="card-icon">🤝</div>
-                            <div class="card-title">CONVENZIONI</div>
-                        </div>
-                    </div>
+        <!-- Dashboard Page (Home) -->
+        <div id="dashboardPage" class="page">
+            <div class="top-bar">
+                <div class="page-title">Dashboard</div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <div class="user-badge" id="userBadge">Admin</div>
+                    <button class="logout-btn" onclick="logout()">Esci</button>
                 </div>
             </div>
 
-            <!-- Member Dashboard Page -->
-            <div id="memberDashboardPage" class="page">
-                <div class="header">
-                    <button onclick="logout()" class="back-btn">🔙 Esci</button>
-                    <div class="user-info">👤 Membro</div>
-                    <div class="logo">👥</div>
-                    <h1>Dashboard Membri</h1>
-                    <p>Benvenuto nella piattaforma riservata ai membri</p>
-                </div>
-
-                <div class="main-content">
-                    <div class="member-stats-box">
-                        <h2 style="margin-bottom: 10px;">👥 Area Riservata Membri</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">20</div><div style="font-size: 11px;">Consulenti</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">48</div><div style="font-size: 11px;">Annunci</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">10</div><div style="font-size: 11px;">Consulenze Incluse</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">5</div><div style="font-size: 11px;">Eventi Mese</div></div>
-                        </div>
-                    </div>
-                    
-                    <div class="dashboard-grid">
-                        <label for="bacheca" class="nav-btn member">
-                            <div class="notification-dot">48</div>
-                            <div class="card-icon">📌</div>
-                            <div class="card-title">BACHECA MARKETPLACE</div>
-                        </label>
-
-                        <label for="agenda-eventi" class="nav-btn member">
-                            <div class="notification-dot">5</div>
-                            <div class="card-icon">📅</div>
-                            <div class="card-title">AGENDA EVENTI</div>
-                        </label>
-
-                        <label for="consulenti" class="nav-btn member">
-                            <div class="notification-dot">20</div>
-                            <div class="card-icon">💼</div>
-                            <div class="card-title">CONSULENTI</div>
-                        </label>
-
-                        <div class="nav-btn member" onclick="showNotification('📋 Albo Membri - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">15</div>
-                            <div class="card-icon">📋</div>
-                            <div class="card-title">ALBO MEMBRI</div>
-                        </div>
-
-                        <div class="nav-btn member" onclick="showNotification('📹 Video - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">12</div>
-                            <div class="card-icon">📹</div>
-                            <div class="card-title">VIDEO</div>
-                        </div>
-
-                        <div class="nav-btn member" onclick="showNotification('🤝 Convenzioni - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">8</div>
-                            <div class="card-icon">🤝</div>
-                            <div class="card-title">CONVENZIONI</div>
-                        </div>
+            <div class="page-content">
+                <div class="stats-row">
+                    <div class="stat-card" style="grid-column: 1 / -1;">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-value" id="statEventi">2</div>
+                        <div class="stat-label">Eventi Confermati</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Consulente Dashboard Page -->
-            <div id="consulenteDashboardPage" class="page">
-                <div class="header">
-                    <button onclick="logout()" class="back-btn">🔙 Esci</button>
-                    <div class="user-info">👤 Consulente</div>
-                    <div class="logo">💼</div>
-                    <h1>Dashboard Consulenti</h1>
-                    <p>Gestisci le tue consulenze e appuntamenti</p>
-                </div>
-
-                <div class="main-content">
-                    <div class="consulente-stats-box">
-                        <h2 style="margin-bottom: 10px;">💼 Area Riservata Consulenti</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;">3</div><div style="font-size: 11px;">Richieste Pending</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">8</div><div style="font-size: 11px;">Confermate</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;">15</div><div style="font-size: 11px;">Membri Attivi</div></div>
-                        </div>
-                    </div>
-                    
-                    <div class="dashboard-grid">
-                        <label for="bacheca" class="nav-btn consulente">
-                            <div class="notification-dot">48</div>
-                            <div class="card-icon">📌</div>
-                            <div class="card-title">BACHECA</div>
-                        </label>
-
-                        <div class="nav-btn consulente" onclick="showNotification('📋 Le Mie Consulenze - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">3</div>
-                            <div class="card-icon">📋</div>
-                            <div class="card-title">LE MIE CONSULENZE</div>
-                        </div>
-
-                        <div class="nav-btn consulente" onclick="showNotification('👥 Membri Consorzio - Funzione Attiva!', 'success')">
-                            <div class="notification-dot">15</div>
-                            <div class="card-icon">👥</div>
-                            <div class="card-title">MEMBRI CONSORZIO</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bacheca Page -->
-            <div id="bachecaPage" class="page">
-                <div class="header">
-                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
-                    <div class="user-info">👤 User</div>
-                    <div class="logo">📌</div>
-                    <h1>Bacheca del Consorzio</h1>
-                </div>
-                <div class="page-content">
-                    <div class="stats-box">
-                        <h2 style="margin-bottom: 10px;">📌 Marketplace & Collaborazioni</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;" id="countVendita">4</div><div style="font-size: 11px;">Vendo/Compro</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="countPersonale">3</div><div style="font-size: 11px;">Ricerche Personale</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="countSpazi">2</div><div style="font-size: 11px;">Spazi</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="countCollab">3</div><div style="font-size: 11px;">Collaborazioni</div></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Tab Navigation -->
-                    <div class="tab-navigation">
-                        <button class="tab-btn active" onclick="switchTab('vendoCompro', this)">🛒 Vendo/Compro</button>
-                        <button class="tab-btn" onclick="switchTab('ricercaPersonale', this)">👔 Personale</button>
-                        <button class="tab-btn" onclick="switchTab('spaziCondivisi', this)">🏢 Spazi</button>
-                        <button class="tab-btn" onclick="switchTab('collaborazioni', this)">🤝 Collaborazioni</button>
-                    </div>
-
-                    <!-- SEZIONE VENDO/COMPRO -->
-                    <div id="sezioneVendoCompro" class="sezione-bacheca active">
-                        <div class="filter-bar">
-                            <button class="filter-btn active" onclick="filterAnnunci('tutti', this)">Tutti</button>
-                            <button class="filter-btn" onclick="filterAnnunci('vendo', this)">🛒 Vendo</button>
-                            <button class="filter-btn" onclick="filterAnnunci('compro', this)">💰 Compro</button>
-                            <button class="action-btn" onclick="showNotification('📝 Form pubblicazione disponibile', 'info')">➕ Nuovo Annuncio</button>
-                        </div>
-
-                        <div id="annunciVenditaContainer">
-                            <div class="annuncio-card">
-                                <h4>🔧 Stampante HP LaserJet Pro</h4>
-                                <p>Stampante professionale in ottime condizioni - €1.200</p>
-                                <small>Marco Rossi - 2 ore fa</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SEZIONE RICERCA PERSONALE -->
-                    <div id="sezioneRicercaPersonale" class="sezione-bacheca">
-                        <div class="filter-bar">
-                            <button class="filter-btn active">Tutti</button>
-                            <button class="filter-btn">💼 Offro Lavoro</button>
-                            <button class="filter-btn">🔍 Cerco Lavoro</button>
-                        </div>
-                        <div class="annuncio-card">
-                            <h4>👨‍💻 Sviluppatore Full Stack</h4>
-                            <p>Cerchiamo developer con esperienza React/Node - €45-55K/anno</p>
-                        </div>
-                    </div>
-
-                    <!-- SEZIONE SPAZI CONDIVISI -->
-                    <div id="sezioneSpaziCondivisi" class="sezione-bacheca">
-                        <div class="filter-bar">
-                            <button class="filter-btn active">Tutti</button>
-                            <button class="filter-btn">🏢 Uffici</button>
-                            <button class="filter-btn">📦 Magazzini</button>
-                        </div>
-                        <div class="annuncio-card">
-                            <h4>🏢 Ufficio Open Space EUR</h4>
-                            <p>150mq, 15 postazioni - €2.500/mese</p>
-                        </div>
-                    </div>
-
-                    <!-- SEZIONE COLLABORAZIONI -->
-                    <div id="sezioneCollaborazioni" class="sezione-bacheca">
-                        <div class="filter-bar">
-                            <button class="filter-btn active">Tutti</button>
-                            <button class="filter-btn">🤝 Partnership</button>
-                            <button class="filter-btn">🚀 Progetti</button>
-                        </div>
-                        <div class="annuncio-card">
-                            <h4>🤝 Partner Campagna Marketing</h4>
-                            <p>Cerco partner per campagna nazionale - Budget €50K condiviso</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Agenda Eventi Page -->
-            <div id="agendaEventiPage" class="page">
-                <div class="header">
-                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
-                    <div class="user-info">👤 User</div>
-                    <div class="logo">📅</div>
-                    <h1>Agenda Eventi del Consorzio</h1>
-                    <p>Partecipa agli eventi e ricevi notifiche automatiche</p>
-                </div>
+                <div class="section-title">Accesso Rapido</div>
                 
-                <div class="page-content">
-                    <div class="member-stats-box">
-                        <h2 style="margin-bottom: 10px;">📅 I Tuoi Eventi</h2>
-                        <div style="display: flex; justify-content: center; gap: 25px; margin-top: 10px; flex-wrap: wrap;">
-                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiTotali">8</div><div style="font-size: 11px;">Eventi Totali</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiConfermati">2</div><div style="font-size: 11px;">Confermati</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="eventiQuestoMese">5</div><div style="font-size: 11px;">Questo Mese</div></div>
-                            <div><div style="font-size: 20px; font-weight: bold;" id="notificheAttive">2</div><div style="font-size: 11px;">Notifiche Attive</div></div>
-                        </div>
+                <div class="menu-grid">
+                    <div class="menu-card" onclick="goToPage('bacheca')">
+                        <span class="menu-badge">48</span>
+                        <div class="menu-icon">📌</div>
+                        <div class="menu-title">Bacheca</div>
+                    </div>
+                    
+                    <div class="menu-card" onclick="goToPage('eventi')">
+                        <span class="menu-badge">8</span>
+                        <div class="menu-icon">📅</div>
+                        <div class="menu-title">Eventi</div>
+                    </div>
+                    
+                    <div class="menu-card" onclick="goToPage('consulenti')">
+                        <span class="menu-badge">20</span>
+                        <div class="menu-icon">💼</div>
+                        <div class="menu-title">Consulenti</div>
+                    </div>
+                    
+                    <div class="menu-card" onclick="goToPage('membri')">
+                        <span class="menu-badge">15</span>
+                        <div class="menu-icon">👥</div>
+                        <div class="menu-title">Membri</div>
                     </div>
 
-                    <!-- Eventi -->
-                    <div id="listaEventi" style="margin-top: 20px;">
-                        
-                        <!-- Evento 1 -->
-                        <div class="evento-card" data-evento-id="1">
-                            <div class="evento-header">
-                                <div class="evento-data">
-                                    <div class="evento-giorno">28</div>
-                                    <div class="evento-mese">GEN</div>
-                                </div>
-                                <div class="evento-info">
-                                    <div class="evento-titolo">
-                                        🤝 Networking Imprenditori Roma
-                                        <span class="badge green">NETWORKING</span>
-                                    </div>
-                                    <div class="evento-dettagli">
-                                        <div class="evento-dettaglio">📍 Hotel Hilton Roma EUR</div>
-                                        <div class="evento-dettaglio">⏰ 18:30 - 21:00</div>
-                                        <div class="evento-dettaglio">👥 45 partecipanti</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px;">
-                                <button class="btn-partecipa" onclick="confermaPartecipazione(1)">
-                                    ✅ Conferma Partecipazione
-                                </button>
-                            </div>
-                        </div>
+                    <div class="menu-card" onclick="goToPage('video')">
+                        <span class="menu-badge">12</span>
+                        <div class="menu-icon">📹</div>
+                        <div class="menu-title">Video</div>
+                    </div>
 
-                        <!-- Evento 2 -->
-                        <div class="evento-card" data-evento-id="2" style="border-color: #27ae60;">
-                            <div class="evento-header">
-                                <div class="evento-data" style="background: linear-gradient(135deg, #27ae60, #229954);">
-                                    <div class="evento-giorno">05</div>
-                                    <div class="evento-mese">FEB</div>
-                                </div>
-                                <div class="evento-info">
-                                    <div class="evento-titolo">
-                                        💻 Workshop Digital Marketing 2025
-                                        <span class="badge blue">FORMAZIONE</span>
-                                        <span class="evento-status status-confermato">✅ CONFERMATO</span>
-                                    </div>
-                                    <div class="evento-dettagli">
-                                        <div class="evento-dettaglio">📍 Sede Consorzio</div>
-                                        <div class="evento-dettaglio">⏰ 09:00 - 13:00</div>
-                                        <div class="evento-dettaglio">💰 Incluso nella quota</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px;">
-                                <button class="btn-cancella" onclick="cancellaPartecipazione(2)">
-                                    ❌ Cancella Partecipazione
-                                </button>
-                            </div>
-                        </div>
-
+                    <div class="menu-card" onclick="goToPage('convenzioni')">
+                        <span class="menu-badge">5</span>
+                        <div class="menu-icon">🤝</div>
+                        <div class="menu-title">Convenzioni</div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Pagina Consulenti -->
-            <div id="consulentiPage" class="page">
-                <div class="header">
-                    <button onclick="tornaAlDashboard()" class="back-btn">← Dashboard</button>
-                    <div class="user-info">👤 User</div>
-                    <div class="logo">💼</div>
-                    <h1>Consulenti del Consorzio</h1>
-                    <p>Richiedi consulenze gratuite con i nostri esperti</p>
-                </div>
-                
-                <div class="page-content">
-                    <!-- Contatore Consulenze -->
-                    <div class="consulenze-counter">
-                        <h2 style="margin-bottom: 10px;">💼 Le Tue Consulenze</h2>
-                        <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
-                            <div>
-                                <div style="font-size: 28px; font-weight: bold;" id="consulenzeUsate">0</div>
-                                <div style="font-size: 14px;">Utilizzate</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 28px; font-weight: bold;" id="consulenzeRimanenti">10</div>
-                                <div style="font-size: 14px;">Rimanenti</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 28px; font-weight: bold;">10</div>
-                                <div style="font-size: 14px;">Totali Incluse</div>
-                            </div>
-                        </div>
-                        <p style="margin-top: 15px; font-size: 13px;">
-                            ⏱️ Ogni consulenza dura 30 minuti | 📋 Max 1 consulenza per consulente
-                        </p>
+        <!-- Bacheca Page -->
+        <div id="bachecaPage" class="page">
+            <div class="top-bar">
+                <div class="page-title">Bacheca</div>
+                <div class="user-badge">User</div>
+            </div>
+
+            <div class="page-content">
+                <!-- Pulsante per aggiungere annuncio (solo membri) -->
+                <button class="add-annuncio-btn" id="addAnnuncioBtn" onclick="toggleAnnuncioForm()" style="display: none;">
+                    <span>➕</span>
+                    <span>Pubblica Annuncio</span>
+                </button>
+
+                <!-- Form per nuovo annuncio -->
+                <div class="annuncio-form" id="annuncioForm">
+                    <h3 style="color: var(--lime); margin-bottom: 20px;">📝 Nuovo Annuncio</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Titolo</label>
+                        <input type="text" class="form-input" id="annuncioTitolo" placeholder="Es: Vendo stampante HP">
                     </div>
 
-                    <!-- Lista Consulenti (primi 5 per esempio) -->
-                    <div id="listaConsulenti" style="margin-top: 20px;">
-                        
-                        <!-- Consulente 1 - Finanza agevolata -->
-                        <div class="consulente-card" data-consulente-id="1">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">GB</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Dott. Giovanni Bianchi
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        💰 <strong>Finanza agevolata</strong> - Esperto in bandi, contributi e finanziamenti europei
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(1)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Categoria</label>
+                            <select class="form-select" id="annuncioCategoria">
+                                <option value="🔧">🔧 Vendita</option>
+                                <option value="👨‍💻">👨‍💻 Lavoro</option>
+                                <option value="🏢">🏢 Immobili</option>
+                                <option value="🤝">🤝 Partnership</option>
+                                <option value="📚">📚 Formazione</option>
+                                <option value="🎯">🎯 Servizi</option>
+                            </select>
                         </div>
 
-                        <!-- Consulente 2 - Consulenza legale -->
-                        <div class="consulente-card" data-consulente-id="2">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">LR</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Avv. Laura Rossi
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        ⚖️ <strong>Consulenza legale d'impresa</strong> - Contrattualistica, società, recupero crediti
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(2)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label class="form-label">Prezzo/Budget</label>
+                            <input type="text" class="form-input" id="annuncioPrezzo" placeholder="Es: €1.200">
                         </div>
+                    </div>
 
-                        <!-- Consulente 3 - Cyber sicurezza -->
-                        <div class="consulente-card" data-consulente-id="3">
-                            <div class="consulente-header">
-                                <div class="consulente-avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">MV</div>
-                                <div class="consulente-info">
-                                    <div class="consulente-nome">
-                                        Ing. Marco Verdi
-                                        <span class="disponibilita-badge disponibile">🟢 Disponibile</span>
-                                    </div>
-                                    <div class="consulente-specializzazione">
-                                        🔒 <strong>Cyber sicurezza</strong> - Protezione dati, GDPR, audit di sicurezza
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn-prenota" onclick="prenotaConsulenza(3)">
-                                        📅 Prenota Consulenza
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Descrizione</label>
+                        <textarea class="form-textarea" id="annuncioDescrizione" placeholder="Descrivi il tuo annuncio..."></textarea>
+                    </div>
 
-                        <!-- Altri 17 consulenti seguiranno lo stesso schema -->
-                        <p style="text-align: center; margin-top: 20px; color: #7f8c8d;">
-                            + Altri 17 consulenti specializzati disponibili
-                        </p>
-
+                    <div class="form-buttons">
+                        <button class="btn-submit" onclick="pubblicaAnnuncio()">Pubblica</button>
+                        <button class="btn-cancel-form" onclick="toggleAnnuncioForm()">Annulla</button>
                     </div>
                 </div>
+
+                <div class="section-title">Ultimi Annunci</div>
+
+                <div id="listaAnnunci">
+                    <!-- Annunci dinamici verranno inseriti qui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Eventi Page -->
+        <div id="eventiPage" class="page">
+            <div class="top-bar">
+                <div class="page-title">Agenda Eventi</div>
+                <div class="user-badge">User</div>
+            </div>
+
+            <div class="page-content">
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value" id="eventiConfermati">2</div>
+                        <div class="stat-label">Confermati</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔔</div>
+                        <div class="stat-value" id="notificheAttive">2</div>
+                        <div class="stat-label">Notifiche Attive</div>
+                    </div>
+                </div>
+
+                <div class="section-title">Prossimi Eventi</div>
+
+                <div id="listaEventi">
+                    <!-- Eventi dinamici -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Consulenti Page -->
+        <div id="consulentiPage" class="page">
+            <div class="top-bar">
+                <div class="page-title">Consulenti</div>
+                <div class="user-badge">User</div>
+            </div>
+
+            <div class="page-content">
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon">💼</div>
+                        <div class="stat-value">20</div>
+                        <div class="stat-label">Esperti Disponibili</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎫</div>
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Consulenze Gratuite</div>
+                    </div>
+                </div>
+
+                <div class="section-title">I Nostri Esperti</div>
+
+                <div class="evento-card">
+                    <div class="evento-title">💰 Dott. Giovanni Bianchi</div>
+                    <div class="evento-info">
+                        Finanza agevolata e bandi europei<br>
+                        📚 15 anni di esperienza<br>
+                        🟢 Disponibile per consulenze
+                    </div>
+                    <button class="btn-action btn-confirm">Prenota Consulenza Gratuita</button>
+                </div>
+
+                <div class="evento-card">
+                    <div class="evento-title">⚖️ Avv. Laura Rossi</div>
+                    <div class="evento-info">
+                        Diritto societario e contrattualistica<br>
+                        📚 12 anni di esperienza<br>
+                        🟢 Disponibile per consulenze
+                    </div>
+                    <button class="btn-action btn-confirm">Prenota Consulenza Gratuita</button>
+                </div>
+
+                <div class="evento-card">
+                    <div class="evento-title">🔒 Ing. Marco Verdi</div>
+                    <div class="evento-info">
+                        Cyber security e GDPR compliance<br>
+                        📚 10 anni di esperienza<br>
+                        🟢 Disponibile per consulenze
+                    </div>
+                    <button class="btn-action btn-confirm">Prenota Consulenza Gratuita</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Membri Page -->
+        <div id="membriPage" class="page">
+            <div class="top-bar">
+                <div class="page-title">Membri</div>
+                <div class="user-badge">User</div>
+            </div>
+
+            <div class="page-content">
+                <div class="section-title">Membri del Consorzio</div>
+
+                <div class="member-card">
+                    <div class="member-avatar">MR</div>
+                    <div class="member-info">
+                        <div class="member-name">Marco Rossi</div>
+                        <div class="member-company">Rossi Srl - Import/Export</div>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">GB</div>
+                    <div class="member-info">
+                        <div class="member-name">Giulia Bianchi</div>
+                        <div class="member-company">Tech Solutions - Software</div>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">LV</div>
+                    <div class="member-info">
+                        <div class="member-name">Luca Verdi</div>
+                        <div class="member-company">Green Energy - Rinnovabili</div>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">SC</div>
+                    <div class="member-info">
+                        <div class="member-name">Sara Conti</div>
+                        <div class="member-company">Conti Design - Architettura</div>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar">AF</div>
+                    <div class="member-info">
+                        <div class="member-name">Andrea Ferrari</div>
+                        <div class="member-company">Ferrari Consulting - Business</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Page -->
+        <div id="videoPage" class="page">
+            <div class="top-bar">
+                <div class="page-title">Video Formativi</div>
+                <div class="user-badge">User</div>
+            </div>
+
+            <div class="page-content">
+                <div class="section-title">Ultimi Video</div>
+
+                <div class="video-card">
+                    <div class="video-thumb">📹</div>
+                    <div class="video-info">
+                        <div class="video-title">Come accedere ai fondi europei 2025</div>
+                        <div class="video-meta">Dott. Bianchi • 45 min • 2 giorni fa</div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumb">📹</div>
+                    <div class="video-info">
+                        <div class="video-title">Digital Marketing per PMI</div>
+                        <div class="video-meta">Prof. Rossi • 30 min • 1 settimana fa</div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-thumb">📹</div>
+                    <div class="video-info">
+                        <div class="video-title">GDPR: Guida Pratica 2025</div>
+                        <div class="video-meta">Avv. Verdi • 60 min • 2 settimane fa</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Convenzioni Page -->
+        <div id="convenzioniPage" class="page">
+            <div class="top-bar">
+                <div class="page-title">Convenzioni</div>
+                <div class="user-badge">User</div>
+            </div>
+
+            <div class="page-content">
+                <div class="section-title">Convenzioni Attive</div>
+
+                <div class="evento-card">
+                    <div class="evento-title">🏨 Hotel Business Roma</div>
+                    <div class="evento-info">
+                        Sconto 30% su pernottamenti<br>
+                        ✅ Valida tutto l'anno<br>
+                        📍 3 strutture convenzionate
+                    </div>
+                </div>
+
+                <div class="evento-card">
+                    <div class="evento-title">✈️ Corporate Travel</div>
+                    <div class="evento-info">
+                        Voli aziendali -25% su tariffe flex<br>
+                        ✅ Partnership con 5 compagnie<br>
+                        🎫 Codice: CONSORZIO2025
+                    </div>
+                </div>
+
+                <div class="evento-card">
+                    <div class="evento-title">🚗 Noleggio Fleet Manager</div>
+                    <div class="evento-info">
+                        Noleggio lungo termine vantaggioso<br>
+                        ✅ Risparmio fino a €200/mese<br>
+                        📞 Consulente dedicato
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation - 6 sezioni -->
+        <div class="bottom-nav" id="bottomNav" style="display: none;">
+            <div class="nav-item active" onclick="goToPage('bacheca')">
+                <div class="nav-icon">📌</div>
+                <div class="nav-label">Bacheca</div>
+            </div>
+            <div class="nav-item" onclick="goToPage('eventi')">
+                <div class="nav-icon">📅</div>
+                <div class="nav-label">Eventi</div>
+            </div>
+            <div class="nav-item" onclick="goToPage('consulenti')">
+                <div class="nav-icon">💼</div>
+                <div class="nav-label">Consulenti</div>
+            </div>
+            <div class="nav-item" onclick="goToPage('membri')">
+                <div class="nav-icon">👥</div>
+                <div class="nav-label">Membri</div>
+            </div>
+            <div class="nav-item" onclick="goToPage('video')">
+                <div class="nav-icon">📹</div>
+                <div class="nav-label">Video</div>
+            </div>
+            <div class="nav-item" onclick="goToPage('convenzioni')">
+                <div class="nav-icon">🤝</div>
+                <div class="nav-label">Convenzioni</div>
             </div>
         </div>
     </div>
@@ -1269,260 +1198,338 @@
     <script>
         // Variabili globali
         let currentUser = null;
-        let eventiPartecipazioni = {2: true, 4: true};
-        let consulenzePrenotate = {};
-        let contatoreConsulenze = 0;
+        let currentRole = 'admin';
+        let eventiPartecipazioni = {2: true};
+        let partecipantiBase = {1: 45, 2: 31};
 
-        // Database utenti
-        const users = {
-            admin: {
-                email: 'admin@consorzio.it',
-                password: 'admin123',
-                role: 'admin',
-                name: 'Amministratore Consorzio'
+        // Database annunci
+        let annunci = [
+            {
+                id: 1,
+                categoria: '🔧',
+                titolo: 'Stampante HP LaserJet Pro',
+                descrizione: 'Vendo stampante professionale in ottime condizioni',
+                prezzo: '€1.200 trattabili',
+                autore: 'Marco Rossi',
+                autoreRole: 'member',
+                data: '2 ore fa'
             },
-            member1: {
-                email: 'rossi@rossisrl.it',
-                password: 'member123',
-                role: 'member',
-                name: 'Marco Rossi'
+            {
+                id: 2,
+                categoria: '👨‍💻',
+                titolo: 'Cerco Sviluppatore Full Stack',
+                descrizione: 'React/Node.js - Contratto indeterminato',
+                prezzo: '€45-55K/anno + benefits',
+                autore: 'Tech Solutions Srl',
+                autoreRole: 'admin',
+                data: 'oggi'
             },
-            cons1: {
-                email: 'maria.bianchi@consorzio.it',
-                password: 'cons123',
-                role: 'consulente',
-                name: 'Dott.ssa Maria Bianchi'
+            {
+                id: 3,
+                categoria: '🏢',
+                titolo: 'Ufficio in Condivisione EUR',
+                descrizione: '150mq open space, 15 postazioni',
+                prezzo: '€2.500/mese tutto incluso',
+                autore: 'Business Center Roma',
+                autoreRole: 'member',
+                data: 'ieri'
+            },
+            {
+                id: 4,
+                categoria: '🤝',
+                titolo: 'Partner per Progetto E-commerce',
+                descrizione: 'Cerco socio investitore per marketplace',
+                prezzo: 'Investment: €50K',
+                autore: 'Digital Ventures',
+                autoreRole: 'member',
+                data: '3 giorni fa'
             }
+        ];
+        let nextAnnuncioId = 5;
+
+        // Database credenziali
+        const credentials = {
+            admin: { email: 'admin@consorzio.it', password: 'admin123', label: 'Admin' },
+            member: { email: 'rossi@rossisrl.it', password: 'member123', label: 'Membro' },
+            consulente: { email: 'maria.bianchi@consorzio.it', password: 'cons123', label: 'Consulente' }
         };
 
-        // Funzione cambio tab login
-        function switchLoginTab(tab) {
-            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.login-form').forEach(f => f.classList.remove('active'));
+        // Select role
+        function selectRole(role, element) {
+            currentRole = role;
+            document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
             
-            document.querySelector(`.login-tab.${tab}`).classList.add('active');
-            document.querySelector(`#${tab}Form`).classList.add('active');
+            // Update form
+            document.getElementById('loginEmail').value = credentials[role].email;
+            document.getElementById('loginPassword').value = credentials[role].password;
         }
 
-        // Funzione login
-        function login(role) {
-            const email = document.getElementById(`${role}Email`).value;
-            const password = document.getElementById(`${role}Password`).value;
+        // Login
+        function doLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const cred = credentials[currentRole];
             
-            const user = Object.values(users).find(u => 
-                u.email === email && u.password === password && u.role === role
-            );
-            
-            if (user) {
-                currentUser = user;
+            if (email === cred.email && password === cred.password) {
+                currentUser = currentRole;
                 
-                if (role === 'admin') {
-                    document.getElementById('admin-dashboard').checked = true;
-                } else if (role === 'member') {
-                    document.getElementById('member-dashboard').checked = true;
-                } else if (role === 'consulente') {
-                    document.getElementById('consulente-dashboard').checked = true;
-                }
-                
-                updateUserInfo();
-                showNotification(`✅ Accesso effettuato come ${user.name}`, 'success');
-            } else {
-                showNotification('❌ Credenziali non valide', 'error');
-            }
-        }
-
-        // Funzione logout
-        function logout() {
-            currentUser = null;
-            document.getElementById('login').checked = true;
-            showNotification('👋 Disconnesso con successo', 'success');
-        }
-
-        // Torna al dashboard
-        function tornaAlDashboard() {
-            if (currentUser) {
-                if (currentUser.role === 'admin') {
-                    document.getElementById('admin-dashboard').checked = true;
-                } else if (currentUser.role === 'member') {
-                    document.getElementById('member-dashboard').checked = true;
-                } else if (currentUser.role === 'consulente') {
-                    document.getElementById('consulente-dashboard').checked = true;
-                }
-            } else {
-                document.getElementById('login').checked = true;
-            }
-        }
-
-        // Aggiorna info utente
-        function updateUserInfo() {
-            const userInfoElements = document.querySelectorAll('.user-info');
-            userInfoElements.forEach(el => {
-                const roleText = currentUser.role === 'admin' ? 'Admin' : 
-                               currentUser.role === 'member' ? 'Membro' : 'Consulente';
-                el.innerHTML = `👤 ${currentUser.name} (${roleText})`;
-            });
-        }
-
-        // Funzioni Tab Bacheca
-        function switchTab(tab, btnElement) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.sezione-bacheca').forEach(section => {
-                section.classList.remove('active');
-                section.style.display = 'none';
-            });
-            
-            if (btnElement) {
-                btnElement.classList.add('active');
-            }
-            
-            if (tab === 'vendoCompro') {
-                document.getElementById('sezioneVendoCompro').style.display = 'block';
-                document.getElementById('sezioneVendoCompro').classList.add('active');
-            } else if (tab === 'ricercaPersonale') {
-                document.getElementById('sezioneRicercaPersonale').style.display = 'block';
-                document.getElementById('sezioneRicercaPersonale').classList.add('active');
-            } else if (tab === 'spaziCondivisi') {
-                document.getElementById('sezioneSpaziCondivisi').style.display = 'block';
-                document.getElementById('sezioneSpaziCondivisi').classList.add('active');
-            } else if (tab === 'collaborazioni') {
-                document.getElementById('sezioneCollaborazioni').style.display = 'block';
-                document.getElementById('sezioneCollaborazioni').classList.add('active');
-            }
-        }
-
-        // Funzioni Eventi
-        function confermaPartecipazione(eventoId) {
-            if (!currentUser || currentUser.role !== 'member') {
-                showNotification('⚠️ Solo i membri possono partecipare agli eventi', 'warning');
-                return;
-            }
-            
-            eventiPartecipazioni[eventoId] = true;
-            showNotification('✅ Partecipazione confermata!', 'success');
-            
-            // Aggiorna UI
-            const card = document.querySelector(`[data-evento-id="${eventoId}"]`);
-            if (card) {
-                card.style.borderColor = '#27ae60';
-                const btn = card.querySelector('.btn-partecipa');
-                if (btn) {
-                    btn.outerHTML = '<button class="btn-cancella" onclick="cancellaPartecipazione(' + eventoId + ')">❌ Cancella Partecipazione</button>';
-                }
-            }
-        }
-
-        function cancellaPartecipazione(eventoId) {
-            if (confirm('Sei sicuro di voler cancellare la partecipazione?')) {
-                delete eventiPartecipazioni[eventoId];
-                showNotification('❌ Partecipazione cancellata', 'info');
-                
-                // Aggiorna UI
-                const card = document.querySelector(`[data-evento-id="${eventoId}"]`);
-                if (card) {
-                    card.style.borderColor = '#ecf0f1';
-                    const btn = card.querySelector('.btn-cancella');
-                    if (btn) {
-                        btn.outerHTML = '<button class="btn-partecipa" onclick="confermaPartecipazione(' + eventoId + ')">✅ Conferma Partecipazione</button>';
+                // Update user badge
+                document.querySelectorAll('[id^="userBadge"]').forEach(badge => {
+                    if (badge.id === 'userBadge') {
+                        badge.textContent = cred.label;
                     }
-                }
+                });
+                
+                document.getElementById('bottomNav').style.display = 'grid';
+                goToPage('dashboard');
+                showToast('✅ Accesso effettuato', 'success');
+                
+                // Initialize
+                renderEventi();
+                updateCounters();
+                renderAnnunci();
+            } else {
+                showToast('❌ Credenziali errate', 'error');
             }
         }
 
-        // Funzioni Consulenti
-        function prenotaConsulenza(consulenteId) {
-            if (!currentUser || currentUser.role !== 'member') {
-                showNotification('⚠️ Solo i membri possono richiedere consulenze', 'warning');
-                return;
+        // Logout
+        function logout() {
+            if (confirm('Vuoi davvero uscire?')) {
+                currentUser = null;
+                document.getElementById('bottomNav').style.display = 'none';
+                goToPage('login');
+                showToast('👋 Arrivederci!', 'success');
             }
-            
-            if (consulenzePrenotate[consulenteId]) {
-                if (confirm('⚠️ Hai già utilizzato la tua consulenza gratuita con questo consulente.\n\nIl Consorzio cercherà comunque di soddisfare la tua richiesta.\n\nVuoi procedere?')) {
-                    showNotification('📨 Richiesta speciale inviata', 'info');
-                }
-                return;
-            }
-            
-            if (contatoreConsulenze >= 10) {
-                if (confirm('⚠️ Hai già utilizzato tutte le 10 consulenze gratuite.\n\nIl Consorzio cercherà comunque di soddisfare la tua richiesta.\n\nVuoi procedere?')) {
-                    showNotification('📨 Richiesta speciale inviata', 'info');
-                }
-                return;
-            }
-            
-            consulenzePrenotate[consulenteId] = true;
-            contatoreConsulenze++;
-            
-            // Aggiorna contatori
-            document.getElementById('consulenzeUsate').innerText = contatoreConsulenze;
-            document.getElementById('consulenzeRimanenti').innerText = Math.max(0, 10 - contatoreConsulenze);
-            
-            showNotification('✅ Consulenza prenotata con successo!', 'success');
         }
 
-        // Funzioni Filtri
-        function filterAnnunci(tipo, btn) {
-            const container = btn.closest('.filter-bar');
-            if (container) {
-                container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
-            showNotification(`🔍 Filtro: ${tipo}`, 'info');
-        }
-
-        // Notifiche
-        function showNotification(message, type) {
-            const colors = {
-                success: '#27ae60',
-                error: '#e74c3c',
-                warning: '#f39c12',
-                info: '#3498db'
+        // Navigate pages
+        function goToPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            // Reset nav
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            
+            // Page mapping
+            const pageMap = {
+                'login': 'loginPage',
+                'dashboard': 'dashboardPage',
+                'bacheca': 'bachecaPage',
+                'eventi': 'eventiPage',
+                'consulenti': 'consulentiPage',
+                'membri': 'membriPage',
+                'video': 'videoPage',
+                'convenzioni': 'convenzioniPage'
             };
             
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed; 
-                top: 20px; 
-                right: 20px; 
-                background: ${colors[type] || colors.info}; 
-                color: white; 
-                padding: 15px 20px; 
-                border-radius: 10px; 
-                z-index: 10000; 
-                max-width: 350px;
-                font-size: 14px;
-                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-                animation: slideIn 0.3s ease;
-            `;
-            notification.innerHTML = message;
-            document.body.appendChild(notification);
+            // Nav index mapping
+            const navIndex = {
+                'bacheca': 0,
+                'eventi': 1,
+                'consulenti': 2,
+                'membri': 3,
+                'video': 4,
+                'convenzioni': 5
+            };
             
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
+            // Show page
+            const pageId = pageMap[page];
+            if (pageId) {
+                document.getElementById(pageId).classList.add('active');
+            }
+            
+            // Update nav
+            if (navIndex[page] !== undefined) {
+                document.querySelectorAll('.nav-item')[navIndex[page]].classList.add('active');
+            }
+            
+            // Special case for eventi
+            if (page === 'eventi') {
+                renderEventi();
+            }
+            
+            // Special case for bacheca
+            if (page === 'bacheca') {
+                renderAnnunci();
+                // Show/hide add button based on role
+                const addBtn = document.getElementById('addAnnuncioBtn');
+                if (addBtn) {
+                    addBtn.style.display = currentUser === 'member' ? 'flex' : 'none';
+                }
+            }
         }
 
-        // Inizializzazione
-        window.onload = function() {
-            // Imposta tab admin come attivo di default
-            switchLoginTab('admin');
+        // Toggle form annuncio
+        function toggleAnnuncioForm() {
+            const form = document.getElementById('annuncioForm');
+            form.classList.toggle('active');
             
-            // Aggiungi animazioni CSS
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(400px); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-                @keyframes slideOut {
-                    from { transform: translateX(0); opacity: 1; }
-                    to { transform: translateX(400px); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
+            // Reset form if closing
+            if (!form.classList.contains('active')) {
+                document.getElementById('annuncioTitolo').value = '';
+                document.getElementById('annuncioDescrizione').value = '';
+                document.getElementById('annuncioPrezzo').value = '';
+                document.getElementById('annuncioCategoria').selectedIndex = 0;
+            }
+        }
+
+        // Pubblica annuncio
+        function pubblicaAnnuncio() {
+            const titolo = document.getElementById('annuncioTitolo').value.trim();
+            const descrizione = document.getElementById('annuncioDescrizione').value.trim();
+            const prezzo = document.getElementById('annuncioPrezzo').value.trim();
+            const categoria = document.getElementById('annuncioCategoria').value;
             
-            console.log('✅ Sistema inizializzato correttamente');
-        };
+            if (!titolo || !descrizione) {
+                showToast('⚠️ Compila tutti i campi obbligatori', 'error');
+                return;
+            }
+            
+            const nuovoAnnuncio = {
+                id: nextAnnuncioId++,
+                categoria: categoria,
+                titolo: titolo,
+                descrizione: descrizione,
+                prezzo: prezzo ? `💰 ${prezzo}` : '',
+                autore: 'Tu',
+                autoreRole: currentUser,
+                data: 'ora'
+            };
+            
+            // Add to beginning of array
+            annunci.unshift(nuovoAnnuncio);
+            
+            // Update UI
+            renderAnnunci();
+            toggleAnnuncioForm();
+            showToast('✅ Annuncio pubblicato con successo!', 'success');
+        }
+
+        // Render annunci
+        function renderAnnunci() {
+            const container = document.getElementById('listaAnnunci');
+            if (!container) return;
+            
+            container.innerHTML = annunci.map(annuncio => `
+                <div class="evento-card annuncio-card">
+                    ${(currentUser === 'member' && annuncio.autore === 'Tu') ? 
+                        `<button class="annuncio-delete-btn" onclick="eliminaAnnuncio(${annuncio.id})">✕</button>` : 
+                        ''}
+                    <div class="evento-title">${annuncio.categoria} ${annuncio.titolo}</div>
+                    <div class="evento-info">
+                        ${annuncio.descrizione}<br>
+                        ${annuncio.prezzo}<br>
+                        👤 ${annuncio.autore} - ${annuncio.data}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Elimina annuncio
+        function eliminaAnnuncio(id) {
+            if (confirm('Vuoi eliminare questo annuncio?')) {
+                annunci = annunci.filter(a => a.id !== id);
+                renderAnnunci();
+                showToast('✅ Annuncio eliminato', 'success');
+            }
+        }
+
+        // Render eventi
+        function renderEventi() {
+            const container = document.getElementById('listaEventi');
+            if (!container) return;
+            
+            const eventi = [
+                { id: 1, day: 28, month: 'GEN', title: '🤝 Networking Imprenditori Roma', location: '📍 Hotel Hilton EUR', time: '⏰ 18:30-21:00', participants: partecipantiBase[1] || 45 },
+                { id: 2, day: 5, month: 'FEB', title: '💻 Workshop Digital Marketing', location: '📍 Sede Consorzio', time: '⏰ 09:00-13:00', participants: partecipantiBase[2] || 31 },
+                { id: 3, day: 15, month: 'FEB', title: '🎯 Pitch Day Startup', location: '📍 Innovation Hub', time: '⏰ 14:00-18:00', participants: 28 }
+            ];
+            
+            container.innerHTML = eventi.map(e => {
+                const confirmed = eventiPartecipazioni[e.id];
+                return `
+                    <div class="evento-card ${confirmed ? 'confirmed' : ''}">
+                        <div class="evento-date">
+                            <div class="date-box ${confirmed ? 'confirmed' : ''}">
+                                <div class="date-day">${e.day}</div>
+                                <div class="date-month">${e.month}</div>
+                            </div>
+                            <div>
+                                <div class="evento-title">${e.title}</div>
+                                ${confirmed ? '<span style="color: #ddfc1b; font-size: 13px;">✅ Partecipazione Confermata</span>' : ''}
+                            </div>
+                        </div>
+                        <div class="evento-info">
+                            ${e.location}<br>
+                            ${e.time}
+                        </div>
+                        <div class="evento-participants">
+                            👥 <span id="part-${e.id}">${e.participants + (confirmed ? 1 : 0)}</span> partecipanti
+                        </div>
+                        ${confirmed ? 
+                            `<button class="btn-action btn-cancel" onclick="cancellaEvento(${e.id})">Cancella Partecipazione</button>` :
+                            `<button class="btn-action btn-confirm" onclick="confermaEvento(${e.id})">Conferma Partecipazione</button>`
+                        }
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Conferma evento
+        function confermaEvento(id) {
+            if (currentUser !== 'member') {
+                showToast('⚠️ Solo i membri possono partecipare', 'error');
+                return;
+            }
+            
+            eventiPartecipazioni[id] = true;
+            const partEl = document.getElementById(`part-${id}`);
+            if (partEl) {
+                partEl.textContent = parseInt(partEl.textContent) + 1;
+            }
+            renderEventi();
+            updateCounters();
+            showToast('✅ Partecipazione confermata!', 'success');
+        }
+
+        // Cancella evento
+        function cancellaEvento(id) {
+            delete eventiPartecipazioni[id];
+            const partEl = document.getElementById(`part-${id}`);
+            if (partEl) {
+                partEl.textContent = parseInt(partEl.textContent) - 1;
+            }
+            renderEventi();
+            updateCounters();
+            showToast('❌ Partecipazione cancellata', 'error');
+        }
+
+        // Update counters
+        function updateCounters() {
+            const count = Object.keys(eventiPartecipazioni).length;
+            const confEl = document.getElementById('eventiConfermati');
+            const notEl = document.getElementById('notificheAttive');
+            const statEl = document.getElementById('statEventi');
+            
+            if (confEl) confEl.textContent = count;
+            if (notEl) notEl.textContent = count;
+            if (statEl) statEl.textContent = count;
+        }
+
+        // Show toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
     </script>
 </body>
 </html>
