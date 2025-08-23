@@ -1,923 +1,114 @@
-// Variabili globali
-let currentUser = null;
-let currentRole = 'admin';
-let currentConsulente = null;
-let eventiPartecipazioni = {2: true};
-let partecipantiBase = {1: 45, 2: 31};
-let consulenzeRimanenti = 10;
-let prenotazioniConsulenze = [];
-let selectedConsulente = null;
-let editingAnnuncioId = null;
-let editingPrenotazioneId = null;
-
-// Database consulenti (20 consulenti dalla foto)
-const consulenti = [
-    { id: 1, nome: 'Dott. Marco Bianchi', specializzazione: 'Sviluppo Finanziario', icon: '💰', esperienza: '15 anni', disponibile: true },
-    { id: 2, nome: 'Ing. Laura Rossi', specializzazione: 'Risparmio Energetico', icon: '⚡', esperienza: '12 anni', disponibile: true },
-    { id: 3, nome: 'Arch. Giuseppe Verdi', specializzazione: 'Servizi Tecnici', icon: '📐', esperienza: '18 anni', disponibile: true },
-    { id: 4, nome: 'Dott.ssa Anna Conti', specializzazione: 'Servizi di Marketing', icon: '📈', esperienza: '10 anni', disponibile: true },
-    { id: 5, nome: 'Rag. Paolo Ferrari', specializzazione: 'Finanza Agevolata e Bandi', icon: '📋', esperienza: '20 anni', disponibile: true },
-    { id: 6, nome: 'Dott. Luca Marino', specializzazione: 'Controllo di Gestione', icon: '📊', esperienza: '14 anni', disponibile: true },
-    { id: 7, nome: 'Dott.ssa Sara Romano', specializzazione: 'Consulto Contabile', icon: '🧮', esperienza: '16 anni', disponibile: true },
-    { id: 8, nome: 'Ing. Andrea Costa', specializzazione: 'SEO e Posizionamento Online', icon: '🔍', esperienza: '8 anni', disponibile: true },
-    { id: 9, nome: 'Avv. Maria Lombardi', specializzazione: 'Gruppo Acquisto Energetico', icon: '⚖️', esperienza: '11 anni', disponibile: true },
-    { id: 10, nome: 'Dott. Roberto Galli', specializzazione: 'Controllo Tributario', icon: '📑', esperienza: '17 anni', disponibile: true },
-    { id: 11, nome: 'Sig. Franco Ricci', specializzazione: 'Tipografia Digitale', icon: '🖨️', esperienza: '22 anni', disponibile: true },
-    { id: 12, nome: 'Ing. Stefano Moretti', specializzazione: 'Cyber Sicurezza', icon: '🔒', esperienza: '9 anni', disponibile: true },
-    { id: 13, nome: 'Dott. Alberto Fontana', specializzazione: 'Reti Telefoniche', icon: '📱', esperienza: '13 anni', disponibile: true },
-    { id: 14, nome: 'Dott.ssa Giulia Marini', specializzazione: 'Agenda di Comunicazione', icon: '📢', esperienza: '7 anni', disponibile: true },
-    { id: 15, nome: 'Ing. Davide Serra', specializzazione: 'Efficientamento Energetico', icon: '🌱', esperienza: '15 anni', disponibile: true },
-    { id: 16, nome: 'Dott. Antonio Caruso', specializzazione: 'Gestioni Aziendali', icon: '🏢', esperienza: '19 anni', disponibile: true },
-    { id: 17, nome: 'Ing. Simone Villa', specializzazione: 'Creazione App e Siti', icon: '💻', esperienza: '6 anni', disponibile: true },
-    { id: 18, nome: 'Sig. Luigi Greco', specializzazione: 'Noleggio Stampanti', icon: '🖨️', esperienza: '10 anni', disponibile: true },
-    { id: 19, nome: 'Ing. Michele Bruno', specializzazione: 'Sicurezza Macchinari', icon: '⚙️', esperienza: '14 anni', disponibile: true },
-    { id: 20, nome: 'Dott.ssa Elena Santoro', specializzazione: 'Medicina del Lavoro', icon: '🏥', esperienza: '12 anni', disponibile: true }
-];
-
-// Prenotazioni di esempio
-const prenotazioniEsempio = [
-    {
-        id: 1001,
-        consulenteId: 2,
-        consulenteName: 'Ing. Laura Rossi',
-        membroName: 'Giovanni Verdi',
-        membroEmail: 'g.verdi@azienda.it',
-        membroTel: '+39 333 1234567',
-        data: '25/01/2025',
-        ora: '10:00',
-        argomento: 'Analisi consumi energetici stabilimento produttivo',
-        status: 'pending',
-        userId: 'member'
-    },
-    {
-        id: 1002,
-        consulenteId: 8,
-        consulenteName: 'Ing. Andrea Costa',
-        membroName: 'Francesca Bianchi',
-        membroEmail: 'f.bianchi@company.com',
-        membroTel: '+39 348 7654321',
-        data: '26/01/2025',
-        ora: '15:00',
-        argomento: 'Ottimizzazione SEO sito aziendale e-commerce',
-        status: 'pending',
-        userId: 'member'
-    }
-];
-
-// Database annunci
-let annunci = [
-    {
-        id: 1,
-        categoria: '🔧',
-        titolo: 'Stampante HP LaserJet Pro',
-        descrizione: 'Vendo stampante professionale in ottime condizioni',
-        prezzo: '€1.200 trattabili',
-        autore: 'Marco Rossi',
-        autoreRole: 'member',
-        data: '2 ore fa'
-    },
-    {
-        id: 2,
-        categoria: '👨‍💻',
-        titolo: 'Cerco Sviluppatore Full Stack',
-        descrizione: 'React/Node.js - Contratto indeterminato',
-        prezzo: '€45-55K/anno + benefits',
-        autore: 'Tech Solutions Srl',
-        autoreRole: 'admin',
-        data: 'oggi'
-    },
-    {
-        id: 3,
-        categoria: '🏢',
-        titolo: 'Ufficio in Condivisione EUR',
-        descrizione: '150mq open space, 15 postazioni',
-        prezzo: '€2.500/mese tutto incluso',
-        autore: 'Business Center Roma',
-        autoreRole: 'member',
-        data: 'ieri'
-    },
-    {
-        id: 4,
-        categoria: '🤝',
-        titolo: 'Partner per Progetto E-commerce',
-        descrizione: 'Cerco socio investitore per marketplace',
-        prezzo: 'Investment: €50K',
-        autore: 'Digital Ventures',
-        autoreRole: 'member',
-        data: '3 giorni fa'
-    }
-];
-let nextAnnuncioId = 5;
-
-// Database credenziali
-const credentials = {
-    admin: { email: 'admin@consorzio.it', password: 'admin123', label: 'Admin' },
-    member: { email: 'rossi@rossisrl.it', password: 'member123', label: 'Membro' },
-    consulente: { email: 'maria.bianchi@consorzio.it', password: 'cons123', label: 'Consulente', consulenteId: 2 }
-};
-
-// Initialize prenotazioni con esempi
-window.addEventListener('load', function() {
-    prenotazioniConsulenze = [...prenotazioniEsempio];
-});
-
-// Select role
-function selectRole(role, element) {
-    currentRole = role;
-    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
-    element.classList.add('active');
-    
-    // Update form
-    document.getElementById('loginEmail').value = credentials[role].email;
-    document.getElementById('loginPassword').value = credentials[role].password;
-}
-
-// Login
-function doLogin() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    const cred = credentials[currentRole];
-    
-    if (email === cred.email && password === cred.password) {
-        currentUser = currentRole;
+// DEFINISCI SUBITO TUTTE LE FUNZIONI CRITICHE SU WINDOW PRIMA DI QUALSIASI ALTRA COSA
         
-        // Se è un consulente, salva l'ID del consulente
-        if (currentRole === 'consulente') {
-            currentConsulente = cred.consulenteId || 2; // Default: Ing. Laura Rossi
-        }
-        
-        // Update ALL user badges in all pages
-        const allBadges = document.querySelectorAll('.user-badge');
-        allBadges.forEach(badge => {
-            badge.textContent = cred.label;
-        });
-        
-        // Reset consulenze for members
-        if (currentRole === 'member') {
-            consulenzeRimanenti = 10 - prenotazioniConsulenze.filter(p => p.userId === 'member').length;
-        }
-        
-        document.getElementById('bottomNav').style.display = 'grid';
-        goToPage('dashboard');
-        showToast('✅ Accesso effettuato come ' + cred.label, 'success');
-        
-        // Initialize all components
-        renderEventi();
-        updateCounters();
-        renderAnnunci();
-        renderConsulenti();
-        updateNotifications();
-        
-        // Se è un consulente, mostra notifica se ci sono richieste
-        if (currentRole === 'consulente') {
-            checkConsulenteNotifications();
-        }
-    } else {
-        showToast('❌ Credenziali errate', 'error');
-    }
-}
-
-// Check notifiche per consulente
-function checkConsulenteNotifications() {
-    const richiesteConsulente = prenotazioniConsulenze.filter(p => 
-        p.consulenteId === currentConsulente && p.status === 'pending'
-    );
-    
-    if (richiesteConsulente.length > 0) {
-        showToast(`🔔 Hai ${richiesteConsulente.length} nuove richieste di consulenza!`, 'warning');
-    }
-}
-
-// Update notifications
-function updateNotifications() {
-    if (currentRole === 'consulente') {
-        const richiesteConsulente = prenotazioniConsulenze.filter(p => 
-            p.consulenteId === currentConsulente && p.status === 'pending'
-        );
-        
-        // Update nav notification
-        const navNotif = document.getElementById('navConsulentiNotif');
-        if (navNotif) {
-            if (richiesteConsulente.length > 0) {
-                navNotif.style.display = 'block';
-                navNotif.textContent = richiesteConsulente.length;
-            } else {
-                navNotif.style.display = 'none';
+        // Funzione per eliminare annuncio
+        window.eliminaAnnuncio = function(id) {
+            console.log('Eliminando annuncio con ID:', id);
+            if (confirm('Vuoi eliminare questo annuncio?')) {
+                annunci = annunci.filter(a => a.id !== id);
+                renderAnnunci();
+                showToast('✅ Annuncio eliminato', 'success');
             }
-        }
-        
-        // Update menu badge
-        const menuBadge = document.getElementById('menuConsulentiBadge');
-        if (menuBadge && richiesteConsulente.length > 0) {
-            menuBadge.classList.add('alert');
-            menuBadge.textContent = richiesteConsulente.length;
-        }
-    }
-}
-
-// Logout
-function logout() {
-    if (confirm('Vuoi davvero uscire?')) {
-        currentUser = null;
-        currentConsulente = null;
-        currentRole = 'admin'; // Reset role
-        document.getElementById('bottomNav').style.display = 'none';
-        // Reset form to default values
-        document.getElementById('loginEmail').value = credentials['admin'].email;
-        document.getElementById('loginPassword').value = credentials['admin'].password;
-        // Reset role buttons
-        document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.role-btn')[0].classList.add('active');
-        // Show login page
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('loginPage').classList.add('active');
-        showToast('👋 Arrivederci!', 'success');
-    }
-}
-
-// Navigate pages
-function goToPage(page) {
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    
-    // Reset nav
-    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-    
-    // Page mapping
-    const pageMap = {
-        'login': 'loginPage',
-        'dashboard': 'dashboardPage',
-        'bacheca': 'bachecaPage',
-        'eventi': 'eventiPage',
-        'consulenti': 'consulentiPage',
-        'membri': 'membriPage',
-        'video': 'videoPage',
-        'convenzioni': 'convenzioniPage'
-    };
-    
-    // Nav index mapping
-    const navIndex = {
-        'bacheca': 0,
-        'eventi': 1,
-        'consulenti': 2,
-        'membri': 3,
-        'video': 4,
-        'convenzioni': 5
-    };
-    
-    // Show page
-    const pageId = pageMap[page];
-    if (pageId) {
-        document.getElementById(pageId).classList.add('active');
-    }
-    
-    // Update nav
-    if (navIndex[page] !== undefined) {
-        document.querySelectorAll('.nav-item')[navIndex[page]].classList.add('active');
-    }
-    
-    // Special case for dashboard
-    if (page === 'dashboard') {
-        updateDashboardConsulenze();
-        updateDashboardNotifiche();
-    }
-    
-    // Special case for eventi
-    if (page === 'eventi') {
-        renderEventi();
-    }
-    
-    // Special case for bacheca
-    if (page === 'bacheca') {
-        renderAnnunci();
-        // Show/hide add button based on role
-        const addBtn = document.getElementById('addAnnuncioBtn');
-        if (addBtn) {
-            addBtn.style.display = currentUser === 'member' ? 'flex' : 'none';
-        }
-    }
-    
-    // Special case for consulenti
-    if (page === 'consulenti') {
-        renderConsulenti();
-        updateConsulenzCounter();
-        if (currentRole === 'consulente') {
-            renderRichiesteConsulente();
-        }
-    }
-}
-
-// Update dashboard notifiche (per consulenti)
-function updateDashboardNotifiche() {
-    const container = document.getElementById('dashboardNotifiche');
-    if (!container) return;
-    
-    if (currentRole === 'consulente') {
-        const richiesteConsulente = prenotazioniConsulenze.filter(p => 
-            p.consulenteId === currentConsulente && p.status === 'pending'
-        );
-        
-        if (richiesteConsulente.length > 0) {
-            container.style.display = 'block';
-            document.getElementById('numRichieste').textContent = richiesteConsulente.length;
-        } else {
-            container.style.display = 'none';
-        }
-    } else {
-        container.style.display = 'none';
-    }
-}
-
-// Render richieste consulente
-function renderRichiesteConsulente() {
-    const container = document.getElementById('richiesteConsulenze');
-    const lista = document.getElementById('listaRichieste');
-    
-    if (!container || !lista) return;
-    
-    if (currentRole === 'consulente') {
-        const richiesteConsulente = prenotazioniConsulenze.filter(p => 
-            p.consulenteId === currentConsulente && p.status === 'pending'
-        );
-        
-        if (richiesteConsulente.length > 0) {
-            container.style.display = 'block';
-            
-            lista.innerHTML = richiesteConsulente.map(r => `
-                <div class="richiesta-card">
-                    <div class="richiesta-header">
-                        <div class="richiesta-title">📧 ${r.membroName || 'Membro'}</div>
-                        <div class="richiesta-date">📅 ${r.data} - ${r.ora}</div>
-                    </div>
-                    <div class="richiesta-info">
-                        <strong>Argomento:</strong> ${r.argomento}<br>
-                        <strong>Email:</strong> ${r.membroEmail || 'rossi@rossisrl.it'}<br>
-                        <strong>Tel:</strong> ${r.membroTel || '+39 333 1234567'}
-                    </div>
-                    <div class="richiesta-actions">
-                        <button type="button" class="btn-accept" onclick="accettaRichiesta(${r.id})">✅ Accetta</button>
-                        <button type="button" class="btn-propose" onclick="proponiAlternativa(${r.id})">📅 Proponi altra data</button>
-                        <button type="button" class="btn-reject" onclick="rifiutaRichiesta(${r.id})">❌</button>
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            container.style.display = 'none';
-        }
-    } else {
-        container.style.display = 'none';
-    }
-}
-
-// Accetta richiesta
-function accettaRichiesta(id) {
-    const richiesta = prenotazioniConsulenze.find(p => p.id === id);
-    if (richiesta) {
-        richiesta.status = 'confirmed';
-        showToast('✅ Richiesta accettata! Il membro riceverà conferma via email', 'success');
-        renderRichiesteConsulente();
-        updateNotifications();
-        updateDashboardNotifiche();
-    }
-}
-
-// Proponi alternativa
-function proponiAlternativa(id) {
-    const nuovaData = prompt('Proponi una nuova data (formato: GG/MM/AAAA):');
-    const nuovoOrario = prompt('Proponi un nuovo orario (formato: HH:MM):');
-    
-    if (nuovaData && nuovoOrario) {
-        showToast(`📅 Proposta inviata: ${nuovaData} alle ${nuovoOrario}`, 'success');
-        // In una vera app, questo invierebbe una notifica al membro
-    }
-}
-
-// Rifiuta richiesta
-function rifiutaRichiesta(id) {
-    if (confirm('Sei sicuro di voler rifiutare questa richiesta?')) {
-        prenotazioniConsulenze = prenotazioniConsulenze.filter(p => p.id !== id);
-        showToast('❌ Richiesta rifiutata', 'error');
-        renderRichiesteConsulente();
-        updateNotifications();
-        updateDashboardNotifiche();
-    }
-}
-
-// Update dashboard consulenze
-function updateDashboardConsulenze() {
-    const container = document.getElementById('dashboardConsulenze');
-    const prenotazioniContainer = document.getElementById('dashboardPrenotazioni');
-    
-    if (!container || !prenotazioniContainer) return;
-    
-    if (currentUser === 'member') {
-        const prenotazioniMembro = prenotazioniConsulenze.filter(p => p.userId === 'member');
-        
-        if (prenotazioniMembro.length > 0) {
-            container.style.display = 'block';
-            
-            prenotazioniContainer.innerHTML = prenotazioniMembro.map(p => {
-                const consulente = consulenti.find(c => c.id === p.consulenteId);
-                const statusText = p.status === 'confirmed' ? '✅ Confermata' : '⏳ In attesa di conferma';
-                const statusClass = p.status === 'confirmed' ? 'confirmed' : '';
-                
-                return `
-                    <div class="evento-card" style="margin-bottom: 10px;">
-                        <div class="evento-title">${consulente.icon} ${consulente.nome}</div>
-                        <div class="evento-info">
-                            📅 ${p.data} - ${p.ora}<br>
-                            📝 ${p.argomento}<br>
-                            <span class="prenotazione-status ${statusClass}">${statusText}</span>
-                        </div>
-                        <div class="prenotazione-actions">
-                            <button type="button" class="btn-modifica-prenotazione" onclick="modificaPrenotazione(${p.id}, ${p.consulenteId})">
-                                ✏️ Modifica
-                            </button>
-                            <button type="button" class="btn-cancella-prenotazione" onclick="cancellaPrenotazione(${p.id})">
-                                ❌ Cancella
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        } else {
-            container.style.display = 'none';
-        }
-    } else {
-        container.style.display = 'none';
-    }
-}
-
-// Toggle form annuncio
-function toggleAnnuncioForm(annuncioId = null) {
-    const form = document.getElementById('annuncioForm');
-    
-    if (annuncioId) {
-        // Modalità modifica
-        editingAnnuncioId = annuncioId;
-        const annuncio = annunci.find(a => a.id === annuncioId);
-        if (annuncio) {
-            document.getElementById('annuncioTitolo').value = annuncio.titolo;
-            document.getElementById('annuncioDescrizione').value = annuncio.descrizione;
-            // Fix: gestisce il caso in cui prezzo potrebbe non avere il simbolo
-            const prezzoValue = annuncio.prezzo ? annuncio.prezzo.replace('💰 ', '').replace('€', '').trim() : '';
-            document.getElementById('annuncioPrezzo').value = prezzoValue;
-            
-            // Set categoria
-            const options = document.getElementById('annuncioCategoria').options;
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].value === annuncio.categoria) {
-                    document.getElementById('annuncioCategoria').selectedIndex = i;
-                    break;
-                }
-            }
-            
-            form.classList.add('active');
-        }
-    } else {
-        // Toggle normale
-        form.classList.toggle('active');
-        
-        // Reset form if closing
-        if (!form.classList.contains('active')) {
-            editingAnnuncioId = null;
-            document.getElementById('annuncioTitolo').value = '';
-            document.getElementById('annuncioDescrizione').value = '';
-            document.getElementById('annuncioPrezzo').value = '';
-            document.getElementById('annuncioCategoria').selectedIndex = 0;
-        }
-    }
-}
-
-// Modifica annuncio
-function modificaAnnuncio(id) {
-    toggleAnnuncioForm(id);
-}
-
-// Pubblica annuncio
-function pubblicaAnnuncio() {
-    const titolo = document.getElementById('annuncioTitolo').value.trim();
-    const descrizione = document.getElementById('annuncioDescrizione').value.trim();
-    const prezzo = document.getElementById('annuncioPrezzo').value.trim();
-    const categoria = document.getElementById('annuncioCategoria').value;
-    
-    if (!titolo || !descrizione) {
-        showToast('⚠️ Compila tutti i campi obbligatori', 'error');
-        return;
-    }
-    
-    if (editingAnnuncioId) {
-        // Modalità modifica
-        const annuncioIndex = annunci.findIndex(a => a.id === editingAnnuncioId);
-        if (annuncioIndex !== -1) {
-            annunci[annuncioIndex] = {
-                ...annunci[annuncioIndex],
-                categoria: categoria,
-                titolo: titolo,
-                descrizione: descrizione,
-                prezzo: prezzo ? `💰 ${prezzo}` : '',
-                data: 'modificato ora'
-            };
-            showToast('✅ Annuncio modificato con successo!', 'success');
-        }
-        editingAnnuncioId = null;
-    } else {
-        // Modalità creazione
-        const nuovoAnnuncio = {
-            id: nextAnnuncioId++,
-            categoria: categoria,
-            titolo: titolo,
-            descrizione: descrizione,
-            prezzo: prezzo ? `💰 ${prezzo}` : '',
-            autore: 'Tu',
-            autoreRole: currentUser,
-            data: 'ora'
         };
-        
-        // Add to beginning of array
-        annunci.unshift(nuovoAnnuncio);
-        showToast('✅ Annuncio pubblicato con successo!', 'success');
-    }
-    
-    // Update UI
-    renderAnnunci();
-    toggleAnnuncioForm();
-}
 
-// Render annunci
-function renderAnnunci() {
-    const container = document.getElementById('listaAnnunci');
-    if (!container) return;
-    
-    container.innerHTML = annunci.map(annuncio => `
-        <div class="evento-card annuncio-card">
-            ${(currentUser === 'member' && annuncio.autore === 'Tu') ? 
-                `<button type="button" class="annuncio-edit-btn" onclick="event.stopPropagation(); modificaAnnuncio(${annuncio.id})" title="Modifica annuncio">✏️</button>
-                 <button type="button" class="annuncio-delete-btn" onclick="event.stopPropagation(); eliminaAnnuncio(${annuncio.id})" title="Elimina annuncio">×</button>` : 
-                ''}
-            <div class="evento-title">${annuncio.categoria} ${annuncio.titolo}</div>
-            <div class="evento-info">
-                ${annuncio.descrizione}<br>
-                ${annuncio.prezzo}<br>
-                👤 ${annuncio.autore} - ${annuncio.data}
-            </div>
-        </div>
-    `).join('');
-}
+        // Funzione per modificare annuncio
+        window.modificaAnnuncio = function(id) {
+            console.log('Modificando annuncio con ID:', id);
+            toggleAnnuncioForm(id);
+        };
 
-// Elimina annuncio
-function eliminaAnnuncio(id) {
-    if (confirm('Vuoi eliminare questo annuncio?')) {
-        annunci = annunci.filter(a => a.id !== id);
-        renderAnnunci();
-        showToast('✅ Annuncio eliminato', 'success');
-    }
-}
-
-// Render eventi
-function renderEventi() {
-    const container = document.getElementById('listaEventi');
-    if (!container) return;
-    
-    const eventi = [
-        { id: 1, day: 28, month: 'GEN', title: '🤝 Networking Imprenditori Roma', location: '📍 Hotel Hilton EUR', time: '⏰ 18:30-21:00', participants: partecipantiBase[1] || 45 },
-        { id: 2, day: 5, month: 'FEB', title: '💻 Workshop Digital Marketing', location: '📍 Sede Consorzio', time: '⏰ 09:00-13:00', participants: partecipantiBase[2] || 31 },
-        { id: 3, day: 15, month: 'FEB', title: '🎯 Pitch Day Startup', location: '📍 Innovation Hub', time: '⏰ 14:00-18:00', participants: 28 }
-    ];
-    
-    container.innerHTML = eventi.map(e => {
-        const confirmed = eventiPartecipazioni[e.id];
-        return `
-            <div class="evento-card ${confirmed ? 'confirmed' : ''}">
-                <div class="evento-date">
-                    <div class="date-box ${confirmed ? 'confirmed' : ''}">
-                        <div class="date-day">${e.day}</div>
-                        <div class="date-month">${e.month}</div>
-                    </div>
-                    <div>
-                        <div class="evento-title">${e.title}</div>
-                        ${confirmed ? '<span style="color: #ddfc1b; font-size: 13px;">✅ Partecipazione Confermata</span>' : ''}
-                    </div>
-                </div>
-                <div class="evento-info">
-                    ${e.location}<br>
-                    ${e.time}
-                </div>
-                <div class="evento-participants">
-                    👥 <span id="part-${e.id}">${e.participants + (confirmed ? 1 : 0)}</span> partecipanti
-                </div>
-                ${confirmed ? 
-                    `<button type="button" class="btn-action btn-cancel" onclick="cancellaEvento(${e.id})">Cancella Partecipazione</button>` :
-                    `<button type="button" class="btn-action btn-confirm" onclick="confermaEvento(${e.id})">Conferma Partecipazione</button>`
-                }
-            </div>
-        `;
-    }).join('');
-}
-
-// Conferma evento
-function confermaEvento(id) {
-    if (currentUser !== 'member') {
-        showToast('⚠️ Solo i membri possono partecipare', 'error');
-        return;
-    }
-    
-    eventiPartecipazioni[id] = true;
-    const partEl = document.getElementById(`part-${id}`);
-    if (partEl) {
-        partEl.textContent = parseInt(partEl.textContent) + 1;
-    }
-    renderEventi();
-    updateCounters();
-    showToast('✅ Partecipazione confermata!', 'success');
-}
-
-// Cancella evento
-function cancellaEvento(id) {
-    delete eventiPartecipazioni[id];
-    const partEl = document.getElementById(`part-${id}`);
-    if (partEl) {
-        partEl.textContent = parseInt(partEl.textContent) - 1;
-    }
-    renderEventi();
-    updateCounters();
-    showToast('❌ Partecipazione cancellata', 'error');
-}
-
-// Update counters
-function updateCounters() {
-    const count = Object.keys(eventiPartecipazioni).length;
-    const confEl = document.getElementById('eventiConfermati');
-    const notEl = document.getElementById('notificheAttive');
-    const statEl = document.getElementById('statEventi');
-    
-    if (confEl) confEl.textContent = count;
-    if (notEl) notEl.textContent = count;
-    if (statEl) statEl.textContent = count;
-}
-
-// Show toast
-function showToast(message, type = 'success') {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = message;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.style.animation = 'slideUp 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-    }, 2500);
-}
-
-// Render consulenti
-function renderConsulenti() {
-    const container = document.getElementById('consulentiContainer');
-    if (!container) return;
-    
-    // Update label based on role
-    const labelEl = document.getElementById('consulenzeLabel');
-    if (labelEl) {
-        if (currentRole === 'consulente') {
-            labelEl.textContent = 'Richieste Ricevute';
-            const counter = document.getElementById('consulenzeRimanenti');
-            if (counter) {
-                const richiesteConsulente = prenotazioniConsulenze.filter(p => 
-                    p.consulenteId === currentConsulente && p.status === 'pending'
-                );
-                counter.textContent = richiesteConsulente.length;
-            }
-        } else {
-            labelEl.textContent = 'Consulenze Gratuite Rimanenti';
-        }
-    }
-    
-    container.innerHTML = consulenti.map(consulente => {
-        const prenotazione = prenotazioniConsulenze.find(p => 
-            p.consulenteId === consulente.id && p.userId === 'member'
-        );
-        const isPrenotato = !!prenotazione;
-        const canBook = currentUser === 'member' && consulenzeRimanenti > 0 && !isPrenotato;
-        
-        return `
-            <div class="consulente-card ${isPrenotato ? 'prenotato' : ''}">
-                <div class="consulente-header">
-                    <div class="consulente-icon">${consulente.icon}</div>
-                    <div class="consulente-info">
-                        <div class="consulente-name">${consulente.nome}</div>
-                        <div class="consulente-spec">${consulente.specializzazione}</div>
-                    </div>
-                </div>
-                <div class="consulente-details">
-                    📚 ${consulente.esperienza} di esperienza<br>
-                    💬 Consulenza online via videocall
-                </div>
-                ${consulente.disponibile ? 
-                    '<div class="consulente-status">🟢 Disponibile</div>' : 
-                    '<div class="consulente-status" style="background: rgba(255,59,59,0.2); color: #ff6b6b;">🔴 Non disponibile</div>'
-                }
-                ${isPrenotato ? 
-                    `<div class="prenotazione-item">
-                        📅 ${prenotazione.data} - ${prenotazione.ora}<br>
-                        <span class="prenotazione-status ${prenotazione.status === 'confirmed' ? 'confirmed' : ''}">
-                            ${prenotazione.status === 'confirmed' ? '✅ Confermata' : '⏳ In attesa di conferma'}
-                        </span>
-                    </div>
-                    <div class="prenotazione-actions">
-                        <button type="button" class="btn-modifica-prenotazione" onclick="modificaPrenotazione(${prenotazione.id}, ${consulente.id})">
-                            ✏️ Modifica
-                        </button>
-                        <button type="button" class="btn-cancella-prenotazione" onclick="cancellaPrenotazione(${prenotazione.id})">
-                            ❌ Cancella
-                        </button>
-                    </div>` :
-                    `<button type="button" class="btn-prenota" 
-                        ${canBook && consulente.disponibile ? '' : 'disabled'}
-                        onclick="${canBook && consulente.disponibile ? `openBookingModal(${consulente.id})` : ''}">
-                        ${currentUser !== 'member' ? '🔒 Solo per membri' : 
-                          consulenzeRimanenti === 0 ? '⚠️ Consulenze esaurite' :
-                          !consulente.disponibile ? '🔴 Non disponibile' :
-                          '📅 Prenota Consulenza Gratuita'}
-                    </button>`
-                }
-            </div>
-        `;
-    }).join('');
-}
-
-// Update consulenze counter
-function updateConsulenzCounter() {
-    const counter = document.getElementById('consulenzeRimanenti');
-    if (counter) {
-        if (currentRole === 'member') {
-            counter.textContent = consulenzeRimanenti;
-        } else if (currentRole === 'consulente') {
-            const richiesteConsulente = prenotazioniConsulenze.filter(p => 
-                p.consulenteId === currentConsulente && p.status === 'pending'
-            );
-            counter.textContent = richiesteConsulente.length;
-        }
-    }
-}
-
-// Open booking modal
-function openBookingModal(consulenteId, prenotazioneId = null) {
-    selectedConsulente = consulenti.find(c => c.id === consulenteId);
-    if (!selectedConsulente) return;
-    
-    const modal = document.getElementById('bookingModal');
-    const selectedDiv = document.getElementById('selectedConsulente');
-    
-    selectedDiv.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="font-size: 30px;">${selectedConsulente.icon}</div>
-            <div>
-                <div style="font-size: 16px; font-weight: 600; color: var(--white);">
-                    ${selectedConsulente.nome}
-                </div>
-                <div style="font-size: 14px; color: var(--lime);">
-                    ${selectedConsulente.specializzazione}
-                </div>
-            </div>
-        </div>
-    `;
-    
-    if (prenotazioneId) {
-        // Modalità modifica
-        editingPrenotazioneId = prenotazioneId;
-        const prenotazione = prenotazioniConsulenze.find(p => p.id === prenotazioneId);
-        if (prenotazione) {
-            // Converti la data dal formato italiano al formato input
-            const [day, month, year] = prenotazione.data.split('/');
-            const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-            document.getElementById('bookingDate').value = formattedDate;
-            document.getElementById('bookingTime').value = prenotazione.ora;
-            document.getElementById('bookingTopic').value = prenotazione.argomento;
-        }
-    } else {
-        // Modalità creazione
-        editingPrenotazioneId = null;
-        // Set minimum date to tomorrow
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        document.getElementById('bookingDate').min = tomorrow.toISOString().split('T')[0];
-        document.getElementById('bookingDate').value = tomorrow.toISOString().split('T')[0];
-    }
-    
-    modal.classList.add('active');
-}
-
-// Modifica prenotazione
-function modificaPrenotazione(prenotazioneId, consulenteId) {
-    openBookingModal(consulenteId, prenotazioneId);
-}
-
-// Cancella prenotazione
-function cancellaPrenotazione(prenotazioneId) {
-    if (confirm('Sei sicuro di voler cancellare questa prenotazione?')) {
-        // Trova e rimuovi la prenotazione
-        const prenotazioneIndex = prenotazioniConsulenze.findIndex(p => p.id === prenotazioneId);
-        if (prenotazioneIndex !== -1) {
-            const prenotazione = prenotazioniConsulenze[prenotazioneIndex];
+        // Funzione per pubblicare annuncio
+        window.pubblicaAnnuncio = function() {
+            const titolo = document.getElementById('annuncioTitolo').value.trim();
+            const descrizione = document.getElementById('annuncioDescrizione').value.trim();
+            const prezzo = document.getElementById('annuncioPrezzo').value.trim();
+            const categoria = document.getElementById('annuncioCategoria').value;
             
-            // Se era una prenotazione del membro corrente, ripristina la consulenza gratuita
-            if (prenotazione.userId === 'member') {
-                consulenzeRimanenti++;
+            if (!titolo || !descrizione) {
+                showToast('⚠️ Compila tutti i campi obbligatori', 'error');
+                return;
             }
             
-            // Rimuovi la prenotazione
-            prenotazioniConsulenze.splice(prenotazioneIndex, 1);
+            if (editingAnnuncioId) {
+                // Modalità modifica
+                const annuncioIndex = annunci.findIndex(a => a.id === editingAnnuncioId);
+                if (annuncioIndex !== -1) {
+                    annunci[annuncioIndex] = {
+                        ...annunci[annuncioIndex],
+                        categoria: categoria,
+                        titolo: titolo,
+                        descrizione: descrizione,
+                        prezzo: prezzo,
+                        data: 'modificato ora'
+                    };
+                    showToast('✅ Annuncio modificato con successo!', 'success');
+                }
+                editingAnnuncioId = null;
+            } else {
+                // Modalità creazione
+                const nuovoAnnuncio = {
+                    id: nextAnnuncioId++,
+                    categoria: categoria,
+                    titolo: titolo,
+                    descrizione: descrizione,
+                    prezzo: prezzo,
+                    autore: 'Tu',
+                    autoreRole: currentUser,
+                    data: 'ora'
+                };
+                
+                // Add to beginning of array
+                annunci.unshift(nuovoAnnuncio);
+                showToast('✅ Annuncio pubblicato con successo!', 'success');
+            }
             
             // Update UI
-            renderConsulenti();
-            updateConsulenzCounter();
-            updateDashboardConsulenze();
-            
-            showToast('✅ Prenotazione cancellata con successo', 'success');
-        }
-    }
-}
-
-// Close booking modal
-function closeBookingModal() {
-    const modal = document.getElementById('bookingModal');
-    modal.classList.remove('active');
-    selectedConsulente = null;
-    editingPrenotazioneId = null;
-    
-    // Reset form
-    document.getElementById('bookingDate').value = '';
-    document.getElementById('bookingTime').selectedIndex = 0;
-    document.getElementById('bookingTopic').value = '';
-}
-
-// Conferma prenotazione
-function confermaPrenotazione() {
-    if (!selectedConsulente) return;
-    
-    const data = document.getElementById('bookingDate').value;
-    const ora = document.getElementById('bookingTime').value;
-    const argomento = document.getElementById('bookingTopic').value.trim();
-    
-    if (!data || !ora) {
-        showToast('⚠️ Seleziona data e ora', 'error');
-        return;
-    }
-    
-    if (!argomento) {
-        showToast('⚠️ Inserisci l\'argomento della consulenza', 'error');
-        return;
-    }
-    
-    const dataFormattata = new Date(data).toLocaleDateString('it-IT');
-    
-    if (editingPrenotazioneId) {
-        // Modalità modifica
-        const prenotazioneIndex = prenotazioniConsulenze.findIndex(p => p.id === editingPrenotazioneId);
-        if (prenotazioneIndex !== -1) {
-            prenotazioniConsulenze[prenotazioneIndex] = {
-                ...prenotazioniConsulenze[prenotazioneIndex],
-                data: dataFormattata,
-                ora: ora,
-                argomento: argomento,
-                status: 'pending' // Reset to pending quando modificato
-            };
-            
-            showToast('✅ Prenotazione modificata! Il consulente riceverà la richiesta aggiornata', 'success');
-            
-            // Simulate WhatsApp notification
-            console.log(`📱 WhatsApp inviato a ${selectedConsulente.nome}: Prenotazione MODIFICATA per il ${dataFormattata} alle ${ora}`);
-        }
-        editingPrenotazioneId = null;
-    } else {
-        // Modalità creazione
-        const nuovaPrenotazione = {
-            id: Date.now(),
-            consulenteId: selectedConsulente.id,
-            consulenteName: selectedConsulente.nome,
-            membroName: 'Marco Rossi',
-            membroEmail: 'rossi@rossisrl.it',
-            membroTel: '+39 333 9876543',
-            data: dataFormattata,
-            ora: ora,
-            argomento: argomento,
-            status: 'pending',
-            userId: currentUser
+            renderAnnunci();
+            toggleAnnuncioForm();
         };
-        
-        prenotazioniConsulenze.push(nuovaPrenotazione);
-        
-        // Decrease counter
-        consulenzeRimanenti--;
-        
-        showToast(`✅ Richiesta inviata! Il consulente riceverà una notifica WhatsApp e confermerà entro 24h`, 'success');
-        
-        // Simulate WhatsApp notification
-        console.log(`📱 WhatsApp inviato a ${selectedConsulente.nome}: Nuova richiesta consulenza per il ${dataFormattata} alle ${ora}`);
-    }
-    
-    // Update UI
-    renderConsulenti();
-    updateConsulenzCounter();
-    updateDashboardConsulenze();
-    closeBookingModal();
-}
+
+        // Toggle form annuncio
+        window.toggleAnnuncioForm = function(annuncioId = null) {
+            const form = document.getElementById('annuncioForm');
+            
+            if (annuncioId) {
+                // Modalità modifica
+                editingAnnuncioId = annuncioId;
+                const annuncio = annunci.find(a => a.id === annuncioId);
+                if (annuncio) {
+                    document.getElementById('annuncioTitolo').value = annuncio.titolo;
+                    document.getElementById('annuncioDescrizione').value = annuncio.descrizione;
+                    const prezzoValue = annuncio.prezzo ? annuncio.prezzo.replace('💰 ', '').replace('€', '').trim() : '';
+                    document.getElementById('annuncioPrezzo').value = prezzoValue;
+                    
+                    // Set categoria
+                    const options = document.getElementById('annuncioCategoria').options;
+                    for (let i = 0; i < options.length; i++) {
+                        if (options[i].value === annuncio.categoria) {
+                            document.getElementById('annuncioCategoria').selectedIndex = i;
+                            break;
+                        }
+                    }
+                    
+                    form.classList.add('active');
+                }
+            } else {
+                // Toggle normale
+                form.classList.toggle('active');
+                
+                // Reset form if closing
+                if (!form.classList.contains('active')) {
+                    editingAnnuncioId = null;
+                    document.getElementById('annuncioTitolo').value = '';
+                    document.getElementById('annuncioDescrizione').value = '';
+                    document.getElementById('annuncioPrezzo').value = '';
+                    document.getElementById('annuncioCategoria').selectedIndex = 0;
+                }
+            }
+        };
+
+        console.log('✅ Funzioni annunci definite correttamente:', {
+            eliminaAnnuncio: typeof window.eliminaAnnuncio,
+            modificaAnnuncio: typeof window.modificaAnnuncio,
+            pubblicaAnnuncio: typeof window.pubblicaAnnuncio,
+            toggleAnnuncioForm: typeof window.toggleAnnuncioForm
+        });
