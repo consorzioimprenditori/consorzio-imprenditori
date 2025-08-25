@@ -1543,6 +1543,65 @@
             </div>
 
             <div class="page-content">
+                <!-- Dashboard Consulente - AGGIUNGI QUESTO -->
+<div id="dashboardConsulente" style="display: none;">
+    <!-- Benvenuto e Stats Base -->
+    <div class="consulente-welcome-card" style="background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dark) 100%); border-radius: 20px; padding: 20px; margin-bottom: 20px; color: var(--dark);">
+        <h2 style="margin: 0; font-size: 24px;">👋 Benvenuto/a Maria!</h2>
+        <p style="margin: 10px 0 0 0; font-size: 16px;">Hai <strong>2 consulenze</strong> questa settimana</p>
+    </div>
+
+    <!-- Sezione Porta Nuovi Membri -->
+    <div class="bring-members-section" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); border-radius: 20px; padding: 25px; margin-bottom: 20px; color: white;">
+        <h3 style="margin: 0 0 15px 0; font-size: 20px;">💰 Porta Nuovi Membri!</h3>
+        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 15px; margin-bottom: 15px;">
+            <p style="margin: 0; font-size: 18px; font-weight: bold;">🎯 Per ogni nuovo membro che entra grazie a te:</p>
+            <p style="margin: 10px 0 0 0; font-size: 24px; font-weight: bold;">-200€ sulla tua quota annuale!</p>
+            <p style="margin: 5px 0 0 0; font-size: 14px;">Quota attuale: €1.800/anno → Potenziale: €1.600, €1.400...</p>
+        </div>
+        <button type="button" class="btn-action" style="background: white; color: #4CAF50; font-weight: bold;" onclick="openSuggestMember()">
+            ➕ Suggerisci Nuovo Membro
+        </button>
+    </div>
+
+    <!-- Feedback Ultima Riunione -->
+    <div class="feedback-section" style="background: linear-gradient(135deg, var(--gray) 0%, rgba(45,45,45,0.8) 100%); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(221, 252, 27, 0.2);">
+        <h3 style="color: var(--lime); margin: 0 0 15px 0;">📝 Feedback Ultima Riunione (28 Gen)</h3>
+        <div id="feedbackForm">
+            <div class="form-group">
+                <label class="form-label">Valutazione Generale</label>
+                <select class="form-select" id="ratingRiunione">
+                    <option value="5">⭐⭐⭐⭐⭐ Eccellente</option>
+                    <option value="4">⭐⭐⭐⭐ Molto Buona</option>
+                    <option value="3">⭐⭐⭐ Buona</option>
+                    <option value="2">⭐⭐ Migliorabile</option>
+                    <option value="1">⭐ Da Rivedere</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Cosa Migliorare? (Obbligatorio)</label>
+                <textarea class="form-textarea" id="feedbackMiglioramenti" placeholder="Suggerisci almeno un miglioramento..." required></textarea>
+            </div>
+            <button type="button" class="btn-submit" onclick="inviaFeedback()">Invia Feedback</button>
+        </div>
+    </div>
+
+    <!-- Proponi Argomenti -->
+    <div class="suggest-topics-section" style="background: linear-gradient(135deg, var(--gray) 0%, rgba(45,45,45,0.8) 100%); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(221, 252, 27, 0.2);">
+        <h3 style="color: var(--lime); margin: 0 0 15px 0;">💡 Proponi Argomenti per Prossime Riunioni</h3>
+        <div class="form-group">
+            <input type="text" class="form-input" id="topicTitle" placeholder="Titolo argomento...">
+        </div>
+        <div class="form-group">
+            <textarea class="form-textarea" id="topicDescription" placeholder="Descrivi brevemente l'argomento e perché è importante..."></textarea>
+        </div>
+        <button type="button" class="btn-action btn-confirm" onclick="proponiArgomento()">Proponi Argomento</button>
+    </div>
+
+    <!-- Le Mie Consulenze -->
+    <div class="section-title">📅 Le Mie Consulenze</div>
+    <div id="consulenzeConsulente"></div>
+</div>
                 <div id="mieConsulenze" style="display: none;">
                     <div class="section-title">Le Mie Consulenze</div>
                     <div id="listaConsulenze"></div>
@@ -2204,8 +2263,8 @@
         const credentials = {
             admin: { email: 'admin@consorzio.it', password: 'admin123', label: 'Admin' },
             member: { email: 'rossi@rossisrl.it', password: 'member123', label: 'Membro' },
-            consulente: { email: 'maria.bianchi@consorzio.it', password: 'cons123', label: 'Consulente' }
-        };
+consulente: { email: 'maria.bianchi@consorzio.it', password: 'cons123', label: 'Maria Bianchi' },
+consulente2: { email: 'luca.rinaldi@consorzio.it', password: 'cons456', label: 'Luca Rinaldi' }
 
         // Funzioni Annunci
         window.eliminaAnnuncio = function(id) {
@@ -2559,9 +2618,77 @@
         }
 
         // FUNZIONI CONSULENTI
+        // NUOVE FUNZIONI CONSULENTE - AGGIUNGI QUESTE
+function openSuggestMember() {
+    document.getElementById('suggestMemberModal').classList.add('active');
+}
+
+function closeSuggestMember() {
+    document.getElementById('suggestMemberModal').classList.remove('active');
+    // Pulisci i campi
+    document.getElementById('suggestNome').value = '';
+    document.getElementById('suggestReferente').value = '';
+    document.getElementById('suggestEmail').value = '';
+    document.getElementById('suggestTelefono').value = '';
+    document.getElementById('suggestSettore').value = '';
+    document.getElementById('suggestNote').value = '';
+}
+
+function inviaSuggerimento() {
+    const nome = document.getElementById('suggestNome').value.trim();
+    const email = document.getElementById('suggestEmail').value.trim();
+    
+    if (!nome || !email) {
+        showToast('⚠️ Compila almeno nome azienda ed email', 'error');
+        return;
+    }
+    
+    showToast('✅ Suggerimento inviato al Consorzio!', 'success');
+    setTimeout(() => {
+        showToast('💰 Se si iscrive, riceverai -€200 sulla quota!', 'success');
+    }, 1000);
+    
+    closeSuggestMember();
+}
+
+function inviaFeedback() {
+    const miglioramenti = document.getElementById('feedbackMiglioramenti').value.trim();
+    
+    if (!miglioramenti) {
+        showToast('⚠️ Devi suggerire almeno un miglioramento', 'error');
+        return;
+    }
+    
+    showToast('✅ Feedback inviato! Grazie per il tuo contributo', 'success');
+    document.getElementById('feedbackMiglioramenti').value = '';
+}
+
+function proponiArgomento() {
+    const titolo = document.getElementById('topicTitle').value.trim();
+    const descrizione = document.getElementById('topicDescription').value.trim();
+    
+    if (!titolo || !descrizione) {
+        showToast('⚠️ Compila tutti i campi', 'error');
+        return;
+    }
+    
+    showToast('💡 Argomento proposto! Verrà valutato per le prossime riunioni', 'success');
+    document.getElementById('topicTitle').value = '';
+    document.getElementById('topicDescription').value = '';
+}
+
+// Aggiungi queste funzioni all'oggetto window
+window.openSuggestMember = openSuggestMember;
+window.closeSuggestMember = closeSuggestMember;
+window.inviaSuggerimento = inviaSuggerimento;
+window.inviaFeedback = inviaFeedback;
+window.proponiArgomento = proponiArgomento;
         function initConsulentiPage() {
             const mieConsulenze = document.getElementById('mieConsulenze');
             const listaConsulenti = document.getElementById('listaConsulenti');
+            const dashboardConsulente = document.getElementById('dashboardConsulente');
+    // Nascondi tutto di default
+    if (dashboardConsulente) dashboardConsulente.style.display = 'none';
             
             if (currentUser === 'member') {
                 mieConsulenze.style.display = 'block';
@@ -2573,10 +2700,39 @@
                         showToast('💡 Hai una consulenza prenotata! Puoi modificare data/ora con il pulsante "Sposta Data/Ora"', 'success');
                     }
                 }, 500);
-            } else if (currentUser === 'consulente') {
-                mieConsulenze.style.display = 'block';
-                listaConsulenti.style.display = 'none';
-                renderConsulenze('consulente');
+           } else if (currentUser === 'consulente') {
+    // Mostra dashboard consulente
+    document.getElementById('dashboardConsulente').style.display = 'block';
+    document.getElementById('mieConsulenze').style.display = 'none';
+    document.getElementById('listaConsulenti').style.display = 'none';
+    
+    // Mostra le consulenze del consulente
+    const containerConsulenze = document.getElementById('consulenzeConsulente');
+    const mieConsulenze = consulenze.filter(c => c.consulente === 'Maria Bianchi');
+    
+    if (mieConsulenze.length > 0) {
+        containerConsulenze.innerHTML = mieConsulenze.map(c => `
+            <div class="consulenza-card ${c.status}">
+                <span class="consulenza-status ${c.status}">
+                    ${c.status === 'pending' ? '⏳ Da Confermare' : '✅ Confermata'}
+                </span>
+                <div class="consulenza-details">
+                    <div class="consulenza-value">👤 ${c.membro}</div>
+                    <div class="consulenza-value">📅 ${c.data} - ⏰ ${c.ora}</div>
+                    <div class="consulenza-value">${c.argomento}</div>
+                </div>
+                ${c.status === 'pending' ? `
+                    <div class="consulenza-actions">
+                        <button class="btn-conferma" onclick="confermaConsulenza(${c.id})">✅ Conferma</button>
+                        <button class="btn-cancella" onclick="cancellaConsulenza(${c.id})">❌ Rifiuta</button>
+                    </div>
+                ` : ''}
+            </div>
+        `).join('');
+    } else {
+        containerConsulenze.innerHTML = '<p style="color: #aaa;">Nessuna consulenza programmata</p>';
+    }
+}
             } else if (currentUser === 'admin') {
                 mieConsulenze.style.display = 'block';
                 listaConsulenti.style.display = 'block';
