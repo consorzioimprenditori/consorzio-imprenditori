@@ -2268,6 +2268,15 @@
     }
         ];
         let nextConsulenzaId = 102;
+        let consulenzePerMembro = {
+    'Tu': {
+        totali: 1,  // Ha già 1 consulenza
+        perConsulente: {
+            'Maria Bianchi': 1
+        }
+    }
+};
+const MAX_CONSULENZE_GRATUITE = 10;
         let primaConsulenzaUsata = {};
         
         let annunci = [
@@ -3182,6 +3191,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
