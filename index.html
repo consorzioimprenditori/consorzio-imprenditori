@@ -2940,21 +2940,65 @@ window.proponiArgomento = proponiArgomento;
             return hoursUntil > 24;
         }
 
-        function openBookingModal(consulente, specializzazione) {
-            if (currentUser !== 'member' && currentUser !== 'admin') {
-                showToast('⚠️ Solo i membri possono prenotare consulenze', 'error');
-                return;
-            }
-            
-            document.getElementById('bookingConsulente').value = consulente;
-            document.getElementById('bookingSpec').value = specializzazione;
-            
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            document.getElementById('bookingDate').valueAsDate = tomorrow;
-            
-            document.getElementById('bookingModal').classList.add('active');
-        }
+     function openBookingModal(consulente, specializzazione) {
+    if (currentUser !== 'member' && currentUser !== 'admin') {
+        showToast('⚠️ Solo i membri possono prenotare consulenze', 'error');
+        return;
+    }
+    
+    // Check limiti consulenze
+    const membroKey = currentUser === 'admin' ? 'Admin' : 'Tu';
+    if (!consulenzePerMembro[membroKey]) {
+        consulenzePerMembro[membroKey] = { totali: 0, perConsulente: {} };
+    }
+    
+    const stats = consulenzePerMembro[membroKey];
+    const consulenzeConQuestoConsulente = stats.perConsulente[consulente] || 0;
+    
+    // Avvisi per limiti
+    if (stats.totali >= MAX_CONSULENZE_GRATUITE) {
+        const conferma = confirm(`⚠️ ATTENZIONE: Hai già utilizzato ${stats.totali} delle 10 consulenze gratuite incluse.\n\n` +
+            `Questa richiesta verrà inviata ma il consulente ti farà sapere se è disponibile a farla gratuitamente o se avrà un costo aggiuntivo.\n\n` +
+            `Vuoi continuare?`);
+        if (!conferma) return;
+    } else if (consulenzeConQuestoConsulente > 0) {
+        const conferma = confirm(`⚠️ NOTA: Hai già fatto ${consulenzeConQuestoConsulente} consulenza con ${consulente}.\n\n` +
+            `La prima consulenza con ogni specialista è sempre gratuita, ma per le successive il consulente ti farà sapere se può offrirla gratuitamente.\n\n` +
+            `Vuoi continuare?`);
+        if (!conferma) return;
+    }
+    
+    document.getElementById('bookingConsulente').value = consulente;
+    document.getElementById('bookingSpec').value = specializzazione;
+    
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('bookingDate').valueAsDate = tomorrow;
+    
+    // Aggiungi nota nel modal se necessario
+    const modal = document.getElementById('bookingModal');
+    const existingWarning = modal.querySelector('.quota-warning');
+    if (existingWarning) existingWarning.remove();
+    
+    if (stats.totali >= MAX_CONSULENZE_GRATUITE || consulenzeConQuestoConsulente > 0) {
+        const warning = document.createElement('div');
+        warning.className = 'quota-warning';
+        warning.style = 'background: rgba(255, 193, 7, 0.15); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(255, 193, 7, 0.3);';
+        warning.innerHTML = `
+            <p style="color: var(--warning); font-size: 14px; margin: 0;">
+                ⚠️ <strong>${stats.totali >= MAX_CONSULENZE_GRATUITE ? 
+                    `Quota superata (${stats.totali}/10 utilizzate)` : 
+                    `Seconda consulenza con questo specialista`}</strong><br>
+                Il consulente ti confermerà se sarà gratuita o a pagamento.
+            </p>
+        `;
+        const bookingContent = modal.querySelector('.booking-content');
+        const firstFormGroup = bookingContent.querySelector('.form-group');
+        bookingContent.insertBefore(warning, firstFormGroup);
+    }
+    
+    document.getElementById('bookingModal').classList.add('active');
+}
 
         function closeBookingModal() {
             document.getElementById('bookingModal').classList.remove('active');
@@ -3269,6 +3313,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
