@@ -1165,6 +1165,21 @@
 
         .btn-modifica:hover {
             animation: none;
+            }
+
+.quota-warning, .rifiuto-warning {
+    animation: pulse 2s infinite;
+}
+
+.consulenze-counter {
+    background: linear-gradient(135deg, var(--lime) 0%, var(--lime-dark) 100%);
+    color: var(--dark);
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(221, 252, 27, 0.3);
             transform: scale(1.1);
             box-shadow: 0 8px 30px rgba(255, 193, 7, 0.7);
             background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
@@ -2977,6 +2992,19 @@ function confermaPrenotazione() {
             }, 500);
         }
         window.modificandoConsulenzaId = null;
+        } else if (window.rifiutandoConsulenzaId) {
+        const consulenzaOriginale = consulenze.find(c => c.id === window.rifiutandoConsulenzaId);
+        if (consulenzaOriginale) {
+            consulenzaOriginale.propostaData = data;
+            consulenzaOriginale.propostaOra = ora;
+            consulenzaOriginale.propostaDa = 'consulente';
+            consulenzaOriginale.status = 'modifica_proposta';
+            showToast('📅 Data alternativa proposta al membro!', 'success');
+            setTimeout(() => {
+                showToast('📱 Il membro dovrà accettare o proporre un\'altra data', 'success');
+            }, 500);
+        }
+        window.rifiutandoConsulenzaId = null;
     } else {
         const nuovaConsulenza = {
             id: nextConsulenzaId++,
@@ -2992,6 +3020,16 @@ function confermaPrenotazione() {
         };
         
         consulenze.push(nuovaConsulenza);
+        // Aggiorna contatori
+const membroKey = currentUser === 'admin' ? 'Admin' : 'Tu';
+if (!consulenzePerMembro[membroKey]) {
+    consulenzePerMembro[membroKey] = { totali: 0, perConsulente: {} };
+}
+consulenzePerMembro[membroKey].totali++;
+if (!consulenzePerMembro[membroKey].perConsulente[consulente]) {
+    consulenzePerMembro[membroKey].perConsulente[consulente] = 0;
+}
+consulenzePerMembro[membroKey].perConsulente[consulente]++;
         
         showToast('📱 Notifica WhatsApp inviata al consulente!', 'success');
         setTimeout(() => {
@@ -3102,14 +3140,78 @@ function cancellaConsulenza(id) {
     const consulenza = consulenze.find(c => c.id === id);
     if (!consulenza) return;
     
-    if (currentUser !== 'consulente' && !canEditConsulenza(consulenza)) {
+    // Se è il consulente che rifiuta una pending, deve proporre nuova data
+    if (currentUser === 'consulente' && consulenza.status === 'pending') {
+        if (confirm('Vuoi rifiutare questa consulenza? Dovrai proporre una data alternativa.')) {
+            // Apri modal per proposta alternativa
+            window.rifiutandoConsulenzaId = id;
+            document.getElementById('bookingConsulente').value = consulenza.consulente;
+            document.getElementById('bookingSpec').value = '📅 Proponi Data Alternativa (Obbligatorio)';
+            document.getElementById('bookingDate').value = consulenza.data;
+            document.getElementById('bookingTime').value = consulenza.ora;
+            document.getElementById('bookingTopic').value = consulenza.argomento;
+            
+            const modalTitle = document.querySelector('.booking-title');
+            if (modalTitle) {
+                modalTitle.textContent = '📅 Proponi Data Alternativa';
+            }
+            
+            // Aggiungi avviso nel modal
+            const modal = document.getElementById('bookingModal');
+            const existingWarning = modal.querySelector('.rifiuto-warning');
+            if (existingWarning) existingWarning.remove();
+            
+            const warning = document.createElement('div');
+            warning.className = 'rifiuto-warning';
+            warning.style = 'background: rgba(255, 59, 59, 0.15); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(255, 59, 59, 0.3);';
+            warning.innerHTML = `
+                <p style="color: #ff6b6b; font-size: 14px; margin: 0;">
+                    ⚠️ <strong>Stai rifiutando la data proposta</strong><br>
+                    Devi proporre una data alternativa al membro.
+                </p>
+            `;
+            const bookingContent = modal.querySelector('.booking-content');
+            const firstFormGroup = bookingContent.querySelector('.form-group');
+            bookingContent.insertBefore(warning, firstFormGroup);
+            
+            document.getElementById('bookingModal').classList.add('active');
+        }
+        return;
+    }
+    
+    // Se è il membro che vuole cancellare/spostare
+    if (currentUser === 'member' && consulenza.status === 'confirmed' && canEditConsulenza(consulenza)) {
+        const scelta = confirm('Vuoi:\n\n' +
+            '✅ OK = Spostare la data (proponi nuova data)\n' +
+            '❌ Annulla = Cancellare definitivamente\n\n' +
+            'Cosa preferisci?');
+        
+        if (scelta) {
+            // Sposta: apri modal per proposta
+            modificaConsulenza(id);
+            return;
+        }
+    }
+    
+    // Cancellazione normale
+    if (!canEditConsulenza(consulenza) && currentUser !== 'consulente') {
         showToast('⚠️ Non puoi cancellare a meno di 24 ore dall\'appuntamento', 'error');
         return;
     }
     
-    if (confirm('Sei sicuro di voler cancellare questa consulenza?')) {
+    if (confirm('Sei sicuro di voler cancellare definitivamente questa consulenza?')) {
         consulenze = consulenze.filter(c => c.id !== id);
-        showToast('❌ Consulenza cancellata', 'success');
+        
+        // Aggiorna contatori
+        const membroKey = consulenza.membro === 'Tu' ? 'Tu' : consulenza.membro;
+        if (consulenzePerMembro[membroKey]) {
+            consulenzePerMembro[membroKey].totali--;
+            if (consulenzePerMembro[membroKey].perConsulente[consulenza.consulente]) {
+                consulenzePerMembro[membroKey].perConsulente[consulenza.consulente]--;
+            }
+        }
+        
+        showToast('❌ Consulenza cancellata definitivamente', 'success');
         setTimeout(() => {
             const recipient = currentUser === 'consulente' ? 'membro' : 'consulente';
             showToast(`📱 Notifica di cancellazione inviata al ${recipient}`, 'warning');
@@ -3120,30 +3222,6 @@ function cancellaConsulenza(id) {
         } else {
             renderConsulenze(currentUser);
         }
-    }
-}
-function accettaProposta(id) {
-    const consulenza = consulenze.find(c => c.id === id);
-    if (!consulenza) return;
-    
-    // Accetta la proposta sostituendo data e ora
-    consulenza.data = consulenza.propostaData;
-    consulenza.ora = consulenza.propostaOra;
-    consulenza.propostaData = null;
-    consulenza.propostaOra = null;
-    consulenza.propostaDa = null;
-    consulenza.status = 'confirmed';
-    
-    showToast('✅ Nuova data/ora accettata!', 'success');
-    setTimeout(() => {
-        const notificaA = currentUser === 'member' ? 'consulente' : 'membro';
-        showToast(`📱 Notifica di conferma inviata al ${notificaA}`, 'success');
-    }, 500);
-    
-    if (currentUser === 'consulente') {
-        initConsulentiPage();
-    } else {
-        renderConsulenze(currentUser);
     }
 }
 
@@ -3191,6 +3269,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
