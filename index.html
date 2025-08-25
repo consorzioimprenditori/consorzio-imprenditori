@@ -3268,52 +3268,7 @@ function cancellaConsulenza(id) {
     }
 }
     
-    // Se è il membro che vuole cancellare/spostare
-    if (currentUser === 'member' && consulenza.status === 'confirmed' && canEditConsulenza(consulenza)) {
-        const scelta = confirm('Vuoi:\n\n' +
-            '✅ OK = Spostare la data (proponi nuova data)\n' +
-            '❌ Annulla = Cancellare definitivamente\n\n' +
-            'Cosa preferisci?');
-        
-        if (scelta) {
-            // Sposta: apri modal per proposta
-            modificaConsulenza(id);
-            return;
-        }
-    }
-    
-    // Cancellazione normale
-    if (!canEditConsulenza(consulenza) && currentUser !== 'consulente') {
-        showToast('⚠️ Non puoi cancellare a meno di 24 ore dall\'appuntamento', 'error');
-        return;
-    }
-    
-    if (confirm('Sei sicuro di voler cancellare definitivamente questa consulenza?')) {
-        consulenze = consulenze.filter(c => c.id !== id);
-        
-        // Aggiorna contatori
-        const membroKey = consulenza.membro === 'Tu' ? 'Tu' : consulenza.membro;
-        if (consulenzePerMembro[membroKey]) {
-            consulenzePerMembro[membroKey].totali--;
-            if (consulenzePerMembro[membroKey].perConsulente[consulenza.consulente]) {
-                consulenzePerMembro[membroKey].perConsulente[consulenza.consulente]--;
-            }
-        }
-        
-        showToast('❌ Consulenza cancellata definitivamente', 'success');
-        setTimeout(() => {
-            const recipient = currentUser === 'consulente' ? 'membro' : 'consulente';
-            showToast(`📱 Notifica di cancellazione inviata al ${recipient}`, 'warning');
-        }, 500);
-        
-        if (currentUser === 'consulente') {
-            initConsulentiPage();
-        } else {
-            renderConsulenze(currentUser);
-        }
-    }
-}
-
+ 
 function rifiutaProposta(id) {
     const consulenza = consulenze.find(c => c.id === id);
     if (!consulenza) return;
@@ -3358,6 +3313,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
