@@ -2970,7 +2970,24 @@ window.proponiArgomento = proponiArgomento;
             }, 500);
         }
         window.modificandoConsulenzaId = null;
-    } else if (isModifica) {
+    } else if (window.editingConsulenzaId) {
+        // Modifica diretta dal membro
+        const nuovaConsulenza = {
+            id: nextConsulenzaId++,
+            consulente: consulente,
+            membro: currentUser === 'admin' ? 'Admin' : 'Tu',
+            data: data,
+            ora: ora,
+            argomento: argomento,
+            status: 'pending',
+            propostaData: null,
+            propostaOra: null,
+            propostaDa: null
+        };
+        
+        consulenze.push(nuovaConsulenza);
+        window.editingConsulenzaId = null;
+        
         showToast('✅ Appuntamento spostato con successo!', 'success');
         setTimeout(() => {
             showToast('📱 Notifica di modifica inviata al consulente', 'success');
@@ -3001,10 +3018,14 @@ window.proponiArgomento = proponiArgomento;
     closeBookingModal();
     
     if (document.getElementById('consulentiPage').classList.contains('active')) {
-        renderConsulenze(currentUser);
-        const mieConsulenze = document.getElementById('mieConsulenze');
-        if (mieConsulenze) {
-            mieConsulenze.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (currentUser === 'consulente') {
+            initConsulentiPage();
+        } else {
+            renderConsulenze(currentUser);
+            const mieConsulenze = document.getElementById('mieConsulenze');
+            if (mieConsulenze) {
+                mieConsulenze.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
     }
 }
@@ -3331,6 +3352,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
