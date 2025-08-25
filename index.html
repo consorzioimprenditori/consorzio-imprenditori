@@ -3184,9 +3184,13 @@ function cancellaConsulenza(id) {
     const consulenza = consulenze.find(c => c.id === id);
     if (!consulenza) return;
     
-    // Se è il consulente che rifiuta una pending, deve proporre nuova data
-    if (currentUser === 'consulente' && consulenza.status === 'pending') {
-        if (confirm('Vuoi rifiutare questa consulenza? Dovrai proporre una data alternativa.')) {
+    // Se è il consulente che cancella (sia pending che confirmed), deve proporre nuova data
+    if (currentUser === 'consulente') {
+        const messaggio = consulenza.status === 'pending' 
+            ? 'Vuoi rifiutare questa consulenza? Dovrai proporre una data alternativa.'
+            : 'Vuoi cancellare questa consulenza? Dovrai proporre una data alternativa al membro.';
+            
+        if (confirm(messaggio)) {
             // Apri modal per proposta alternativa
             window.rifiutandoConsulenzaId = id;
             document.getElementById('bookingConsulente').value = consulenza.consulente;
@@ -3210,7 +3214,7 @@ function cancellaConsulenza(id) {
             warning.style = 'background: rgba(255, 59, 59, 0.15); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(255, 59, 59, 0.3);';
             warning.innerHTML = `
                 <p style="color: #ff6b6b; font-size: 14px; margin: 0;">
-                    ⚠️ <strong>Stai rifiutando la data proposta</strong><br>
+                    ⚠️ <strong>${consulenza.status === 'pending' ? 'Stai rifiutando' : 'Stai cancellando'} questa consulenza</strong><br>
                     Devi proporre una data alternativa al membro.
                 </p>
             `;
@@ -3222,6 +3226,47 @@ function cancellaConsulenza(id) {
         }
         return;
     }
+    
+    // Se è il membro che vuole cancellare/spostare
+    if (currentUser === 'member' && consulenza.status === 'confirmed' && canEditConsulenza(consulenza)) {
+        const scelta = confirm('Vuoi:\n\n' +
+            '✅ OK = Spostare la data (proponi nuova data)\n' +
+            '❌ Annulla = Cancellare definitivamente\n\n' +
+            'Cosa preferisci?');
+        
+        if (scelta) {
+            // Sposta: apri modal per proposta
+            modificaConsulenza(id);
+            return;
+        }
+    }
+    
+    // Cancellazione normale (solo per membri)
+    if (!canEditConsulenza(consulenza) && currentUser === 'member') {
+        showToast('⚠️ Non puoi cancellare a meno di 24 ore dall\'appuntamento', 'error');
+        return;
+    }
+    
+    if (currentUser === 'member' && confirm('Sei sicuro di voler cancellare definitivamente questa consulenza?')) {
+        consulenze = consulenze.filter(c => c.id !== id);
+        
+        // Aggiorna contatori
+        const membroKey = consulenza.membro === 'Tu' ? 'Tu' : consulenza.membro;
+        if (consulenzePerMembro[membroKey]) {
+            consulenzePerMembro[membroKey].totali--;
+            if (consulenzePerMembro[membroKey].perConsulente[consulenza.consulente]) {
+                consulenzePerMembro[membroKey].perConsulente[consulenza.consulente]--;
+            }
+        }
+        
+        showToast('❌ Consulenza cancellata definitivamente', 'success');
+        setTimeout(() => {
+            showToast('📱 Notifica di cancellazione inviata al consulente', 'warning');
+        }, 500);
+        
+        renderConsulenze(currentUser);
+    }
+}
     
     // Se è il membro che vuole cancellare/spostare
     if (currentUser === 'member' && consulenza.status === 'confirmed' && canEditConsulenza(consulenza)) {
@@ -3313,6 +3358,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
