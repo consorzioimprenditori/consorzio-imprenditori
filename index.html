@@ -2240,7 +2240,19 @@
         let eventiPartecipazioni = {2: true};
         let partecipantiBase = {1: 45, 2: 31};
         let editingAnnuncioId = null;
-        let consulenze = [
+      let consulenze = [
+    {
+        id: 100,
+        consulente: 'Maria Bianchi',
+        membro: 'Tu',
+        data: '2025-08-28',
+        ora: '10:00',
+        argomento: 'Strategie di accesso ai fondi europei per PMI',
+        status: 'pending',
+        propostaData: null,
+        propostaOra: null,
+        propostaDa: null
+    },
             {
                 id: 100,
                 consulente: 'Maria Bianchi',
@@ -2251,14 +2263,17 @@
                 status: 'pending'
             },
             {
-                id: 101,
-                consulente: 'Maria Bianchi',
-                membro: 'Marco Rossi',
-                data: '2025-08-26',
-                ora: '14:00',
-                argomento: 'Business plan per espansione internazionale',
-                status: 'confirmed'
-            }
+        id: 101,
+        consulente: 'Maria Bianchi',
+        membro: 'Marco Rossi',
+        data: '2025-08-26',
+        ora: '14:00',
+        argomento: 'Business plan per espansione internazionale',
+        status: 'confirmed',
+        propostaData: null,
+        propostaOra: null,
+        propostaDa: null
+    }
         ];
         let nextConsulenzaId = 102;
         let primaConsulenzaUsata = {};
@@ -2861,8 +2876,22 @@ window.proponiArgomento = proponiArgomento;
                             }
                         </div>
                         
+                        ${consulenza.status === 'modifica_proposta' && consulenza.propostaDa === 'consulente' && role === 'member' ? `
+                            <div style="background: rgba(221,252,27,0.1); padding: 10px; border-radius: 10px; margin: 10px 0;">
+                                <p style="color: var(--lime); margin: 0;">📅 Il consulente propone:</p>
+                                <p style="color: white; margin: 5px 0;">📅 ${consulenza.propostaData} - ⏰ ${consulenza.propostaOra}</p>
+                            </div>
+                        ` : ''}
+                        
                         <div class="consulenza-actions">
-                            ${canEdit && role === 'member' ? 
+                            ${consulenza.status === 'modifica_proposta' && consulenza.propostaDa === 'consulente' && role === 'member' ? 
+                                `<button type="button" class="btn-conferma" onclick="accettaProposta(${consulenza.id})">
+                                    ✅ Accetta Nuova Data
+                                </button>
+                                <button type="button" class="btn-cancella" onclick="rifiutaProposta(${consulenza.id})">
+                                    ❌ Mantieni Data Originale
+                                </button>` :
+                                canEdit && role === 'member' ? 
                                 `<button type="button" class="btn-modifica" onclick="modificaConsulenza(${consulenza.id})" title="Clicca per spostare l'appuntamento">
                                     🔄 SPOSTA DATA/ORA
                                 </button>` : 
@@ -2920,16 +2949,76 @@ window.proponiArgomento = proponiArgomento;
             }
         }
 
-        function confermaPrenotazione() {
-            const consulente = document.getElementById('bookingConsulente').value;
-            const data = document.getElementById('bookingDate').value;
-            const ora = document.getElementById('bookingTime').value;
-            const argomento = document.getElementById('bookingTopic').value.trim();
-            
-            if (!argomento) {
-                showToast('⚠️ Inserisci l\'argomento della consulenza', 'error');
-                return;
-            }
+       function confermaPrenotazione() {
+    const consulente = document.getElementById('bookingConsulente').value;
+    const data = document.getElementById('bookingDate').value;
+    const ora = document.getElementById('bookingTime').value;
+    const argomento = document.getElementById('bookingTopic').value.trim();
+    
+    if (!argomento) {
+        showToast('⚠️ Inserisci l\'argomento della consulenza', 'error');
+        return;
+    }
+    
+   const modalTitle = document.querySelector('.booking-title');
+    const isModifica = modalTitle && modalTitle.textContent.includes('Sposta');
+    const isProposta = modalTitle && modalTitle.textContent.includes('Proponi');
+    
+    if (window.modificandoConsulenzaId) {
+        // È una proposta di modifica dal consulente
+        const consulenzaOriginale = consulenze.find(c => c.id === window.modificandoConsulenzaId);
+        if (consulenzaOriginale) {
+            consulenzaOriginale.propostaData = data;
+            consulenzaOriginale.propostaOra = ora;
+            consulenzaOriginale.propostaDa = 'consulente';
+            consulenzaOriginale.status = 'modifica_proposta';
+            showToast('📅 Proposta di modifica inviata al membro!', 'success');
+            setTimeout(() => {
+                showToast('📱 Il membro riceverà una notifica per confermare', 'success');
+            }, 500);
+        }
+        window.modificandoConsulenzaId = null;
+    } else if (isModifica) {
+        showToast('✅ Appuntamento spostato con successo!', 'success');
+        setTimeout(() => {
+            showToast('📱 Notifica di modifica inviata al consulente', 'success');
+        }, 500);
+    } else {
+            showToast('✅ Appuntamento spostato con successo!', 'success');
+            setTimeout(() => {
+                showToast('📱 Notifica di modifica inviata al consulente', 'success');
+            }, 500);
+        }
+    } else {
+        // È una nuova prenotazione
+        const nuovaConsulenza = {
+            id: nextConsulenzaId++,
+            consulente: consulente,
+            membro: currentUser === 'admin' ? 'Admin' : 'Tu',
+            data: data,
+            ora: ora,
+            argomento: argomento,
+            status: 'pending',
+            propostaDa: null,
+            dataOriginale: null,
+            oraOriginale: null
+        };
+        
+        consulenze.push(nuovaConsulenza);
+        
+        showToast('📱 Notifica WhatsApp inviata al consulente!', 'success');
+        setTimeout(() => {
+            showToast('✅ Richiesta inviata! Puoi modificare data/ora fino a 24h prima', 'success');
+        }, 1000);
+    }
+    
+    window.editingConsulenzaId = null;
+    closeBookingModal();
+    
+    if (document.getElementById('consulentiPage').classList.contains('active')) {
+        refreshConsulenzaView();
+    }
+}
             
             const nuovaConsulenza = {
                 id: nextConsulenzaId++,
@@ -2995,10 +3084,24 @@ window.proponiArgomento = proponiArgomento;
                             <div class="consulenza-value">📅 ${c.data} - ⏰ ${c.ora}</div>
                             <div class="consulenza-value">${c.argomento}</div>
                         </div>
-                        ${c.status === 'pending' ? `
+                       ${c.status === 'pending' ? `
                             <div class="consulenza-actions">
                                 <button class="btn-conferma" onclick="confermaConsulenza(${c.id})">✅ Conferma</button>
                                 <button class="btn-cancella" onclick="cancellaConsulenza(${c.id})">❌ Rifiuta</button>
+                            </div>
+                        ` : c.status === 'modifica_proposta' && c.propostaDa === 'consulente' ? `
+                            <div style="background: rgba(255,193,7,0.1); padding: 10px; border-radius: 10px; margin-top: 10px;">
+                                <p style="color: var(--warning); margin: 0;">⏳ In attesa di conferma dal membro per:</p>
+                                <p style="color: white; margin: 5px 0;">📅 ${c.propostaData} - ⏰ ${c.propostaOra}</p>
+                            </div>
+                        ` : c.status === 'modifica_proposta' && c.propostaDa === 'membro' ? `
+                            <div style="background: rgba(221,252,27,0.1); padding: 10px; border-radius: 10px; margin-top: 10px;">
+                                <p style="color: var(--lime); margin: 0;">📅 Il membro propone:</p>
+                                <p style="color: white; margin: 5px 0;">📅 ${c.propostaData} - ⏰ ${c.propostaOra}</p>
+                            </div>
+                            <div class="consulenza-actions">
+                                <button class="btn-conferma" onclick="accettaProposta(${c.id})">✅ Accetta Proposta</button>
+                                <button class="btn-cancella" onclick="rifiutaProposta(${c.id})">❌ Rifiuta</button>
                             </div>
                         ` : c.status === 'confirmed' ? `
                             <div class="consulenza-actions">
@@ -3035,7 +3138,7 @@ window.proponiArgomento = proponiArgomento;
         modalTitle.textContent = '📅 Sposta Appuntamento';
     }
     
-    document.getElementById('bookingModal').classList.add('active');
+    document.getElementById('bookingModal').classList.add('active'); window.editingConsulenzaId = id;
     consulenze = consulenze.filter(c => c.id !== id);
 }
 
@@ -3044,19 +3147,21 @@ function modificaConsulenzaConsulente(id) {
     const consulenza = consulenze.find(c => c.id === id);
     if (!consulenza) return;
     
+    // Salva l'ID temporaneamente per la modifica
+    window.modificandoConsulenzaId = id;
+    
     document.getElementById('bookingConsulente').value = consulenza.consulente;
-    document.getElementById('bookingSpec').value = '📅 Modifica Appuntamento';
+    document.getElementById('bookingSpec').value = '📅 Proponi Nuova Data/Ora';
     document.getElementById('bookingDate').value = consulenza.data;
     document.getElementById('bookingTime').value = consulenza.ora;
     document.getElementById('bookingTopic').value = consulenza.argomento;
     
     const modalTitle = document.querySelector('.booking-title');
     if (modalTitle) {
-        modalTitle.textContent = '📅 Modifica Appuntamento';
+        modalTitle.textContent = '📅 Proponi Nuova Data/Ora';
     }
     
     document.getElementById('bookingModal').classList.add('active');
-    consulenze = consulenze.filter(c => c.id !== id);
 }
 
        function cancellaConsulenza(id) {
@@ -3113,7 +3218,53 @@ function modificaConsulenzaConsulente(id) {
         }
     }
 }
+function accettaProposta(id) {
+    const consulenza = consulenze.find(c => c.id === id);
+    if (!consulenza) return;
+    
+    // Accetta la proposta sostituendo data e ora
+    consulenza.data = consulenza.propostaData;
+    consulenza.ora = consulenza.propostaOra;
+    consulenza.propostaData = null;
+    consulenza.propostaOra = null;
+    consulenza.propostaDa = null;
+    consulenza.status = 'confirmed';
+    
+    showToast('✅ Nuova data/ora accettata!', 'success');
+    setTimeout(() => {
+        const notificaA = currentUser === 'member' ? 'consulente' : 'membro';
+        showToast(`📱 Notifica di conferma inviata al ${notificaA}`, 'success');
+    }, 500);
+    
+    if (currentUser === 'consulente') {
+        initConsulentiPage();
+    } else {
+        renderConsulenze(currentUser);
+    }
+}
 
+function rifiutaProposta(id) {
+    const consulenza = consulenze.find(c => c.id === id);
+    if (!consulenza) return;
+    
+    // Rifiuta la proposta mantenendo data/ora originali
+    consulenza.propostaData = null;
+    consulenza.propostaOra = null;
+    consulenza.propostaDa = null;
+    consulenza.status = 'confirmed';
+    
+    showToast('❌ Proposta rifiutata, mantenuta data originale', 'warning');
+    
+    if (currentUser === 'consulente') {
+        initConsulentiPage();
+    } else {
+        renderConsulenze(currentUser);
+    }
+}
+
+// Aggiungi al window
+window.accettaProposta = accettaProposta;
+window.rifiutaProposta = rifiutaProposta;
         // Esponi tutte le funzioni su window
         window.selectRole = selectRole;
         window.doLogin = doLogin;
@@ -3128,12 +3279,15 @@ function modificaConsulenzaConsulente(id) {
         window.modificaConsulenza = modificaConsulenza;
         window.cancellaConsulenza = cancellaConsulenza;
         window.modificaConsulenzaConsulente = modificaConsulenzaConsulente;
+        window.accettaProposta = accettaProposta;
+window.rifiutaProposta = rifiutaProposta;
         
         console.log('✅ App Consorzio caricata correttamente!');
     </script>
 </body>
 </html>
  
+
 
 
 
