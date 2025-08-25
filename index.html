@@ -2152,7 +2152,54 @@
                 </div>
             </div>
         </div>
-
+<!-- Modal Suggerisci Membro - AGGIUNGI QUESTO -->
+<div id="suggestMemberModal" class="booking-modal">
+    <div class="booking-content">
+        <span class="close-modal" onclick="closeSuggestMember()">✕</span>
+        <h3 class="booking-title" style="color: #4CAF50;">💰 Suggerisci Nuovo Membro</h3>
+        
+        <div style="background: rgba(76, 175, 80, 0.1); padding: 12px; border-radius: 10px; margin-bottom: 15px;">
+            <p style="color: #4CAF50; font-size: 14px; margin: 0;">
+                ✨ Riceverai <strong>-€200</strong> sulla tua quota annuale per ogni membro che si iscrive!
+            </p>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Nome Azienda/Professionista</label>
+            <input type="text" class="form-input" id="suggestNome" placeholder="Es: Rossi Srl">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Referente</label>
+            <input type="text" class="form-input" id="suggestReferente" placeholder="Es: Mario Rossi">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="suggestEmail" placeholder="email@azienda.it">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Telefono</label>
+            <input type="tel" class="form-input" id="suggestTelefono" placeholder="+39 333 1234567">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Settore</label>
+            <input type="text" class="form-input" id="suggestSettore" placeholder="Es: Import/Export">
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Note</label>
+            <textarea class="form-textarea" id="suggestNote" placeholder="Perché sarebbe un buon membro del consorzio?"></textarea>
+        </div>
+        
+        <div class="form-buttons">
+            <button type="button" class="btn-submit" onclick="inviaSuggerimento()">Invia Suggerimento</button>
+            <button type="button" class="btn-cancel-form" onclick="closeSuggestMember()">Annulla</button>
+        </div>
+    </div>
+</div>
         <!-- Bottom Navigation -->
         <div class="bottom-nav" id="bottomNav" style="display: none;">
             <div class="nav-item home" onclick="goToPage('dashboard')">
@@ -2265,6 +2312,7 @@
             member: { email: 'rossi@rossisrl.it', password: 'member123', label: 'Membro' },
 consulente: { email: 'maria.bianchi@consorzio.it', password: 'cons123', label: 'Maria Bianchi' },
 consulente2: { email: 'luca.rinaldi@consorzio.it', password: 'cons456', label: 'Luca Rinaldi' }
+};
 
         // Funzioni Annunci
         window.eliminaAnnuncio = function(id) {
@@ -2732,7 +2780,7 @@ window.proponiArgomento = proponiArgomento;
     } else {
         containerConsulenze.innerHTML = '<p style="color: #aaa;">Nessuna consulenza programmata</p>';
     }
-}
+
             } else if (currentUser === 'admin') {
                 mieConsulenze.style.display = 'block';
                 listaConsulenti.style.display = 'block';
@@ -2996,6 +3044,7 @@ window.proponiArgomento = proponiArgomento;
 </body>
 </html>
  
+
 
 
 
