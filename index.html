@@ -2940,8 +2940,7 @@ window.proponiArgomento = proponiArgomento;
                 modalTitle.textContent = '📅 Prenota Consulenza';
             }
         }
-
-   function confermaPrenotazione() {
+function confermaPrenotazione() {
     const consulente = document.getElementById('bookingConsulente').value;
     const data = document.getElementById('bookingDate').value;
     const ora = document.getElementById('bookingTime').value;
@@ -2957,7 +2956,6 @@ window.proponiArgomento = proponiArgomento;
     const isProposta = modalTitle && modalTitle.textContent.includes('Proponi');
     
     if (window.modificandoConsulenzaId) {
-        // È una proposta di modifica dal consulente
         const consulenzaOriginale = consulenze.find(c => c.id === window.modificandoConsulenzaId);
         if (consulenzaOriginale) {
             consulenzaOriginale.propostaData = data;
@@ -2970,30 +2968,7 @@ window.proponiArgomento = proponiArgomento;
             }, 500);
         }
         window.modificandoConsulenzaId = null;
-    } else if (window.editingConsulenzaId) {
-        // Modifica diretta dal membro
-        const nuovaConsulenza = {
-            id: nextConsulenzaId++,
-            consulente: consulente,
-            membro: currentUser === 'admin' ? 'Admin' : 'Tu',
-            data: data,
-            ora: ora,
-            argomento: argomento,
-            status: 'pending',
-            propostaData: null,
-            propostaOra: null,
-            propostaDa: null
-        };
-        
-        consulenze.push(nuovaConsulenza);
-        window.editingConsulenzaId = null;
-        
-        showToast('✅ Appuntamento spostato con successo!', 'success');
-        setTimeout(() => {
-            showToast('📱 Notifica di modifica inviata al consulente', 'success');
-        }, 500);
     } else {
-        // È una nuova prenotazione
         const nuovaConsulenza = {
             id: nextConsulenzaId++,
             consulente: consulente,
@@ -3018,111 +2993,15 @@ window.proponiArgomento = proponiArgomento;
     closeBookingModal();
     
     if (document.getElementById('consulentiPage').classList.contains('active')) {
-        if (currentUser === 'consulente') {
-            initConsulentiPage();
-        } else {
-            renderConsulenze(currentUser);
-            const mieConsulenze = document.getElementById('mieConsulenze');
-            if (mieConsulenze) {
-                mieConsulenze.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+        renderConsulenze(currentUser);
+        const mieConsulenze = document.getElementById('mieConsulenze');
+        if (mieConsulenze) {
+            mieConsulenze.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 }
-        // È una proposta di modifica dal consulente
-        const consulenzaOriginale = consulenze.find(c => c.id === window.modificandoConsulenzaId);
-        if (consulenzaOriginale) {
-            consulenzaOriginale.propostaData = data;
-            consulenzaOriginale.propostaOra = ora;
-            consulenzaOriginale.propostaDa = 'consulente';
-            consulenzaOriginale.status = 'modifica_proposta';
-            showToast('📅 Proposta di modifica inviata al membro!', 'success');
-            setTimeout(() => {
-                showToast('📱 Il membro riceverà una notifica per confermare', 'success');
-            }, 500);
-        }
-        window.modificandoConsulenzaId = null;
-    } else if (isModifica) {
-        showToast('✅ Appuntamento spostato con successo!', 'success');
-        setTimeout(() => {
-            showToast('📱 Notifica di modifica inviata al consulente', 'success');
-        }, 500);
-    } else {
-            showToast('✅ Appuntamento spostato con successo!', 'success');
-            setTimeout(() => {
-                showToast('📱 Notifica di modifica inviata al consulente', 'success');
-            }, 500);
-        }
-    } else {
-        // È una nuova prenotazione
-        const nuovaConsulenza = {
-            id: nextConsulenzaId++,
-            consulente: consulente,
-            membro: currentUser === 'admin' ? 'Admin' : 'Tu',
-            data: data,
-            ora: ora,
-            argomento: argomento,
-            status: 'pending',
-            propostaDa: null,
-            dataOriginale: null,
-            oraOriginale: null
-        };
-        
-        consulenze.push(nuovaConsulenza);
-        
-        showToast('📱 Notifica WhatsApp inviata al consulente!', 'success');
-        setTimeout(() => {
-            showToast('✅ Richiesta inviata! Puoi modificare data/ora fino a 24h prima', 'success');
-        }, 1000);
-    }
-    
-    window.editingConsulenzaId = null;
-    closeBookingModal();
-    
-    if (document.getElementById('consulentiPage').classList.contains('active')) {
-        refreshConsulenzaView();
-    }
-}
-            
-            const nuovaConsulenza = {
-                id: nextConsulenzaId++,
-                consulente: consulente,
-                membro: currentUser === 'admin' ? 'Admin' : 'Tu',
-                data: data,
-                ora: ora,
-                argomento: argomento,
-                status: 'pending'
-            };
-            
-            consulenze.push(nuovaConsulenza);
-            
-            const modalTitle = document.querySelector('.booking-title');
-            const isModifica = modalTitle && modalTitle.textContent.includes('Sposta');
-            
-            if (isModifica) {
-                showToast('✅ Appuntamento spostato con successo!', 'success');
-                setTimeout(() => {
-                    showToast('📱 Notifica di modifica inviata al consulente', 'success');
-                }, 500);
-            } else {
-                showToast('📱 Notifica WhatsApp inviata al consulente!', 'success');
-                setTimeout(() => {
-                    showToast('✅ Richiesta inviata! Puoi modificare data/ora fino a 24h prima', 'success');
-                }, 1000);
-            }
-            
-            closeBookingModal();
-            
-            if (document.getElementById('consulentiPage').classList.contains('active')) {
-                renderConsulenze(currentUser);
-                const mieConsulenze = document.getElementById('mieConsulenze');
-                if (mieConsulenze) {
-                    mieConsulenze.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
-        }
 
-       function confermaConsulenza(id) {
+function confermaConsulenza(id) {
     const consulenza = consulenze.find(c => c.id === id);
     if (consulenza) {
         consulenza.status = 'confirmed';
@@ -3131,122 +3010,6 @@ window.proponiArgomento = proponiArgomento;
             showToast('📱 Notifica di conferma inviata al membro', 'success');
         }, 500);
         
-        // Aggiorna la vista corretta in base al ruolo
-        if (currentUser === 'consulente') {
-            // Aggiorna il dashboard del consulente
-            const containerConsulenze = document.getElementById('consulenzeConsulente');
-            const mieConsulenze = consulenze.filter(c => c.consulente === 'Maria Bianchi');
-            
-            if (mieConsulenze.length > 0) {
-                containerConsulenze.innerHTML = mieConsulenze.map(c => `
-                    <div class="consulenza-card ${c.status}">
-                        <span class="consulenza-status ${c.status}">
-                            ${c.status === 'pending' ? '⏳ Da Confermare' : '✅ Confermata'}
-                        </span>
-                        <div class="consulenza-details">
-                            <div class="consulenza-value">👤 ${c.membro}</div>
-                            <div class="consulenza-value">📅 ${c.data} - ⏰ ${c.ora}</div>
-                            <div class="consulenza-value">${c.argomento}</div>
-                        </div>
-                       ${c.status === 'pending' ? `
-                            <div class="consulenza-actions">
-                                <button class="btn-conferma" onclick="confermaConsulenza(${c.id})">✅ Conferma</button>
-                                <button class="btn-cancella" onclick="cancellaConsulenza(${c.id})">❌ Rifiuta</button>
-                            </div>
-                        ` : c.status === 'modifica_proposta' && c.propostaDa === 'consulente' ? `
-                            <div style="background: rgba(255,193,7,0.1); padding: 10px; border-radius: 10px; margin-top: 10px;">
-                                <p style="color: var(--warning); margin: 0;">⏳ In attesa di conferma dal membro per:</p>
-                                <p style="color: white; margin: 5px 0;">📅 ${c.propostaData} - ⏰ ${c.propostaOra}</p>
-                            </div>
-                        ` : c.status === 'modifica_proposta' && c.propostaDa === 'membro' ? `
-                            <div style="background: rgba(221,252,27,0.1); padding: 10px; border-radius: 10px; margin-top: 10px;">
-                                <p style="color: var(--lime); margin: 0;">📅 Il membro propone:</p>
-                                <p style="color: white; margin: 5px 0;">📅 ${c.propostaData} - ⏰ ${c.propostaOra}</p>
-                            </div>
-                            <div class="consulenza-actions">
-                                <button class="btn-conferma" onclick="accettaProposta(${c.id})">✅ Accetta Proposta</button>
-                                <button class="btn-cancella" onclick="rifiutaProposta(${c.id})">❌ Rifiuta</button>
-                            </div>
-                        ` : c.status === 'confirmed' ? `
-                            <div class="consulenza-actions">
-                                <button class="btn-modifica" onclick="modificaConsulenzaConsulente(${c.id})">🔄 Modifica Data/Ora</button>
-                                <button class="btn-cancella" onclick="cancellaConsulenza(${c.id})">❌ Cancella</button>
-                            </div>
-                        ` : ''}
-                    </div>
-                `).join('');
-            }
-        } else {
-            renderConsulenze(currentUser);
-        }
-    }
-}
-
-  function modificaConsulenza(id) {
-    const consulenza = consulenze.find(c => c.id === id);
-    if (!consulenza) return;
-    
-    if (!canEditConsulenza(consulenza)) {
-        showToast('⚠️ Non puoi modificare a meno di 24 ore dall\'appuntamento', 'error');
-        return;
-    }
-    
-    document.getElementById('bookingConsulente').value = consulenza.consulente;
-    document.getElementById('bookingSpec').value = '📅 Modifica Data/Ora Appuntamento';
-    document.getElementById('bookingDate').value = consulenza.data;
-    document.getElementById('bookingTime').value = consulenza.ora;
-    document.getElementById('bookingTopic').value = consulenza.argomento;
-    
-    const modalTitle = document.querySelector('.booking-title');
-    if (modalTitle) {
-        modalTitle.textContent = '📅 Sposta Appuntamento';
-    }
-    
- document.getElementById('bookingModal').classList.add('active');
-    window.editingConsulenzaId = id;
-    consulenze = consulenze.filter(c => c.id !== id);
-}
-
-// NUOVA FUNZIONE SEPARATA (NON PIÙ DENTRO L'ALTRA)
-function modificaConsulenzaConsulente(id) {
-    const consulenza = consulenze.find(c => c.id === id);
-    if (!consulenza) return;
-    
-    // Salva l'ID temporaneamente per la modifica
-    window.modificandoConsulenzaId = id;
-    
-    document.getElementById('bookingConsulente').value = consulenza.consulente;
-    document.getElementById('bookingSpec').value = '📅 Proponi Nuova Data/Ora';
-    document.getElementById('bookingDate').value = consulenza.data;
-    document.getElementById('bookingTime').value = consulenza.ora;
-    document.getElementById('bookingTopic').value = consulenza.argomento;
-    
-    const modalTitle = document.querySelector('.booking-title');
-    if (modalTitle) {
-        modalTitle.textContent = '📅 Proponi Nuova Data/Ora';
-    }
-    
-    document.getElementById('bookingModal').classList.add('active');
-}
-
-       function cancellaConsulenza(id) {
-    const consulenza = consulenze.find(c => c.id === id);
-    if (!consulenza) return;
-    
-    if (currentUser !== 'consulente' && !canEditConsulenza(consulenza)) {
-        showToast('⚠️ Non puoi cancellare a meno di 24 ore dall\'appuntamento', 'error');
-        return;
-    }
-    
-    if (confirm('Sei sicuro di voler cancellare questa consulenza?')) {
-        consulenze = consulenze.filter(c => c.id !== id);
-        showToast('❌ Consulenza cancellata', 'success');
-        setTimeout(() => {
-            const recipient = currentUser === 'consulente' ? 'membro' : 'consulente';
-            showToast(`📱 Notifica di cancellazione inviata al ${recipient}`, 'warning');
-        }, 500);
-        
-        // Aggiorna la vista corretta
         if (currentUser === 'consulente') {
             const containerConsulenze = document.getElementById('consulenzeConsulente');
             const mieConsulenze = consulenze.filter(c => c.consulente === 'Maria Bianchi');
@@ -3275,9 +3038,76 @@ function modificaConsulenzaConsulente(id) {
                         ` : ''}
                     </div>
                 `).join('');
-            } else {
-                containerConsulenze.innerHTML = '<p style="color: #aaa;">Nessuna consulenza programmata</p>';
             }
+        } else {
+            renderConsulenze(currentUser);
+        }
+    }
+}
+
+function modificaConsulenza(id) {
+    const consulenza = consulenze.find(c => c.id === id);
+    if (!consulenza) return;
+    
+    if (!canEditConsulenza(consulenza)) {
+        showToast('⚠️ Non puoi modificare a meno di 24 ore dall\'appuntamento', 'error');
+        return;
+    }
+    
+    document.getElementById('bookingConsulente').value = consulenza.consulente;
+    document.getElementById('bookingSpec').value = '📅 Modifica Data/Ora Appuntamento';
+    document.getElementById('bookingDate').value = consulenza.data;
+    document.getElementById('bookingTime').value = consulenza.ora;
+    document.getElementById('bookingTopic').value = consulenza.argomento;
+    
+    const modalTitle = document.querySelector('.booking-title');
+    if (modalTitle) {
+        modalTitle.textContent = '📅 Sposta Appuntamento';
+    }
+    
+    document.getElementById('bookingModal').classList.add('active');
+    consulenze = consulenze.filter(c => c.id !== id);
+}
+
+function modificaConsulenzaConsulente(id) {
+    const consulenza = consulenze.find(c => c.id === id);
+    if (!consulenza) return;
+    
+    window.modificandoConsulenzaId = id;
+    
+    document.getElementById('bookingConsulente').value = consulenza.consulente;
+    document.getElementById('bookingSpec').value = '📅 Proponi Nuova Data/Ora';
+    document.getElementById('bookingDate').value = consulenza.data;
+    document.getElementById('bookingTime').value = consulenza.ora;
+    document.getElementById('bookingTopic').value = consulenza.argomento;
+    
+    const modalTitle = document.querySelector('.booking-title');
+    if (modalTitle) {
+        modalTitle.textContent = '📅 Proponi Nuova Data/Ora';
+    }
+    
+    document.getElementById('bookingModal').classList.add('active');
+}
+
+function cancellaConsulenza(id) {
+    const consulenza = consulenze.find(c => c.id === id);
+    if (!consulenza) return;
+    
+    if (currentUser !== 'consulente' && !canEditConsulenza(consulenza)) {
+        showToast('⚠️ Non puoi cancellare a meno di 24 ore dall\'appuntamento', 'error');
+        return;
+    }
+    
+    if (confirm('Sei sicuro di voler cancellare questa consulenza?')) {
+        consulenze = consulenze.filter(c => c.id !== id);
+        showToast('❌ Consulenza cancellata', 'success');
+        setTimeout(() => {
+            const recipient = currentUser === 'consulente' ? 'membro' : 'consulente';
+            showToast(`📱 Notifica di cancellazione inviata al ${recipient}`, 'warning');
+        }, 500);
+        
+        if (currentUser === 'consulente') {
+            initConsulentiPage();
         } else {
             renderConsulenze(currentUser);
         }
@@ -3352,6 +3182,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
