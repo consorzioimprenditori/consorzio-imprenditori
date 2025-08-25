@@ -3181,7 +3181,8 @@ window.proponiArgomento = proponiArgomento;
         modalTitle.textContent = '📅 Sposta Appuntamento';
     }
     
-    document.getElementById('bookingModal').classList.add('active'); window.editingConsulenzaId = id;
+ document.getElementById('bookingModal').classList.add('active');
+    window.editingConsulenzaId = id;
     consulenze = consulenze.filter(c => c.id !== id);
 }
 
@@ -3330,6 +3331,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
