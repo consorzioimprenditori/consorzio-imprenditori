@@ -2941,7 +2941,7 @@ window.proponiArgomento = proponiArgomento;
             }
         }
 
-       function confermaPrenotazione() {
+    function confermaPrenotazione() {
     const consulente = document.getElementById('bookingConsulente').value;
     const data = document.getElementById('bookingDate').value;
     const ora = document.getElementById('bookingTime').value;
@@ -2952,11 +2952,62 @@ window.proponiArgomento = proponiArgomento;
         return;
     }
     
-   const modalTitle = document.querySelector('.booking-title');
+    const modalTitle = document.querySelector('.booking-title');
     const isModifica = modalTitle && modalTitle.textContent.includes('Sposta');
     const isProposta = modalTitle && modalTitle.textContent.includes('Proponi');
     
     if (window.modificandoConsulenzaId) {
+        // È una proposta di modifica dal consulente
+        const consulenzaOriginale = consulenze.find(c => c.id === window.modificandoConsulenzaId);
+        if (consulenzaOriginale) {
+            consulenzaOriginale.propostaData = data;
+            consulenzaOriginale.propostaOra = ora;
+            consulenzaOriginale.propostaDa = 'consulente';
+            consulenzaOriginale.status = 'modifica_proposta';
+            showToast('📅 Proposta di modifica inviata al membro!', 'success');
+            setTimeout(() => {
+                showToast('📱 Il membro riceverà una notifica per confermare', 'success');
+            }, 500);
+        }
+        window.modificandoConsulenzaId = null;
+    } else if (isModifica) {
+        showToast('✅ Appuntamento spostato con successo!', 'success');
+        setTimeout(() => {
+            showToast('📱 Notifica di modifica inviata al consulente', 'success');
+        }, 500);
+    } else {
+        // È una nuova prenotazione
+        const nuovaConsulenza = {
+            id: nextConsulenzaId++,
+            consulente: consulente,
+            membro: currentUser === 'admin' ? 'Admin' : 'Tu',
+            data: data,
+            ora: ora,
+            argomento: argomento,
+            status: 'pending',
+            propostaData: null,
+            propostaOra: null,
+            propostaDa: null
+        };
+        
+        consulenze.push(nuovaConsulenza);
+        
+        showToast('📱 Notifica WhatsApp inviata al consulente!', 'success');
+        setTimeout(() => {
+            showToast('✅ Richiesta inviata! Puoi modificare data/ora fino a 24h prima', 'success');
+        }, 1000);
+    }
+    
+    closeBookingModal();
+    
+    if (document.getElementById('consulentiPage').classList.contains('active')) {
+        renderConsulenze(currentUser);
+        const mieConsulenze = document.getElementById('mieConsulenze');
+        if (mieConsulenze) {
+            mieConsulenze.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+}
         // È una proposta di modifica dal consulente
         const consulenzaOriginale = consulenze.find(c => c.id === window.modificandoConsulenzaId);
         if (consulenzaOriginale) {
@@ -3279,6 +3330,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
