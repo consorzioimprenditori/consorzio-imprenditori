@@ -3267,7 +3267,25 @@ function cancellaConsulenza(id) {
         renderConsulenze(currentUser);
     }
 }
+    function accettaProposta(id) {
+    const consulenza = consulenze.find(c => c.id === id);
+    if (!consulenza) return;
     
+    // Accetta la proposta sostituendo data/ora con quelle proposte
+    consulenza.data = consulenza.propostaData;
+    consulenza.ora = consulenza.propostaOra;
+    consulenza.propostaData = null;
+    consulenza.propostaOra = null;
+    consulenza.propostaDa = null;
+    consulenza.status = 'confirmed';
+    
+    showToast('✅ Nuova data/ora accettata!', 'success');
+    setTimeout(() => {
+        showToast('📱 Notifica di conferma inviata al consulente', 'success');
+    }, 500);
+    
+    renderConsulenze(currentUser);
+}
  
 function rifiutaProposta(id) {
     const consulenza = consulenze.find(c => c.id === id);
@@ -3313,6 +3331,7 @@ window.rifiutaProposta = rifiutaProposta;
 </body>
 </html>
  
+
 
 
 
